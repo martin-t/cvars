@@ -11,7 +11,6 @@
 TODO Explain
 TODO Usage examples, RWs
 TODO Changelog
-TODO Licence
 
 # Alternatives:
 
@@ -19,3 +18,7 @@ TODO Licence
 - [cvar](https://crates.io/crates/cvar)
 - [const-tweaker](https://crates.io/crates/const-tweaker)
 - [inline_tweak](https://crates.io/crates/inline_tweak)
+
+# License
+
+[AGPL-v3](LICENCE) or newer
