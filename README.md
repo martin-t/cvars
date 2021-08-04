@@ -21,4 +21,4 @@ TODO Changelog
 
 # License
 
-[AGPL-v3](LICENCE) or newer
+[AGPL-v3](LICENSE) or newer
