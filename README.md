@@ -6,10 +6,12 @@
 </div>
 <br />
 
+Cvars (*console variables* or *configuration variables*) are a way to store settings which the user might want to change at runtime without restarting. They are inspired by the idSoftware family of game engines but they can be useful outside games.
+
+For a real-world example, look at [how RecWars uses them](https://github.com/martin-t/rec-wars/blob/master/src/cvars.rs).
+
 [![Discord](https://img.shields.io/discord/770013530593689620?label=discord)](https://discord.gg/9BQVVgV)
 
-TODO Explain
-TODO Usage examples, RWs
 TODO Changelog
 
 # Alternatives:
