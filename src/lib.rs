@@ -4,12 +4,6 @@ use proc_macro::TokenStream;
 use quote::quote;
 use syn::{parse_macro_input, DeriveInput};
 
-// TODO alternatives:
-//  https://crates.io/crates/tuna
-//  https://crates.io/crates/cvar
-//  https://crates.io/crates/const-tweaker
-//  https://crates.io/crates/inline_tweak
-
 // TODO public API?
 //  put trait in private mod?
 //  underscored named like serde?

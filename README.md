@@ -8,4 +8,14 @@
 
 [![Discord](https://img.shields.io/discord/770013530593689620?label=discord)](https://discord.gg/9BQVVgV)
 
-**This package is a placeholder. See the [repository](https://github.com/martin-t/cvars) for more information and progress or check out my game, [RecWars](https://github.com/martin-t/rec-wars), which uses cvars.**
+TODO Explain
+TODO Usage examples, RWs
+TODO Changelog
+TODO Licence
+
+# Alternatives:
+
+- [tuna](https://crates.io/crates/tuna)
+- [cvar](https://crates.io/crates/cvar)
+- [const-tweaker](https://crates.io/crates/const-tweaker)
+- [inline_tweak](https://crates.io/crates/inline_tweak)
