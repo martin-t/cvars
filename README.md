@@ -15,8 +15,13 @@ TODO Simple example
 For a real-world example, look at [how RecWars uses cvars](https://github.com/martin-t/rec-wars/blob/master/src/cvars.rs).
 
 - TODO Docs in lib?
-- TODO Enums must impl FromStr and Display (use strum, case insensitive)
 - TODO MSRV
+
+### Enums
+
+Cvars can have any type which implements the `FromStr` and `Display` traits. If you want to use enums, it's best to derive these traits automatically via `[strum](https://crates.io/crates/strum)`.
+
+TODO Example
 
 # (Planned) Features
 
