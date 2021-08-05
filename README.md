@@ -30,8 +30,8 @@ TODO Example
 # (Planned) Features
 
 - [x] Get and set cvars by their name
-- [x] String-based access
-- [x] Statically typed access
+    - [x] String-based access
+    - [x] Statically typed access
 - [ ] Function like macro to declare type and initial value on one line
 - [ ] Autocompletion for in-game consoles
 - [ ] Console for macroquad
