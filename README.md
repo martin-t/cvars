@@ -6,7 +6,11 @@
 </div>
 <br />
 
+[![CI](https://github.com/martin-t/cvars/workflows/CI/badge.svg)](https://github.com/martin-t/cvars/actions)
+[![Dependency status](https://deps.rs/repo/github/martin-t/cvars/status.svg)](https://deps.rs/repo/github/martin-t/cvars)
 [![Discord](https://img.shields.io/discord/770013530593689620?label=discord)](https://discord.gg/9BQVVgV)
+![Total lines](https://tokei.rs/b1/github/martin-t/cvars)
+![Lines of comments](https://tokei.rs/b1/github/martin-t/cvars?category=comments)
 
 Cvars (*console variables* or *configuration variables*) are a way to store settings which the user might want to change at runtime without restarting. They are inspired by the idSoftware family of game engines but they can be useful outside games.
 
