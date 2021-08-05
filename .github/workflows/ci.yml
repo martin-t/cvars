@@ -18,7 +18,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - run: rustc --version && cargo --version && wasm-pack --version
+      - run: rustc --version && cargo --version
       - run: cargo build --verbose
       - run: cargo test --verbose --all-features
 
