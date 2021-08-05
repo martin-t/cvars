@@ -14,9 +14,9 @@ TODO Simple example
 
 For a real-world example, look at [how RecWars uses cvars](https://github.com/martin-t/rec-wars/blob/master/src/cvars.rs).
 
-- TODO Changelog
 - TODO Docs in lib?
 - TODO Enums must impl FromStr and Display (use strum, case insensitive)
+- TODO MSRV
 
 # (Planned) Features
 
