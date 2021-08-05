@@ -6,13 +6,28 @@
 </div>
 <br />
 
-Cvars (*console variables* or *configuration variables*) are a way to store settings which the user might want to change at runtime without restarting. They are inspired by the idSoftware family of game engines but they can be useful outside games.
-
-For a real-world example, look at [how RecWars uses them](https://github.com/martin-t/rec-wars/blob/master/src/cvars.rs).
-
 [![Discord](https://img.shields.io/discord/770013530593689620?label=discord)](https://discord.gg/9BQVVgV)
 
-TODO Changelog
+Cvars (*console variables* or *configuration variables*) are a way to store settings which the user might want to change at runtime without restarting. They are inspired by the idSoftware family of game engines but they can be useful outside games.
+
+TODO Simple example
+
+For a real-world example, look at [how RecWars uses cvars](https://github.com/martin-t/rec-wars/blob/master/src/cvars.rs).
+
+- TODO Changelog
+- TODO Docs in lib?
+- TODO Enums must impl FromStr and Display (use strum, case insensitive)
+
+# (Planned) Features
+
+- [x] Get and set cvars by their name
+- [x] String-based access
+- [x] Statically typed access
+- [ ] Function like macro to declare type and initial value on one line
+- [ ] Autocompletion for in-game consoles
+- [ ] Console for macroquad
+- [ ] Console for rg3d
+- [ ] Browser GUI for games without a console
 
 # Alternatives:
 
