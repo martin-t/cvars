@@ -47,4 +47,4 @@ TODO Example
 
 # License
 
-[AGPL-v3](LICENSE) or newer
+AGPL-v3 or newer
