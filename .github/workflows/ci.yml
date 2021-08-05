@@ -18,32 +18,25 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Print versions
-        run: rustc --version && cargo --version && wasm-pack --version
-      - name: Build
-        run: cargo build --verbose
-      - name: Run tests
-        run: cargo test --verbose --all-features
+      - run: rustc --version && cargo --version && wasm-pack --version
+      - run: cargo build --verbose
+      - run: cargo test --verbose --all-features
 
   format:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Print version
-        run: cargo fmt --version
-      - name: Check formatting
-        run: cargo fmt -- --check
+      - run: cargo fmt --version
+      - run: cargo fmt -- --check
 
   clippy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Print version
-        run: cargo clippy --version
-      - name: Run clippy
+      - run: cargo clippy --version
         # Technically --all-features doesn't check all code when something is *disabled* by a feature
         # but that is discouraged and no such feature existed at the time this was added.
-        run: cargo clippy --all-features -- --deny warnings
+      - run: cargo clippy --all-features -- --deny warnings
 
   audit:
     runs-on: ubuntu-latest
@@ -53,7 +46,5 @@ jobs:
         with:
           crate: cargo-audit
           version: latest
-      - name: Print version
-        run: cargo audit --version
-      - name: Run audit
-        run: cargo audit --deny warnings
+      - run: cargo audit --version
+      - run: cargo audit --deny warnings
