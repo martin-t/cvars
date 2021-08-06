@@ -4,16 +4,71 @@ use std::collections::HashSet;
 
 use proc_macro::TokenStream;
 use quote::quote;
-use syn::{parse_macro_input, DeriveInput};
+use syn::{
+    parse::{Parse, Parser},
+    parse_macro_input,
+    punctuated::Punctuated,
+    DeriveInput, Expr, Ident, Token, Type,
+};
 
-// TODO public API?
-//  put trait in private mod?
-//  underscored named like serde?
-//  check what's in docs
-//  Result
+struct CvarDef {
+    name: Ident,
+    ty: Type,
+    value: Expr,
+}
+
+impl Parse for CvarDef {
+    fn parse(input: syn::parse::ParseStream) -> syn::Result<Self> {
+        let name = input.parse()?;
+        let _: Token![:] = input.parse()?;
+        let ty = input.parse()?;
+        let _: Token![=] = input.parse()?;
+        let value = input.parse()?;
+        Ok(CvarDef { name, ty, value })
+    }
+}
+
+#[proc_macro]
+pub fn cvars(input: TokenStream) -> TokenStream {
+    // TODO what happens to doc comments above cvars?
+
+    let parser = Punctuated::<CvarDef, Token![,]>::parse_terminated;
+    let punctuated = parser.parse(input).unwrap();
+    let cvar_defs: Vec<_> = punctuated.iter().collect();
+
+    let names: Vec<_> = cvar_defs.iter().map(|cvar_def| &cvar_def.name).collect();
+    let tys: Vec<_> = cvar_defs.iter().map(|cvar_def| &cvar_def.ty).collect();
+    let values: Vec<_> = cvar_defs.iter().map(|cvar_def| &cvar_def.value).collect();
+
+    let expanded = quote! {
+        struct Cvars {
+            #(
+                #names: #tys,
+            )*
+        }
+
+        impl Default for Cvars {
+            fn default() -> Self {
+                Self {
+                    #(
+                        #names: #values,
+                    )*
+                }
+
+            }
+        }
+    };
+    TokenStream::from(expanded)
+}
 
 #[proc_macro_derive(Cvars)]
 pub fn derive(input: TokenStream) -> TokenStream {
+    // TODO public API?
+    //  put trait in private mod?
+    //  underscored named like serde?
+    //  check what's in docs (of this crate and of generated code)
+    //  getters/setters should return Result
+
     let input = parse_macro_input!(input as DeriveInput);
     let struct_name = input.ident;
 
