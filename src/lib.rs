@@ -42,7 +42,7 @@ pub fn cvars(input: TokenStream) -> TokenStream {
     let values: Vec<_> = cvar_defs.iter().map(|cvar_def| &cvar_def.value).collect();
 
     let expanded = quote! {
-        #[derive(Debug, Clone, Default)]
+        #[derive(Debug, Clone, Default, cvars::Cvars)]
         pub struct Cvars {
             #(
                 pub #names: #tys,
@@ -50,7 +50,7 @@ pub fn cvars(input: TokenStream) -> TokenStream {
         }
 
         impl Cvars {
-            fn new() -> Self {
+            pub fn new() -> Self {
                 Self {
                     #(
                         #names: #values,
