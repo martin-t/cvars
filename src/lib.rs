@@ -42,7 +42,7 @@ pub fn cvars(input: TokenStream) -> TokenStream {
     let values: Vec<_> = cvar_defs.iter().map(|cvar_def| &cvar_def.value).collect();
 
     let expanded = quote! {
-        #[derive(Debug, Clone, Default, cvars::Cvars)]
+        #[derive(Debug, Clone, Default, ::cvars::SetGet)]
         pub struct Cvars {
             #(
                 pub #names: #tys,
@@ -63,7 +63,7 @@ pub fn cvars(input: TokenStream) -> TokenStream {
     TokenStream::from(expanded)
 }
 
-#[proc_macro_derive(Cvars)]
+#[proc_macro_derive(SetGet)]
 pub fn derive(input: TokenStream) -> TokenStream {
     // TODO public API?
     //  put trait in private mod?

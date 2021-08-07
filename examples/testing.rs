@@ -4,9 +4,9 @@
 
 use strum_macros::{Display, EnumString};
 
-use cvars::Cvars;
+use cvars::SetGet;
 
-#[derive(Debug, Clone, Default, Cvars)]
+#[derive(Debug, Clone, Default, SetGet)]
 pub struct Cvars {
     pub g_bool: bool,
     pub g_int: i32,

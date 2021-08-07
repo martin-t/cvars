@@ -3,9 +3,9 @@
 
 use std::io::BufRead;
 
-use cvars::Cvars;
+use cvars::SetGet;
 
-#[derive(Debug, Clone, Copy, Cvars)]
+#[derive(Debug, Clone, Copy, SetGet)]
 pub struct Cvars {
     pub g_respawn_delay: f64,
     pub g_respawn_health: i32,
