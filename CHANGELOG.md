@@ -2,4 +2,5 @@
 
 ## Unreleased
 
-- derive macro for structs (`#[derive(Cvars)]`) which generates getters and setters
+- experimental `cvars!` macro to generate the `Cvars` struct
+- derive macro for structs (`#[derive(SetGet)]`) which generates getters and setters
