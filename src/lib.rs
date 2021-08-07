@@ -41,9 +41,9 @@ pub fn cvars(input: TokenStream) -> TokenStream {
     let values: Vec<_> = cvar_defs.iter().map(|cvar_def| &cvar_def.value).collect();
 
     let expanded = quote! {
-        struct Cvars {
+        pub struct Cvars {
             #(
-                #names: #tys,
+                pub #names: #tys,
             )*
         }
 
