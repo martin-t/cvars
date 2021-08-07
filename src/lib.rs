@@ -28,6 +28,7 @@ impl Parse for CvarDef {
     }
 }
 
+/// TODO downside - can't specify attributes
 #[proc_macro]
 pub fn cvars(input: TokenStream) -> TokenStream {
     // TODO what happens to doc comments above cvars?
@@ -41,14 +42,15 @@ pub fn cvars(input: TokenStream) -> TokenStream {
     let values: Vec<_> = cvar_defs.iter().map(|cvar_def| &cvar_def.value).collect();
 
     let expanded = quote! {
+        #[derive(Debug, Clone, Default)]
         pub struct Cvars {
             #(
                 pub #names: #tys,
             )*
         }
 
-        impl Default for Cvars {
-            fn default() -> Self {
+        impl Cvars {
+            fn new() -> Self {
                 Self {
                     #(
                         #names: #values,
