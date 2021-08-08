@@ -28,7 +28,25 @@ impl Parse for CvarDef {
     }
 }
 
-/// TODO downside - can't specify attributes
+/// **Experimental**. Generate the whole `Cvars` struct.
+///
+/// This allows both the field types and their initial values to be defined on one line.
+/// The downside is that users can't specify attributes on the struct.
+///
+/// The generated code contains the struct definition and an impl block
+/// with a `new` function which sets the initial values.
+///
+/// **Open question**: Should the generated `Default` use the specified initial values
+/// or default values of the field types?
+///
+/// # Example
+///
+/// ```rust
+/// cvars! {
+///     g_rocket_launcher_ammo_max: i32 = 20,
+///     g_rocket_launcher_damage: f32 = 75.0,
+/// }
+/// ```
 #[proc_macro]
 pub fn cvars(input: TokenStream) -> TokenStream {
     // TODO what happens to doc comments above cvars?
@@ -63,6 +81,34 @@ pub fn cvars(input: TokenStream) -> TokenStream {
     TokenStream::from(expanded)
 }
 
+/// Generate setters and getters that take cvar names as string.
+///
+/// This requires all types used as cvars to impl `FromStr` and `Display`.
+///
+/// The generated methods:
+/// - `get` - take cvar name as string and return its value as the correct type
+/// - `get_string` - take cvar name as string and return its value as a `String`
+/// - `set` - take cvar name as string and its new value as the correct type
+/// - `set_str` - take cvar name as string and its new value as a `&str`
+///
+/// # Example
+///
+/// ```rust
+/// #[derive(SetGet)]
+/// pub struct Cvars {
+///     g_rocket_launcher_ammo_max: i32,
+///     g_rocket_launcher_damage: f32,
+/// }
+///
+/// impl Cvars {
+///     pub fn new() -> Self {
+///         Self {
+///             g_rocket_launcher_ammo_max: 20,
+///             g_rocket_launcher_damage: 75.0,
+///         }
+///     }
+/// }
+/// ``
 #[proc_macro_derive(SetGet)]
 pub fn derive(input: TokenStream) -> TokenStream {
     // TODO public API?
@@ -138,6 +184,8 @@ pub fn derive(input: TokenStream) -> TokenStream {
         trait_impls.push(trait_impl);
     }
 
+    // TODO docs
+    // TODO how to test doc examples on these functions?
     let expanded = quote! {
         impl #struct_name {
             pub fn get<T: CvarValue>(&self, cvar_name: &str) -> T {
