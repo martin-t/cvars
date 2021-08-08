@@ -94,6 +94,8 @@ pub fn cvars(input: TokenStream) -> TokenStream {
 /// # Example
 ///
 /// ```rust
+/// use cvars::SetGet;
+///
 /// #[derive(SetGet)]
 /// pub struct Cvars {
 ///     g_rocket_launcher_ammo_max: i32,
@@ -108,7 +110,7 @@ pub fn cvars(input: TokenStream) -> TokenStream {
 ///         }
 ///     }
 /// }
-/// ``
+/// ```
 #[proc_macro_derive(SetGet)]
 pub fn derive(input: TokenStream) -> TokenStream {
     // TODO public API?
