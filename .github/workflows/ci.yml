@@ -48,3 +48,11 @@ jobs:
           version: latest
       - run: cargo audit --version
       - run: cargo audit --deny warnings
+
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: cargo doc --all-features
+        env:
+          RUSTDOCFLAGS: --deny warnings
