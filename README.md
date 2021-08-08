@@ -21,6 +21,8 @@ TL;DR: Set and get struct fields based on the field's name as a string.
 Your game's config is in a struct like this:
 
 ```rust
+use cvars::SetGet;
+
 #[derive(SetGet)]
 pub struct Cvars {
     g_rocket_launcher_ammo_max: i32,

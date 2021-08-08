@@ -42,6 +42,8 @@ impl Parse for CvarDef {
 /// # Example
 ///
 /// ```rust
+/// use cvars::cvars;
+///
 /// cvars! {
 ///     g_rocket_launcher_ammo_max: i32 = 20,
 ///     g_rocket_launcher_damage: f32 = 75.0,
