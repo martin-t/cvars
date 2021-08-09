@@ -31,7 +31,7 @@ fn main() {
         println!(
             "Cvar updated: {} = {}",
             cvar_name,
-            cvars.get_string(cvar_name)
+            cvars.get_string(cvar_name).unwrap()
         );
 
         // In gamecode, you'll use cvars as any other struct - with strong typing
