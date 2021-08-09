@@ -36,13 +36,15 @@ The important thing is that you can still access your cvars as regular struct fi
 
 For a real-world example, look at [how RecWars uses cvars](https://github.com/martin-t/rec-wars/blob/master/src/cvars.rs).
 
-- TODO MSRV
-
 ### Enums
 
 Cvars can have any type which implements the `FromStr` and `Display` traits. If you want to use enums, it's best to derive these traits automatically via `[strum](https://crates.io/crates/strum)`.
 
 TODO Example
+
+### MSRV
+
+The minimum supported Rust version is currently 1.54 because of `#![doc = include_str!("README.md")]`. It could be lowered to 1.36 or 1.31 if somebody was interested in using this lib but couldn't use latest Rust.
 
 # (Planned) Features
 
