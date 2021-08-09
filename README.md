@@ -60,12 +60,19 @@ The minimum supported Rust version is currently 1.54 because of `#![doc = includ
 
 # Alternatives
 
-TODO compare performance and pros/cons (boiletplate, accessible to players, ...)
-
 - [tuna](https://crates.io/crates/tuna)
+    - Web GUI
+    - Not sure if supports enums
+    - Uses hashmaps - overhead on every access
 - [cvar](https://crates.io/crates/cvar)
+    - Uses a trait instead of a macro. The trait seems to need to be implemented manually so more boiletplate.
+    - Has additional features (lists, actions) which `cvars` doesn't.
 - [const-tweaker](https://crates.io/crates/const-tweaker)
+    - Web GUI
+    - Has soundness issues [according](https://github.com/tgolsson/tuna#alternatives) to tuna's author
+    - Uses hashmaps - overhead on every access
 - [inline_tweak](https://crates.io/crates/inline_tweak)
+    - Uses hashmaps - overhead on every access
 
 # License
 
