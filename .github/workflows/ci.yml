@@ -13,11 +13,22 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # 1.54 is needed for #![doc = include_str!("README.md")]
+        # If that was removed, then MSRV would probably be 1.36 which is needed for trybuild (dev-dep)
+        # or 1.31 for syn.
+        rust: [nightly, stable, 1.54.0]
 
     steps:
       - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: ${{ matrix.rust }}
+          override: true
       - run: rustc --version && cargo --version
       - run: cargo build --verbose
       - run: cargo test --verbose --all-features
