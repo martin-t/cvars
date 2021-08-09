@@ -38,9 +38,27 @@ For a real-world example, look at [how RecWars uses cvars](https://github.com/ma
 
 ### Enums
 
-Cvars can have any type which implements the `FromStr` and `Display` traits. If you want to use enums, it's best to derive these traits automatically via `[strum](https://crates.io/crates/strum)`.
+Cvar values can have any type which implements the `FromStr` and `Display` traits. If you want to use enums, it's best to derive these traits automatically via `[strum](https://crates.io/crates/strum)`.
 
-TODO Example
+```rust
+use strum_macros::{Display, EnumString};
+
+use cvars::SetGet;
+
+#[derive(Debug, Clone, SetGet)]
+pub struct Cvars {
+    pub cl_splitscreen: Splitscreen,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Display, EnumString)]
+#[strum(ascii_case_insensitive)]
+pub enum Splitscreen {
+    Vertical,
+    Horizontal,
+}
+```
+
+Tip: also use `#[strum(ascii_case_insensitive)]` so players don't need to pay attention to capilatization when changing cvars - both `"Vertical"` and `"vertical"` will parse into `Splitscreen::Vertical`.
 
 ### MSRV
 
