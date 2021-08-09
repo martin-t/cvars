@@ -34,6 +34,8 @@ The player wants to change a cvar and types `g_rocket_launcher_damage 150` into 
 
 The important thing is that you can still access your cvars as regular struct fields - e.g. `player.health -= cvars.g_rocket_launcher_damage;`. This means you only need to use strings when the user (player or developer when debugging or testing a different balance) is reading or writing the values. The rest of your gamelogic is still statically typed and using a cvar in gamecode is just a field access without any overhead.
 
+See [examples/stdin.rs](https://github.com/martin-t/cvars/blob/master/examples/stdin.rs) for a small runnable example.
+
 For a real-world example, look at [how RecWars uses cvars](https://github.com/martin-t/rec-wars/blob/master/src/cvars.rs).
 
 ### Enums
