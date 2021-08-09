@@ -17,7 +17,10 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        rust: [nightly, stable, 1.36.0]
+        # 1.54 is needed for #![doc = include_str!("README.md")]
+        # If that was removed, then MSRV would probably be 1.36 which is needed for trybuild (dev-dep)
+        # or 1.31 for syn.
+        rust: [nightly, stable, 1.54.0]
 
     steps:
       - uses: actions/checkout@v2
