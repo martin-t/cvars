@@ -30,15 +30,12 @@ pub struct Cvars {
 }
 ```
 
-The player can then type `g_rocket_launcher_damage 150`. This calls `cvars.set_str("g_rocket_launcher_damage", "150");` and from then on, rockets do 150 damage.
+The player wants to change a cvar and types `g_rocket_launcher_damage 150` into the game's console or stdin - you get both the cvar name and new value as strings so you can't do `cvars.g_rocket_launcher_damage = 150`. Instead, you call `cvars.set_str("g_rocket_launcher_damage", "150");` which looks up the correct field and parses the value into the proper type. From then on, rockets do 150 damage.
 
-The important thing is that you can still access your cvars as regular struct fields - e.g. `player.health -= cvars.g_rocket_launcher_damage;`. This means you only need to use strings when the user (player or developer when debugging or testing a different balance) is reading or writing the values. The rest of your gamelogic is still statically typed and using a cvar is just a field access without any overhead.
-
-TODO Simple example, test if cargo docs runs it
+The important thing is that you can still access your cvars as regular struct fields - e.g. `player.health -= cvars.g_rocket_launcher_damage;`. This means you only need to use strings when the user (player or developer when debugging or testing a different balance) is reading or writing the values. The rest of your gamelogic is still statically typed and using a cvar in gamecode is just a field access without any overhead.
 
 For a real-world example, look at [how RecWars uses cvars](https://github.com/martin-t/rec-wars/blob/master/src/cvars.rs).
 
-- TODO Docs in lib?
 - TODO MSRV
 
 ### Enums
@@ -59,7 +56,7 @@ TODO Example
 - [ ] Console for rg3d
 - [ ] Browser GUI for games without a console
 
-# Alternatives:
+# Alternatives
 
 TODO compare performance and pros/cons (boiletplate, accessible to players, ...)
 
