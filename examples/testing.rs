@@ -1,6 +1,8 @@
-// This is useful for debugging the macros.
-// Put some code here, then run `cargo expand --example testing`.
-// This is an example, not a bin, so that it can use dev-dependencies.
+// This is not a real example but a test file for debugging
+// the macros using `cargo expand --example testing`.
+// I used an example, not a bin (main.rs),
+// so that it can use dev-dependencies
+// to avoid having to put strum in normal dependencies.
 
 use strum_macros::{Display, EnumString};
 
