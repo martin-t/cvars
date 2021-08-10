@@ -221,7 +221,14 @@ pub fn derive(input: TokenStream) -> TokenStream {
             pub fn set_str(&mut self, cvar_name: &str, str_value: &str) -> ::core::result::Result<(), String> {
                 match cvar_name {
                     // This doesn't need to be dispatched via CvarValue, it uses FromStr instead.
-                    #( stringify!(#fields) => ::core::result::Result::Ok(self.#fields = str_value.parse().unwrap()), )*
+                    #( stringify!(#fields) => match str_value.parse() {
+                        ::core::result::Result::Ok(val) => ::core::result::Result::Ok(self.#fields = val),
+                        ::core::result::Result::Err(err) => ::core::result::Result::Err(format!("failed to parse {} as type {}: {}",
+                            str_value,
+                            stringify!(#tys),
+                            err,
+                        ))
+                    }, )*
                     _ => ::core::result::Result::Err(format!(
                         "Cvar named {} not found",
                         cvar_name

@@ -19,5 +19,12 @@ fn main() {
     assert_eq!(cvars.g_double, 10.0);
     assert_eq!(cvars.g_enum, Enum::Two);
 
-    assert_eq!(cvars.set_str("bla", "666"), Err("Cvar named bla not found".to_owned()));
+    assert_eq!(
+        cvars.set_str("bla", "666"),
+        Err("Cvar named bla not found".to_owned())
+    );
+    assert_eq!(
+        cvars.set_str("g_int", "not a num"),
+        Err("failed to parse not a num as type i32: invalid digit found in string".to_owned())
+    );
 }

@@ -19,5 +19,8 @@ fn main() {
     assert_eq!(cvars.g_double, 10.0);
     assert_eq!(cvars.g_enum, Enum::Two);
 
-    assert_eq!(cvars.set("bla", 666), Err("Cvar named bla with type i32 not found".to_owned()));
+    assert_eq!(
+        cvars.set("bla", 666),
+        Err("Cvar named bla with type i32 not found".to_owned())
+    );
 }
