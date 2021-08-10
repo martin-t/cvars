@@ -39,6 +39,8 @@ impl Parse for CvarDef {
 /// **Open question**: Should the generated `Default` use the specified initial values
 /// or default values of the field types?
 ///
+/// **Currently will crash on doc comments**
+///
 /// # Example
 ///
 /// ```rust
@@ -51,7 +53,7 @@ impl Parse for CvarDef {
 /// ```
 #[proc_macro]
 pub fn cvars(input: TokenStream) -> TokenStream {
-    // TODO what happens to doc comments above cvars?
+    // LATER doc comments above cvars
 
     let parser = Punctuated::<CvarDef, Token![,]>::parse_terminated;
     let punctuated = parser.parse(input).unwrap();
@@ -92,6 +94,8 @@ pub fn cvars(input: TokenStream) -> TokenStream {
 /// - `get_string` - take cvar name as string and return its value as a `String`
 /// - `set` - take cvar name as string and its new value as the correct type
 /// - `set_str` - take cvar name as string and its new value as a `&str`
+///
+/// Since all 4 functions can fail, all return `Result`s.
 ///
 /// # Example
 ///
@@ -164,7 +168,6 @@ pub fn derive(input: TokenStream) -> TokenStream {
             }
         }
 
-        // TODO Better error messages (report type of value and of field if both exist)
         // TODO Is there a sane way to automatically convert?
         //      e.g. integers default to i32 even though cvar type is usize
         let trait_impl = quote! {
