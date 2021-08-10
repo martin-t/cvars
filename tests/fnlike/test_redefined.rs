@@ -40,4 +40,10 @@ impl Default for Enum {
     }
 }
 
-fn main() {}
+fn main() {
+    let mut cvars = Cvars::default();
+    let _: bool = cvars.get("g_bool").unwrap();
+    cvars.get_string("g_bool").unwrap();
+    cvars.set("g_bool", true).unwrap();
+    cvars.set_str("g_bool", "true").unwrap();
+}

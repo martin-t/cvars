@@ -158,7 +158,7 @@ pub fn derive(input: TokenStream) -> TokenStream {
                 getter_arms.push(getter_arm);
 
                 let setter_arm = quote! {
-                    stringify!(#field) => cvars.#field = value,
+                    stringify!(#field) => ::core::result::Result::Ok(cvars.#field = value),
                 };
                 setter_arms.push(setter_arm);
             }
@@ -172,14 +172,22 @@ pub fn derive(input: TokenStream) -> TokenStream {
                 fn get(cvars: &Cvars, cvar_name: &str) -> ::core::result::Result<Self, String> {
                     match cvar_name {
                         #( #getter_arms )*
-                        _ => ::core::result::Result::Err(format!("Cvar named {} with type {} not found", cvar_name, stringify!(#unique_ty))),
+                        _ => ::core::result::Result::Err(format!(
+                            "Cvar named {} with type {} not found",
+                            cvar_name,
+                            stringify!(#unique_ty)
+                        )),
                     }
                 }
 
-                fn set(cvars: &mut Cvars, cvar_name: &str, value: Self) {
+                fn set(cvars: &mut Cvars, cvar_name: &str, value: Self) -> ::core::result::Result<(), String> {
                     match cvar_name {
                         #( #setter_arms )*
-                        _ => panic!("Cvar named {} with type {} not found", cvar_name, stringify!(#unique_ty)),
+                        _ => ::core::result::Result::Err(format!(
+                            "Cvar named {} with type {} not found",
+                            cvar_name,
+                            stringify!(#unique_ty),
+                        )),
                     }
                 }
             }
@@ -199,19 +207,25 @@ pub fn derive(input: TokenStream) -> TokenStream {
                 match cvar_name {
                     // This doesn't need to be dispatched via CvarValue, it uses Display instead.
                     #( stringify!(#fields) => ::core::result::Result::Ok(self.#fields.to_string()), )*
-                    _ => ::core::result::Result::Err(format!("Cvar named {} not found", cvar_name)),
+                    _ => ::core::result::Result::Err(format!(
+                        "Cvar named {} not found",
+                        cvar_name,
+                    )),
                 }
             }
 
-            pub fn set<T: CvarValue>(&mut self, cvar_name: &str, value: T) {
-                CvarValue::set(self, cvar_name, value);
+            pub fn set<T: CvarValue>(&mut self, cvar_name: &str, value: T) -> ::core::result::Result<(), String> {
+                CvarValue::set(self, cvar_name, value)
             }
 
-            pub fn set_str(&mut self, cvar_name: &str, str_value: &str) {
+            pub fn set_str(&mut self, cvar_name: &str, str_value: &str) -> ::core::result::Result<(), String> {
                 match cvar_name {
                     // This doesn't need to be dispatched via CvarValue, it uses FromStr instead.
-                    #( stringify!(#fields) => self.#fields = str_value.parse().unwrap(), )*
-                    _ => panic!("Cvar named {} not found", cvar_name),
+                    #( stringify!(#fields) => ::core::result::Result::Ok(self.#fields = str_value.parse().unwrap()), )*
+                    _ => ::core::result::Result::Err(format!(
+                        "Cvar named {} not found",
+                        cvar_name
+                    )),
                 }
             }
         }
@@ -222,7 +236,7 @@ pub fn derive(input: TokenStream) -> TokenStream {
         pub trait CvarValue {
             fn get(cvars: &Cvars, cvar_name: &str) -> ::core::result::Result<Self, String>
                 where Self: Sized;
-            fn set(cvars: &mut Cvars, cvar_name: &str, value: Self);
+            fn set(cvars: &mut Cvars, cvar_name: &str, value: Self) -> ::core::result::Result<(), String>;
         }
 
         #( #trait_impls )*

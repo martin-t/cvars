@@ -27,7 +27,7 @@ fn main() {
         let cvar_value = parts.next().unwrap();
 
         // Update the cvar and print the new value - this is a stringly typed API
-        cvars.set_str(cvar_name, cvar_value);
+        cvars.set_str(cvar_name, cvar_value).unwrap();
         println!(
             "Cvar updated: {} = {}",
             cvar_name,
