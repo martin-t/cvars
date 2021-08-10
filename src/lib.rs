@@ -198,14 +198,18 @@ pub fn derive(input: TokenStream) -> TokenStream {
         trait_impls.push(trait_impl);
     }
 
-    // TODO docs
-    // TODO how to test doc examples on these functions?
     let expanded = quote! {
         impl #struct_name {
+            /// Finds the cvar whose name matches `cvar_name` and returns it's value.
+            ///
+            /// Returns `Err` if the cvar doesn't exist.
             pub fn get<T: CvarValue>(&self, cvar_name: &str) -> ::core::result::Result<T, String> {
                 CvarValue::get(self, cvar_name)
             }
 
+            /// Finds the cvar whose name matches `cvar_name` and returns it's value as a `String`.
+            ///
+            /// Returns `Err` if the cvar doesn't exist.
             pub fn get_string(&self, cvar_name: &str) -> ::core::result::Result<String, String> {
                 match cvar_name {
                     // This doesn't need to be dispatched via CvarValue, it uses Display instead.
@@ -217,10 +221,16 @@ pub fn derive(input: TokenStream) -> TokenStream {
                 }
             }
 
+            /// Finds the cvar whose name matches `cvar_name` and sets it to `value`.
+            ///
+            /// Returns `Err` if the cvar doesn't exist or its type doesn't match that of `value`.
             pub fn set<T: CvarValue>(&mut self, cvar_name: &str, value: T) -> ::core::result::Result<(), String> {
                 CvarValue::set(self, cvar_name, value)
             }
 
+            /// Finds the cvar whose name matches `cvar_name`, tries to parse `str_value` to its type and sets it to the parsed value.
+            ///
+            /// Returns `Err` if the cvar doesn't exist or if `str_value` fails to parse to its type.
             pub fn set_str(&mut self, cvar_name: &str, str_value: &str) -> ::core::result::Result<(), String> {
                 match cvar_name {
                     // This doesn't need to be dispatched via CvarValue, it uses FromStr instead.
