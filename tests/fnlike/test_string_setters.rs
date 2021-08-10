@@ -18,4 +18,6 @@ fn main() {
     assert_eq!(cvars.g_float, 5.0);
     assert_eq!(cvars.g_double, 10.0);
     assert_eq!(cvars.g_enum, Enum::Two);
+
+    assert_eq!(cvars.set_str("bla", "666"), Err("Cvar named bla not found".to_owned()));
 }
