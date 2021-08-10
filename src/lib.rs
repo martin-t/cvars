@@ -119,7 +119,6 @@ pub fn derive(input: TokenStream) -> TokenStream {
     //  put trait in private mod?
     //  underscored named like serde?
     //  check what's in docs (of this crate and of generated code)
-    //  getters/setters should return Result
 
     let input = parse_macro_input!(input as DeriveInput);
     let struct_name = input.ident;
@@ -154,7 +153,7 @@ pub fn derive(input: TokenStream) -> TokenStream {
             let ty = tys[i];
             if ty == *unique_ty {
                 let getter_arm = quote! {
-                    stringify!(#field) => Ok(cvars.#field),
+                    stringify!(#field) => ::core::result::Result::Ok(cvars.#field),
                 };
                 getter_arms.push(getter_arm);
 
@@ -170,10 +169,10 @@ pub fn derive(input: TokenStream) -> TokenStream {
         //      e.g. integers default to i32 even though cvar type is usize
         let trait_impl = quote! {
             impl CvarValue for #unique_ty {
-                fn get(cvars: &Cvars, cvar_name: &str) -> Result<Self, String> {
+                fn get(cvars: &Cvars, cvar_name: &str) -> ::core::result::Result<Self, String> {
                     match cvar_name {
                         #( #getter_arms )*
-                        _ => Err(format!("Cvar named {} with type {} not found", cvar_name, stringify!(#unique_ty))),
+                        _ => ::core::result::Result::Err(format!("Cvar named {} with type {} not found", cvar_name, stringify!(#unique_ty))),
                     }
                 }
 
@@ -192,15 +191,15 @@ pub fn derive(input: TokenStream) -> TokenStream {
     // TODO how to test doc examples on these functions?
     let expanded = quote! {
         impl #struct_name {
-            pub fn get<T: CvarValue>(&self, cvar_name: &str) -> Result<T, String> {
+            pub fn get<T: CvarValue>(&self, cvar_name: &str) -> ::core::result::Result<T, String> {
                 CvarValue::get(self, cvar_name)
             }
 
-            pub fn get_string(&self, cvar_name: &str) -> Result<String, String> {
+            pub fn get_string(&self, cvar_name: &str) -> ::core::result::Result<String, String> {
                 match cvar_name {
                     // This doesn't need to be dispatched via CvarValue, it uses Display instead.
-                    #( stringify!(#fields) => Ok(self.#fields.to_string()), )*
-                    _ => Err(format!("Cvar named {} not found", cvar_name)),
+                    #( stringify!(#fields) => ::core::result::Result::Ok(self.#fields.to_string()), )*
+                    _ => ::core::result::Result::Err(format!("Cvar named {} not found", cvar_name)),
                 }
             }
 
@@ -221,7 +220,7 @@ pub fn derive(input: TokenStream) -> TokenStream {
         /// You're not meant to impl it yourself, it's done automatically
         /// for all types used as cvars.
         pub trait CvarValue {
-            fn get(cvars: &Cvars, cvar_name: &str) -> Result<Self, String>
+            fn get(cvars: &Cvars, cvar_name: &str) -> ::core::result::Result<Self, String>
                 where Self: Sized;
             fn set(cvars: &mut Cvars, cvar_name: &str, value: Self);
         }
