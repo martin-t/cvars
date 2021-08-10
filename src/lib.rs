@@ -137,7 +137,7 @@ pub fn derive(input: TokenStream) -> TokenStream {
     let mut fields = Vec::new();
     let mut tys = Vec::new();
     for field in &named_fields.named {
-        let ident = field.ident.as_ref().unwrap();
+        let ident = field.ident.as_ref().expect("ident was None");
         fields.push(ident);
         tys.push(&field.ty);
     }
