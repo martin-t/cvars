@@ -168,8 +168,8 @@ pub fn derive(input: TokenStream) -> TokenStream {
             }
         }
 
-        // TODO Is there a sane way to automatically convert?
-        //      e.g. integers default to i32 even though cvar type is usize
+        // LATER Is there a sane way to automatically convert?
+        //       e.g. integers default to i32 even though cvar type is usize
         let trait_impl = quote! {
             impl CvarValue for #unique_ty {
                 fn get(cvars: &Cvars, cvar_name: &str) -> ::core::result::Result<Self, String> {

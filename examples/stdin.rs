@@ -1,3 +1,5 @@
+// Change cvars according to user input from stdin, then print the new values.
+//
 // In a real game you would use the engine's console instead of stdin
 // or at least you'd check for new lines every frame without blocking.
 
@@ -34,7 +36,7 @@ fn main() {
             cvars.get_string(cvar_name).unwrap()
         );
 
-        // In gamecode, you'll use cvars as any other struct - with strong typing
+        // In gamecode, you'll use cvars as any other struct - with strong and static typing
         println!(
             "Players will respawn after {} s with {} health",
             cvars.g_respawn_delay, cvars.g_respawn_health
