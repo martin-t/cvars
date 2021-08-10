@@ -54,6 +54,7 @@ impl Parse for CvarDef {
 #[proc_macro]
 pub fn cvars(input: TokenStream) -> TokenStream {
     // LATER doc comments above cvars
+    // LATER no unwraps
 
     let parser = Punctuated::<CvarDef, Token![,]>::parse_terminated;
     let punctuated = parser.parse(input).unwrap();
@@ -127,15 +128,14 @@ pub fn derive(input: TokenStream) -> TokenStream {
     let input = parse_macro_input!(input as DeriveInput);
     let struct_name = input.ident;
 
-    // TODO error msg
     let named_fields = match input.data {
         syn::Data::Struct(struct_data) => match struct_data.fields {
             syn::Fields::Named(named_fields) => named_fields,
-            syn::Fields::Unnamed(_) => unimplemented!(),
-            syn::Fields::Unit => unimplemented!(),
+            syn::Fields::Unnamed(_) => panic!("tuple structs are not supported, use named fields"),
+            syn::Fields::Unit => panic!("unit structs are not supported, use curly braces"),
         },
-        syn::Data::Enum(_) => unimplemented!(),
-        syn::Data::Union(_) => unimplemented!(),
+        syn::Data::Enum(_) => panic!("enums are not supported, use a struct"),
+        syn::Data::Union(_) => panic!("unions are not supported, use a struct"),
     };
 
     let mut fields = Vec::new();
