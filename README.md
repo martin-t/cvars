@@ -20,11 +20,12 @@ Cvars aims to minimize boiletplate - there are no traits to implement manually a
 
 # Usage
 
-Your game's config is in a struct like this:
-
 ```rust
 use cvars::SetGet;
 
+// This struct contains all your config.
+// You either pass it down to all functions which need it
+// or store it somewhere within your game state.
 #[derive(SetGet)]
 pub struct Cvars {
     g_rocket_launcher_ammo_max: i32,
@@ -39,9 +40,18 @@ impl Cvars {
         }
     }
 }
+
+let mut cvars = Cvars::new();
+
+// These normally come from the user
+let cvar_name = "g_rocket_launcher_damage";
+let new_value = "150";
+
+// This looks up the right field and sets it to the new value.
+cvars.set_str(cvar_name, new_value).unwrap();
 ```
 
-The player wants to change a cvar and types `g_rocket_launcher_damage 150` into the game's console or stdin. You get both the cvar name and new value as strings so you can't do `cvars.g_rocket_launcher_damage = 150`. You need to look up the correct field based on the string - this is what `cvars` does - it generates `set_str` (among other things). You call `cvars.set_str("g_rocket_launcher_damage", "150");` which looks up the right field and parses the value into its type. From then on, rockets do 150 damage.
+The player wants to change a cvar and types `g_rocket_launcher_damage 150` into the game's console or stdin. You get both the cvar name and new value as strings so you can't do `cvars.g_rocket_launcher_damage = 150`. You need to look up the correct field based on the string - this is what `cvars` does - it generates `set_str` (and some other useful methods). You call `cvars.set_str("g_rocket_launcher_damage", "150");` which looks up the right field, parses the value into its type and updates the field with it. From then on, rockets do 150 damage.
 
 The important thing is that in the rest of your application, you can still access your cvars as regular struct fields - e.g. `player.health -= cvars.g_rocket_launcher_damage;`. This means you only need to use strings when the user (player or developer when debugging or testing a different balance) is reading or writing the values. The rest of your gamelogic is still statically typed and using a cvar in gamecode is just a field access without any overhead.
 
