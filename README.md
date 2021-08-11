@@ -14,7 +14,9 @@
 
 Cvars (*console variables* or *configuration variables*) are a way to store settings which the user might want to change at runtime without restarting. They are inspired by the idSoftware family of game engines but they can be useful outside games.
 
-TL;DR: Set and get struct fields based on the field's name as a string.
+**TL;DR**: Set and get struct fields based on the field's name as a string.
+
+Cvars aims to minimize boiletplate - there are no traits to implement manually and no setup code to call per cvar. There is also be no extra performance cost for keeping everything configurable even after you're done finding the best values - you can (and are meant to) keep things tweakable for your players to experiment themselves.
 
 # Usage
 
@@ -81,6 +83,7 @@ The minimum supported Rust version is currently 1.54 because of `#![doc = includ
     - [x] Statically typed (`set`, `get`)
     - [x] As string (`set_str`, `get_string`)
 - [x] Function like `cvars!` macro to declare type and initial value on one line
+- [ ] Save config to and load it from files - useful if your game has multiple balance presets
 - [ ] Allow setters to validate the new value and reject it (e.g. make sure it's within a sane range).
 - [ ] Autocompletion for in-game consoles
 - [ ] Console for macroquad
