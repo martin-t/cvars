@@ -8,8 +8,8 @@ homepage = "https://github.com/martin-t/cvars"
 repository = "https://github.com/martin-t/cvars"
 license = "AGPL-3.0-or-later"
 readme = "README.md"
-keywords = ["gamedev", "config", "settings", "const-tweaker", "debugging"]
-categories = ["game-development"]
+keywords = ["configuration", "console", "debugging", "gamedev", "settings"]
+categories = ["config", "command-line-interface", "development-tools::procedural-macro-helpers", "game-development", "rust-patterns"]
 autotests = false
 
 [lib]
