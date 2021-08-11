@@ -28,17 +28,26 @@ pub struct Cvars {
     g_rocket_launcher_ammo_max: i32,
     g_rocket_launcher_damage: f32,
 }
+
+impl Cvars {
+    pub fn new() -> Self {
+        Self {
+            g_rocket_launcher_ammo_max: 20,
+            g_rocket_launcher_damage: 100.0,
+        }
+    }
+}
 ```
 
-The player wants to change a cvar and types `g_rocket_launcher_damage 150` into the game's console or stdin - you get both the cvar name and new value as strings so you can't do `cvars.g_rocket_launcher_damage = 150`. Instead, you call `cvars.set_str("g_rocket_launcher_damage", "150");` which looks up the correct field and parses the value into the proper type. From then on, rockets do 150 damage.
+The player wants to change a cvar and types `g_rocket_launcher_damage 150` into the game's console or stdin. You get both the cvar name and new value as strings so you can't do `cvars.g_rocket_launcher_damage = 150`. You need to look up the correct field based on the string - this is what `cvars` does - it generates `set_str` (among other things). You call `cvars.set_str("g_rocket_launcher_damage", "150");` which looks up the right field and parses the value into its type. From then on, rockets do 150 damage.
 
-The important thing is that you can still access your cvars as regular struct fields - e.g. `player.health -= cvars.g_rocket_launcher_damage;`. This means you only need to use strings when the user (player or developer when debugging or testing a different balance) is reading or writing the values. The rest of your gamelogic is still statically typed and using a cvar in gamecode is just a field access without any overhead.
+The important thing is that in the rest of your application, you can still access your cvars as regular struct fields - e.g. `player.health -= cvars.g_rocket_launcher_damage;`. This means you only need to use strings when the user (player or developer when debugging or testing a different balance) is reading or writing the values. The rest of your gamelogic is still statically typed and using a cvar in gamecode is just a field access without any overhead.
 
 See [examples/stdin.rs](https://github.com/martin-t/cvars/blob/master/examples/stdin.rs) for a small runnable example.
 
 For a real-world example, look at [how RecWars uses cvars](https://github.com/martin-t/rec-wars/blob/master/src/cvars.rs).
 
-### Enums
+## Enums
 
 Cvar values can have any type which implements the `FromStr` and `Display` traits. If you want to use enums, it's best to derive these traits automatically via `[strum](https://crates.io/crates/strum)`.
 
@@ -60,9 +69,9 @@ pub enum Splitscreen {
 }
 ```
 
-Tip: also use `#[strum(ascii_case_insensitive)]` so players don't need to pay attention to capilatization when changing cvars - both `"Vertical"` and `"vertical"` will parse into `Splitscreen::Vertical`.
+Tip: use `#[strum(ascii_case_insensitive)]` so players don't need to pay attention to capilatization when changing cvars - both `"Vertical"` and `"vertical"` will parse into `Splitscreen::Vertical`.
 
-### MSRV
+## MSRV
 
 The minimum supported Rust version is currently 1.54 because of `#![doc = include_str!("README.md")]`. It could be lowered to 1.36 or 1.31 if somebody was interested in using this lib but couldn't use latest Rust.
 
@@ -82,10 +91,10 @@ The minimum supported Rust version is currently 1.54 because of `#![doc = includ
 
 - [tuna](https://crates.io/crates/tuna)
     - Web GUI
-    - Not sure if supports enums
+    - Unclear if it supports enums
     - Uses hashmaps - overhead on every access
 - [cvar](https://crates.io/crates/cvar)
-    - Uses a trait instead of a macro. The trait seems to need to be implemented manually so more boiletplate.
+    - Uses a trait instead of a macro. The trait seems to need to be implemented manually so more boilerplate.
     - Has additional features (lists, actions) which `cvars` doesn't.
 - [const-tweaker](https://crates.io/crates/const-tweaker)
     - Web GUI

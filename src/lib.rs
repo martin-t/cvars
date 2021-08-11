@@ -120,11 +120,6 @@ pub fn cvars(input: TokenStream) -> TokenStream {
 /// ```
 #[proc_macro_derive(SetGet)]
 pub fn derive(input: TokenStream) -> TokenStream {
-    // TODO public API?
-    //  put trait in private mod?
-    //  underscored named like serde?
-    //  check what's in docs (of this crate and of generated code)
-
     let input = parse_macro_input!(input as DeriveInput);
     let struct_name = input.ident;
 
@@ -138,6 +133,7 @@ pub fn derive(input: TokenStream) -> TokenStream {
         syn::Data::Union(_) => panic!("unions are not supported, use a struct"),
     };
 
+    // Get the list of all cvars and their types
     let mut fields = Vec::new();
     let mut tys = Vec::new();
     for field in &named_fields.named {
@@ -146,6 +142,9 @@ pub fn derive(input: TokenStream) -> TokenStream {
         tys.push(&field.ty);
     }
 
+    // Get the set of types used as cvars.
+    // We need to impl CvarValue for them and it needs to be done
+    // once per type, not once per cvar.
     let unique_tys: HashSet<_> = tys.iter().collect();
     let mut trait_impls = Vec::new();
     for unique_ty in unique_tys {
@@ -155,6 +154,8 @@ pub fn derive(input: TokenStream) -> TokenStream {
         for i in 0..fields.len() {
             let field = fields[i];
             let ty = tys[i];
+            // Each `impl CvarValue for X` block only generates match arms for cvars of type X
+            // so that the getters and setters typecheck.
             if ty == *unique_ty {
                 let getter_arm = quote! {
                     stringify!(#field) => ::core::result::Result::Ok(cvars.#field),
@@ -168,8 +169,9 @@ pub fn derive(input: TokenStream) -> TokenStream {
             }
         }
 
-        // LATER Is there a sane way to automatically convert?
+        // LATER Is there a sane way to automatically convert? (even fallibly)
         //       e.g. integers default to i32 even though cvar type is usize
+        //       At the very least, it should suggest specifying the type.
         let trait_impl = quote! {
             impl CvarValue for #unique_ty {
                 fn get(cvars: &Cvars, cvar_name: &str) -> ::core::result::Result<Self, String> {
@@ -204,6 +206,9 @@ pub fn derive(input: TokenStream) -> TokenStream {
             ///
             /// Returns `Err` if the cvar doesn't exist.
             pub fn get<T: CvarValue>(&self, cvar_name: &str) -> ::core::result::Result<T, String> {
+                // We can't generate all the match arms here because we don't know what concrety type T is.
+                // Instead, we statically dispatch it through the CvarValue trait and then only look up
+                // fields of the correct type in each impl block.
                 CvarValue::get(self, cvar_name)
             }
 
@@ -224,6 +229,17 @@ pub fn derive(input: TokenStream) -> TokenStream {
             /// Finds the cvar whose name matches `cvar_name` and sets it to `value`.
             ///
             /// Returns `Err` if the cvar doesn't exist or its type doesn't match that of `value`.
+            ///
+            /// **Note**: Rust can't infer the type of `value` based on the type of the cvar
+            /// because `cvar_name` is resolved to the right struct field only at runtime.
+            /// This means integer literals default to `i32` and float literals to `f64`.
+            /// This in turn means if the cvar's type is e.g. usize and you try
+            /// `cvars.set("sometihng_with_type_usize", 123);`, it will fail
+            /// because at compile time, `123` is inferred to be `i32`.
+            /// Use `123_usize` to specify the correct type.
+            ///
+            /// This limitation doesn't apply to `set_str` since it determines which type to parse to
+            /// *after* looking up the right field at runtime.
             pub fn set<T: CvarValue>(&mut self, cvar_name: &str, value: T) -> ::core::result::Result<(), String> {
                 CvarValue::set(self, cvar_name, value)
             }
