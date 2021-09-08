@@ -10,6 +10,7 @@ fn main() {
         g_float: 5.0,
         g_double: 10.0,
         g_enum: Enum::Two,
+        g_skipped: 0,
     };
     // Creating a second struct so that type inferrence works.
     // Just `assert_eq!(cvars.get("g_int"), cvars.g_int);`
@@ -21,6 +22,7 @@ fn main() {
         g_float: cvars.get("g_float").unwrap(),
         g_double: cvars.get("g_double").unwrap(),
         g_enum: cvars.get("g_enum").unwrap(),
+        g_skipped: 0,
     };
     assert_eq!(other.g_bool, cvars.g_bool);
     assert_eq!(other.g_int, cvars.g_int);

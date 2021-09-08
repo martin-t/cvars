@@ -8,7 +8,7 @@ use syn::{
     parse::{Parse, Parser},
     parse_macro_input,
     punctuated::Punctuated,
-    DeriveInput, Expr, Ident, Token, Type,
+    DeriveInput, Expr, Field, Ident, Meta, MetaList, NestedMeta, Token, Type,
 };
 
 struct CvarDef {
@@ -39,7 +39,7 @@ impl Parse for CvarDef {
 /// **Open question**: Should the generated `Default` use the specified initial values
 /// or default values of the field types?
 ///
-/// **Currently will crash on doc comments**
+/// **Currently will crash on doc comments and (other) attributes**
 ///
 /// # Example
 ///
@@ -54,6 +54,7 @@ impl Parse for CvarDef {
 #[proc_macro]
 pub fn cvars(input: TokenStream) -> TokenStream {
     // LATER doc comments above cvars
+    // LATER cvars(skip)
     // LATER no unwraps
 
     let parser = Punctuated::<CvarDef, Token![,]>::parse_terminated;
@@ -118,7 +119,7 @@ pub fn cvars(input: TokenStream) -> TokenStream {
 ///     }
 /// }
 /// ```
-#[proc_macro_derive(SetGet)]
+#[proc_macro_derive(SetGet, attributes(cvars))]
 pub fn derive(input: TokenStream) -> TokenStream {
     let input = parse_macro_input!(input as DeriveInput);
     let struct_name = input.ident;
@@ -137,6 +138,10 @@ pub fn derive(input: TokenStream) -> TokenStream {
     let mut fields = Vec::new();
     let mut tys = Vec::new();
     for field in &named_fields.named {
+        if skip_field(field) {
+            continue;
+        }
+
         let ident = field.ident.as_ref().expect("ident was None");
         fields.push(ident);
         tys.push(&field.ty);
@@ -278,4 +283,33 @@ pub fn derive(input: TokenStream) -> TokenStream {
         #( #trait_impls )*
     };
     TokenStream::from(expanded)
+}
+
+/// Does the field have `#[cvars(skip)]` above it?
+fn skip_field(field: &Field) -> bool {
+    for attr in &field.attrs {
+        if attr.path.is_ident("cvars") {
+            // TODO test #[bla(a b c)]
+            let meta = attr.parse_meta().unwrap(); // TODO expect
+            if let Meta::List(MetaList { nested, .. }) = meta {
+                if nested.len() != 1 {
+                    panic!("expected #[cvars(skip)]");
+                }
+                let nested_meta = nested.first().expect("len != 1");
+                if let NestedMeta::Meta(Meta::Path(path)) = nested_meta {
+                    if path.is_ident("skip") {
+                        return true;
+                    } else {
+                        panic!("expected #[cvars(skip)]");
+                    }
+                } else {
+                    panic!("expected #[cvars(skip)]");
+                }
+            } else {
+                panic!("expected #[cvars(skip)]");
+            }
+        }
+    }
+
+    false
 }

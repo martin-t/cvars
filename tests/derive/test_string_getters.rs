@@ -10,6 +10,7 @@ fn main() {
         g_float: 5.0,
         g_double: 10.0,
         g_enum: Enum::Two,
+        g_skipped: 0,
     };
 
     assert_eq!(cvars.get_string("g_bool"), Ok("true".to_owned()));
