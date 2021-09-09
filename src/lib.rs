@@ -288,26 +288,31 @@ pub fn derive(input: TokenStream) -> TokenStream {
 /// Check whether the field has the `#[cvars(skip)]` attribute
 fn skip_field(field: &Field) -> bool {
     for attr in &field.attrs {
-        if attr.path.is_ident("cvars") {
-            // TODO test #[bla(a b c)]
-            let meta = attr.parse_meta().unwrap(); // TODO expect
-            if let Meta::List(MetaList { nested, .. }) = meta {
-                if nested.len() != 1 {
-                    panic!("expected #[cvars(skip)]");
-                }
-                let nested_meta = nested.first().expect("len != 1");
-                if let NestedMeta::Meta(Meta::Path(path)) = nested_meta {
-                    if path.is_ident("skip") {
-                        return true;
-                    } else {
-                        panic!("expected #[cvars(skip)]");
-                    }
+        // Only attempt to parse the attribute if it's ours.
+        // Not all attributes are parseable by `parse_meta`.
+        if !attr.path.is_ident("cvars") {
+            continue;
+        }
+
+        let meta = attr
+            .parse_meta()
+            .expect("expected #[cvars(skip)], failed to parse");
+        if let Meta::List(MetaList { nested, .. }) = meta {
+            if nested.len() != 1 {
+                panic!("expected #[cvars(skip)]");
+            }
+            let nested_meta = nested.first().expect("len != 1");
+            if let NestedMeta::Meta(Meta::Path(path)) = nested_meta {
+                if path.is_ident("skip") {
+                    return true;
                 } else {
                     panic!("expected #[cvars(skip)]");
                 }
             } else {
                 panic!("expected #[cvars(skip)]");
             }
+        } else {
+            panic!("expected #[cvars(skip)]");
         }
     }
 
