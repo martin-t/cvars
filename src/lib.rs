@@ -285,7 +285,7 @@ pub fn derive(input: TokenStream) -> TokenStream {
     TokenStream::from(expanded)
 }
 
-/// Does the field have `#[cvars(skip)]` above it?
+/// Check whether the field has the `#[cvars(skip)]` attribute
 fn skip_field(field: &Field) -> bool {
     for attr in &field.attrs {
         if attr.path.is_ident("cvars") {
