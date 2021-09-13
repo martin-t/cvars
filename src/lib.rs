@@ -318,3 +318,35 @@ fn skip_field(field: &Field) -> bool {
 
     false
 }
+
+/// Dummy version of SetGet for debugging how long things take to compile.
+///
+/// Generates the 4 setters and getters like SetGet but they contain only `unimplemented!()`,
+/// therefore the code to dispatch from string to struct field is not generated.
+/// This exists only to test how using SetGet affects the total compile time of downstream crates.
+/// Simply replace SetGet with SetGetDummy and compare how long `cargo build` takes.
+/// The resulting code should compile but will crash if the generated methods are used.
+#[doc(hidden)]
+#[proc_macro_derive(SetGetDummy, attributes(cvars))]
+pub fn derive_dummy(input: TokenStream) -> TokenStream {
+    let input = parse_macro_input!(input as DeriveInput);
+    let struct_name = input.ident;
+
+    let expanded = quote! {
+        impl #struct_name {
+            pub fn get<T>(&self, cvar_name: &str) -> ::core::result::Result<T, String> {
+                unimplemented!("SetGetDummy is only for compile time testing.");
+            }
+            pub fn get_string(&self, cvar_name: &str) -> ::core::result::Result<String, String> {
+                unimplemented!("SetGetDummy is only for compile time testing.");
+            }
+            pub fn set<T>(&mut self, cvar_name: &str, value: T) -> ::core::result::Result<(), String> {
+                unimplemented!("SetGetDummy is only for compile time testing.");
+            }
+            pub fn set_str(&mut self, cvar_name: &str, str_value: &str) -> ::core::result::Result<(), String> {
+                unimplemented!("SetGetDummy is only for compile time testing.");
+            }
+        }
+    };
+    TokenStream::from(expanded)
+}

@@ -16,4 +16,6 @@ fn tests() {
     t.pass("tests/derive/test_string_setters.rs");
     t.pass("tests/derive/test_redefined.rs");
     t.pass("tests/derive/test_skip.rs");
+
+    t.pass("tests/dummy.rs");
 }
