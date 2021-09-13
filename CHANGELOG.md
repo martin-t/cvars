@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- `#[cvars(skip)]` for ignoring some struct fields
+
 ## v0.1.0
 
 - experimental `cvars!` macro to generate the `Cvars` struct
