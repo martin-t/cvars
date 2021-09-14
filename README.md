@@ -7,6 +7,7 @@
 <br />
 
 [![CI](https://github.com/martin-t/cvars/workflows/CI/badge.svg)](https://github.com/martin-t/cvars/actions)
+[![Audit](https://github.com/martin-t/cvars/workflows/audit/badge.svg)](https://rustsec.org/)
 [![Dependency status](https://deps.rs/repo/github/martin-t/cvars/status.svg)](https://deps.rs/repo/github/martin-t/cvars)
 [![Discord](https://img.shields.io/discord/770013530593689620?label=discord)](https://discord.gg/aA7hCFvYh9)
 ![Total lines](https://tokei.rs/b1/github/martin-t/cvars)
