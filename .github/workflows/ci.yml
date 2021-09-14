@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [ master ]
   schedule:
-    # Runs at 15:00 UTC on Fri 
+    # Runs at 15:00 UTC on Fri
     - cron: "0 15 * * 5"
 
 env:
@@ -48,17 +48,6 @@ jobs:
         # Technically --all-features doesn't check all code when something is *disabled* by a feature
         # but that is discouraged and no such feature existed at the time this was added.
       - run: cargo clippy --all-features -- --deny warnings
-
-  audit:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions-rs/install@v0.1
-        with:
-          crate: cargo-audit
-          version: latest
-      - run: cargo audit --version
-      - run: cargo audit --deny warnings
 
   docs:
     runs-on: ubuntu-latest
