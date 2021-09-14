@@ -56,7 +56,7 @@ jobs:
       - uses: actions-rs/toolchain@v1
         with:
           profile: minimal
-          toolchain: nightly
+          toolchain: nightly # docs.rs uses nightly
           override: true
       - run: rustc --version && cargo --version
       - run: cargo doc --all-features
