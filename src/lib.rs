@@ -1,5 +1,7 @@
 #![doc = include_str!("../README.md")]
 
+#![warn(missing_docs)]
+
 use std::collections::HashSet;
 
 use proc_macro::TokenStream;
