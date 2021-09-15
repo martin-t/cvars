@@ -6,6 +6,7 @@
 </div>
 <br />
 
+[![Crates.io](https://img.shields.io/crates/v/cvars)](https://crates.io/crates/cvars)
 [![CI](https://github.com/martin-t/cvars/workflows/CI/badge.svg)](https://github.com/martin-t/cvars/actions)
 [![Audit](https://github.com/martin-t/cvars/workflows/audit/badge.svg)](https://rustsec.org/)
 [![Dependency status](https://deps.rs/repo/github/martin-t/cvars/status.svg)](https://deps.rs/repo/github/martin-t/cvars)
