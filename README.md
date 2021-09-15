@@ -17,7 +17,7 @@ Cvars (_console variables_ or _configuration variables_) are a way to store sett
 
 **TL;DR**: Set and get struct fields based on the field's name as a string.
 
-Cvars aims to minimize boilerplate - there are no traits to implement manually and no setup code to call per cvar. There is also no extra performance cost for keeping everything configurable even after you're done finding the best values - you can (and are meant to) keep things tweakable for your players to experiment themselves.
+The cvars crate aims to minimize boilerplate - there are no traits to implement manually and no setup code to call per cvar. There is also no extra performance cost for keeping everything configurable even after you're done finding the best values - you can (and are meant to) keep things tweakable for your players to experiment themselves.
 
 # Usage
 
@@ -84,6 +84,10 @@ pub enum Splitscreen {
 
 Tip: use `#[strum(ascii_case_insensitive)]` so players don't need to pay attention to capilatization when changing cvars - both `"Vertical"` and `"vertical"` will parse into `Splitscreen::Vertical`.
 
+## Skipping fields
+
+If a field is not meant to be configurable, mark it with `#[cvars(skip)]`.
+
 ## MSRV
 
 The minimum supported Rust version is currently 1.54 because of `#![doc = include_str!("README.md")]`. It could be lowered to 1.36 or 1.31 if somebody was interested in using this lib but couldn't use latest Rust.
@@ -109,13 +113,15 @@ The minimum supported Rust version is currently 1.54 because of `#![doc = includ
   - Uses hashmaps - overhead on every access
 - [cvar](https://crates.io/crates/cvar)
   - Uses a trait instead of a macro. The trait seems to need to be implemented manually so more boilerplate.
-  - Has additional features (lists, actions) which `cvars` doesn't.
+  - Has additional features (lists, actions) which `cvars` currently doesn't.
 - [const-tweaker](https://crates.io/crates/const-tweaker)
   - Web GUI
   - Has soundness issues [according](https://github.com/tgolsson/tuna#alternatives) to tuna's author
   - Uses hashmaps - overhead on every access
 - [inline_tweak](https://crates.io/crates/inline_tweak)
   - Uses hashmaps - overhead on every access
+
+Compared to these, cvars either has no overhead at runtime or requires less setup code. The downside [currently](https://github.com/martin-t/cvars/issues/6) is that it increases compile times - e.g. 300 cvars can add 700 ms to incremental builds even when no cvars were changed. This should be fixed before a 1.0 release.
 
 # License
 
