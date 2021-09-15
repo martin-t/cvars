@@ -13,7 +13,7 @@
 [![Discord](https://img.shields.io/discord/770013530593689620?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/aA7hCFvYh9)
 ![Total lines](https://tokei.rs/b1/github/martin-t/cvars)
 
-Cvars (*console variables* or *configuration variables*) are a way to store settings which the user might want to change at runtime without restarting. They are inspired by the idSoftware family of game engines (Doom, Quake) but they can be useful outside games.
+Cvars (_console variables_ or _configuration variables_) are a way to store settings which the user might want to change at runtime without restarting. They are inspired by the idSoftware family of game engines (Doom, Quake) but they can be useful outside games.
 
 **TL;DR**: Set and get struct fields based on the field's name as a string.
 
@@ -91,8 +91,8 @@ The minimum supported Rust version is currently 1.54 because of `#![doc = includ
 # (Planned) Features
 
 - [x] Derive macro `SetGet` to create settters and getters for cvars based on their name
-    - [x] Statically typed (`set`, `get`)
-    - [x] As string (`set_str`, `get_string`)
+  - [x] Statically typed (`set`, `get`)
+  - [x] As string (`set_str`, `get_string`)
 - [x] Function like `cvars!` macro to declare type and initial value on one line
 - [ ] Save config to and load it from files - useful if your game has multiple balance presets
 - [ ] Allow setters to validate the new value and reject it (e.g. make sure it's within a sane range).
@@ -104,18 +104,18 @@ The minimum supported Rust version is currently 1.54 because of `#![doc = includ
 # Alternatives
 
 - [tuna](https://crates.io/crates/tuna)
-    - Web GUI
-    - Unclear if it supports enums
-    - Uses hashmaps - overhead on every access
+  - Web GUI
+  - Unclear if it supports enums
+  - Uses hashmaps - overhead on every access
 - [cvar](https://crates.io/crates/cvar)
-    - Uses a trait instead of a macro. The trait seems to need to be implemented manually so more boilerplate.
-    - Has additional features (lists, actions) which `cvars` doesn't.
+  - Uses a trait instead of a macro. The trait seems to need to be implemented manually so more boilerplate.
+  - Has additional features (lists, actions) which `cvars` doesn't.
 - [const-tweaker](https://crates.io/crates/const-tweaker)
-    - Web GUI
-    - Has soundness issues [according](https://github.com/tgolsson/tuna#alternatives) to tuna's author
-    - Uses hashmaps - overhead on every access
+  - Web GUI
+  - Has soundness issues [according](https://github.com/tgolsson/tuna#alternatives) to tuna's author
+  - Uses hashmaps - overhead on every access
 - [inline_tweak](https://crates.io/crates/inline_tweak)
-    - Uses hashmaps - overhead on every access
+  - Uses hashmaps - overhead on every access
 
 # License
 
