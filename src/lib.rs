@@ -54,9 +54,9 @@ impl Parse for CvarDef {
 /// ```
 #[proc_macro]
 pub fn cvars(input: TokenStream) -> TokenStream {
-    // LATER doc comments above cvars
-    // LATER cvars(skip)
-    // LATER no unwraps
+    // TODO doc comments above cvars
+    // TODO cvars(skip)
+    // TODO proper error reporting (no unwraps, expect only for infallible)
 
     let parser = Punctuated::<CvarDef, Token![,]>::parse_terminated;
     let punctuated = parser.parse(input).unwrap();
@@ -175,7 +175,7 @@ pub fn derive(input: TokenStream) -> TokenStream {
             }
         }
 
-        // LATER Is there a sane way to automatically convert? (even fallibly)
+        // TODO  Is there a sane way to automatically convert? (even fallibly)
         //       e.g. integers default to i32 even though cvar type is usize
         //       At the very least, it should suggest specifying the type.
         let trait_impl = quote! {
