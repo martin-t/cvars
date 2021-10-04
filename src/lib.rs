@@ -123,7 +123,7 @@ pub fn cvars(input: TokenStream) -> TokenStream {
 /// ```
 #[proc_macro_derive(SetGet, attributes(cvars))]
 pub fn derive(input: TokenStream) -> TokenStream {
-    let input = parse_macro_input!(input as DeriveInput);
+    let input: DeriveInput = parse_macro_input!(input);
     let struct_name = input.ident;
 
     let named_fields = match input.data {
@@ -332,7 +332,7 @@ fn skip_field(field: &Field) -> bool {
 #[doc(hidden)]
 #[proc_macro_derive(SetGetDummy, attributes(cvars))]
 pub fn derive_dummy(input: TokenStream) -> TokenStream {
-    let input = parse_macro_input!(input as DeriveInput);
+    let input: DeriveInput = parse_macro_input!(input);
     let struct_name = input.ident;
 
     let expanded = quote! {
