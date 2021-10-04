@@ -74,6 +74,7 @@ pub fn cvars(input: TokenStream) -> TokenStream {
             )*
         }
 
+        #[automatically_derived]
         impl Cvars {
             pub fn new() -> Self {
                 Self {
@@ -207,6 +208,7 @@ pub fn derive(input: TokenStream) -> TokenStream {
     }
 
     let expanded = quote! {
+        #[automatically_derived]
         impl #struct_name {
             /// Finds the cvar whose name matches `cvar_name` and returns it's value.
             ///
