@@ -17,7 +17,7 @@ Cvars (_console variables_ or _configuration variables_) are a way to store sett
 
 **TL;DR**: Set and get struct fields based on the field's name as a string. User writes the cvar's name and new value, it sets the appropriate field in your config struct.
 
-<https://user-images.githubusercontent.com/4079823/152082630-a705286d-c630-4507-9213-b8a7b106d47e.mp4>
+<a href="https://user-images.githubusercontent.com/4079823/152082630-a705286d-c630-4507-9213-b8a7b106d47e.mp4">Usage example video</a>
 
 The cvars crate aims to minimize boilerplate - there are no traits to implement manually and no setup code to call per cvar. There is also no extra performance cost for keeping everything configurable even after you're done finding the best values - you can (and are meant to) keep things tweakable for your players to experiment themselves.
 
