@@ -13,9 +13,9 @@
 [![Discord](https://img.shields.io/discord/770013530593689620?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/aA7hCFvYh9)
 ![Total lines](https://tokei.rs/b1/github/martin-t/cvars)
 
-Cvars (_console variables_ or _configuration variables_) are a way to store settings which the user might want to change at runtime without restarting. They are inspired by the idSoftware family of game engines (Doom, Quake) but they can be useful outside games.
+Cvars (_console variables_ or _configuration variables_) are a way to store settings which the user might want to change at runtime without restarting. They are inspired by the idTech (Doom, Quake) and Source family of game engines but they can be useful outside games. Cvars allow you to iterate faster by letting you test certain gameplay changes without recompiling. They also make your game more moddable.
 
-**TL;DR**: Set and get struct fields based on the field's name as a string.
+**TL;DR**: Set and get struct fields based on the field's name as a string. The struct is your config, the strings are user input.
 
 The cvars crate aims to minimize boilerplate - there are no traits to implement manually and no setup code to call per cvar. There is also no extra performance cost for keeping everything configurable even after you're done finding the best values - you can (and are meant to) keep things tweakable for your players to experiment themselves.
 
@@ -24,15 +24,14 @@ The cvars crate aims to minimize boilerplate - there are no traits to implement 
 ```rust
 use cvars::SetGet;
 
-// This struct contains all your config.
-// You either pass it down to all functions which need it
-// or store it somewhere within your game state.
+// This struct contains all your config options.
 #[derive(SetGet)]
 pub struct Cvars {
     g_rocket_launcher_ammo_max: i32,
     g_rocket_launcher_damage: f32,
 }
 
+// Here you set default values.
 impl Cvars {
     pub fn new() -> Self {
         Self {
@@ -42,9 +41,11 @@ impl Cvars {
     }
 }
 
+// Normally, you store this within or next to your game state.
 let mut cvars = Cvars::new();
 
 // These normally come from the user
+// (from stdin / your game's console / etc.)
 let cvar_name = "g_rocket_launcher_damage";
 let new_value = "150";
 
@@ -54,7 +55,7 @@ cvars.set_str(cvar_name, new_value).unwrap();
 
 The player wants to change a cvar and types `g_rocket_launcher_damage 150` into the game's console or stdin. You get both the cvar name and new value as strings so you can't do `cvars.g_rocket_launcher_damage = 150`. You need to look up the correct field based on the string - this is what `cvars` does - it generates `set_str` (and some other useful methods). You call `cvars.set_str("g_rocket_launcher_damage", "150");` which looks up the right field, parses the value into its type and updates the field with it. From then on, rockets do 150 damage.
 
-The important thing is that in the rest of your application, you can still access your cvars as regular struct fields - e.g. `player.health -= cvars.g_rocket_launcher_damage;`. This means you only need to use strings when the user (player or developer when debugging or testing a different balance) is reading or writing the values. The rest of your gamelogic is still statically typed and using a cvar in gamecode is just a field access without any overhead.
+The important thing is that in the rest of your application, you can still access your cvars as regular struct fields - e.g. `player.health -= cvars.g_rocket_launcher_damage;`. This means you only need to use strings when the user (player or developer when debugging or testing a different balance) is changing the values. The rest of your gamelogic is still statically typed and using a cvar in gamecode is just a field access without any overhead.
 
 See [examples/stdin.rs](https://github.com/martin-t/cvars/blob/master/examples/stdin.rs) for a small runnable example.
 
@@ -100,13 +101,22 @@ The minimum supported Rust version is currently 1.54 because of `#![doc = includ
 - [x] Function like `cvars!` macro to declare type and initial value on one line
 - [ ] Save config to and load it from files - useful if your game has multiple balance presets
 - [ ] Allow setters to validate the new value and reject it (e.g. make sure it's within a sane range).
-- [ ] Autocompletion for in-game consoles
-- [ ] Console for macroquad
-- [ ] Console for rg3d
+- [ ] Console for Fyrox (rg3d) - planned soon™
+- [ ] Console for Bevy - not currently planned but will accept a PR
+- [ ] Console for Macroquad - implemented [here](https://github.com/martin-t/rec-wars/blob/master/src/console.rs), needs to be extracted into a separate crate
 - [ ] Browser GUI for games without a console
+- [ ] Autocompletion for in-game consoles / GUI
 
 # Alternatives
 
+- [inline_tweak](https://crates.io/crates/inline_tweak)
+  - Uses hashmaps - overhead on every access
+  - Veloren switched to it from const-tweaker
+- [const-tweaker](https://crates.io/crates/const-tweaker)
+  - Web GUI
+  - Only supports a few stdlib types, no custom types
+  - Has soundness issues [according](https://github.com/tgolsson/tuna#alternatives) to tuna's author
+  - Uses hashmaps - overhead on every access
 - [tuna](https://crates.io/crates/tuna)
   - Web GUI
   - Unclear if it supports enums
@@ -114,12 +124,6 @@ The minimum supported Rust version is currently 1.54 because of `#![doc = includ
 - [cvar](https://crates.io/crates/cvar)
   - Uses a trait instead of a macro. The trait seems to need to be implemented manually so more boilerplate.
   - Has additional features (lists, actions) which `cvars` currently doesn't.
-- [const-tweaker](https://crates.io/crates/const-tweaker)
-  - Web GUI
-  - Has soundness issues [according](https://github.com/tgolsson/tuna#alternatives) to tuna's author
-  - Uses hashmaps - overhead on every access
-- [inline_tweak](https://crates.io/crates/inline_tweak)
-  - Uses hashmaps - overhead on every access
 
 Compared to these, cvars either has no overhead at runtime or requires less setup code. The downside [currently](https://github.com/martin-t/cvars/issues/6) is that it increases compile times - e.g. 300 cvars can add 700 ms to incremental builds even when no cvars were changed. This should be fixed before a 1.0 release.
 

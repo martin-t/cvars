@@ -12,6 +12,9 @@ use syn::{
     DeriveInput, Expr, Field, Ident, Meta, MetaList, NestedMeta, Token, Type,
 };
 
+// TODO Readme: table with comparison to alternatives?
+// TODO Readme: explain it's meant to stay in code forever
+
 struct CvarDef {
     name: Ident,
     ty: Type,
