@@ -15,7 +15,9 @@
 
 Cvars (_console variables_ or _configuration variables_) are a way to store settings which the user might want to change at runtime without restarting. They are inspired by the idTech (Doom, Quake) and Source family of game engines but they can be useful outside games. Cvars allow you to iterate faster by letting you test certain gameplay changes without recompiling. They also make your game more moddable.
 
-**TL;DR**: Set and get struct fields based on the field's name as a string. The struct is your config, the strings are user input.
+**TL;DR**: Set and get struct fields based on the field's name as a string. User writes the cvar's name and new value, it sets the appropriate field in your config struct.
+
+https://user-images.githubusercontent.com/4079823/152082630-a705286d-c630-4507-9213-b8a7b106d47e.mp4
 
 The cvars crate aims to minimize boilerplate - there are no traits to implement manually and no setup code to call per cvar. There is also no extra performance cost for keeping everything configurable even after you're done finding the best values - you can (and are meant to) keep things tweakable for your players to experiment themselves.
 
