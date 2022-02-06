@@ -113,6 +113,7 @@ The minimum supported Rust version is currently 1.54 because of `#![doc = includ
 
 - [inline_tweak](https://crates.io/crates/inline_tweak)
   - Uses hashmaps - overhead on every access
+  - Can't be used in some contexts (e.g. in a `const`)
   - Veloren switched to it from const-tweaker
 - [const-tweaker](https://crates.io/crates/const-tweaker)
   - Web GUI
