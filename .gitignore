@@ -1,2 +1,11 @@
+# Configs for faster builds - see readme / example configs
+/.cargo/config.toml
+/rust-toolchain.toml
+
+# Separate target for rust-analyzer to speed up builds
+/target-ra
+
+# This is a library - we won't wanna lock deps to specific versions
+/Cargo.lock
+
 /target
-Cargo.lock
