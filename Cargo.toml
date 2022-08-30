@@ -27,3 +27,6 @@ strum_macros = "0.21.1"
 [dependencies]
 syn = { version = "1.0.74", features = ["extra-traits"] }
 quote = "1.0.9"
+
+[workspace]
+members = ["test-compile-time"]
