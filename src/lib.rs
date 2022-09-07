@@ -13,7 +13,6 @@ use syn::{
 };
 
 // TODO Readme: table with comparison to alternatives?
-// TODO Readme: explain it's meant to stay in code forever
 
 struct CvarDef {
     name: Ident,
