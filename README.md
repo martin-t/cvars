@@ -13,13 +13,13 @@
 [![Discord](https://img.shields.io/discord/770013530593689620?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/aA7hCFvYh9)
 ![Total lines](https://tokei.rs/b1/github/martin-t/cvars)
 
-Cvars (_console variables_ or _configuration variables_) are a way to store settings which the user might want to change at runtime without restarting. They are inspired by the idTech (Doom, Quake) and Source family of game engines but they can be useful outside games. Cvars allow you to iterate faster by letting you test certain gameplay changes without recompiling. They also make your game more moddable.
+Cvars (_console variables_ or _configuration variables_) are a way to store settings you want to change at runtime without restarting. They are inspired by the idTech (Doom, Quake) and Source family of game engines but they can be useful outside games. Cvars allow you to iterate faster by letting you test certain gameplay changes without recompiling. They also make your game more moddable if you expose them to players.
 
-**TL;DR**: Set and get struct fields based on the field's name as a string. User writes the cvar's name and new value, it sets the appropriate field in your config struct.
+**TL;DR**: Set and get struct fields based on the field's name as a string. User writes the cvar's name and new value into the console, it sets the appropriate field in your config struct and the game now behaves differently.
 
 <a href="https://user-images.githubusercontent.com/4079823/152082630-a705286d-c630-4507-9213-b8a7b106d47e.mp4">Usage example video</a>
 
-The cvars crate aims to minimize boilerplate - there are no traits to implement manually and no setup code to call per cvar. There is also no extra performance cost for keeping everything configurable even after you're done finding the best values - you can (and are meant to) keep things tweakable for your players to experiment themselves.
+No boilerplate - there are no traits to implement manually and no setup code to call per cvar. There is also no extra performance cost for keeping everything configurable even after you're done finding the best values - you can (and are meant to) keep things tweakable for your players to experiment themselves.
 
 # Usage
 
@@ -43,7 +43,7 @@ impl Cvars {
     }
 }
 
-// Normally, you store this within or next to your game state.
+// Store this in your game state.
 let mut cvars = Cvars::new();
 
 // These normally come from the user
@@ -61,7 +61,10 @@ The important thing is that in the rest of your application, you can still acces
 
 See [examples/stdin.rs](https://github.com/martin-t/cvars/blob/master/examples/stdin.rs) for a small runnable example.
 
-For a real-world example, look at [how RecWars uses cvars](https://github.com/martin-t/rec-wars/blob/master/src/cvars.rs).
+For a real-world example, look at games using cvars:
+
+- [RecWars](https://github.com/martin-t/rec-wars/blob/master/src/cvars.rs) - every aspect of the gameplay is configurable, you can test it [in your browsser](https://martin-t.gitlab.io/gitlab-pages/rec-wars/macroquad.html)
+- [RustCycles](https://github.com/rustcycles/rustcycles/blob/master/src/cvars.rs)
 
 ## Enums
 
