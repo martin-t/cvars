@@ -98,19 +98,22 @@ If a field is not meant to be configurable, mark it with `#[cvars(skip)]`.
 
 The minimum supported Rust version is currently 1.54 because of `#![doc = include_str!("README.md")]`. It could be lowered to 1.36 or 1.31 if somebody was interested in using this lib but couldn't use latest Rust.
 
-# (Planned) Features
+# Features
 
 - [x] Derive macro `SetGet` to create settters and getters for cvars based on their name
   - [x] Statically typed (`set`, `get`)
   - [x] As string (`set_str`, `get_string`)
 - [x] Function like `cvars!` macro to declare type and initial value on one line
 - [ ] Save config to and load it from files - useful if your game has multiple balance presets
-- [ ] Allow setters to validate the new value and reject it (e.g. make sure it's within a sane range).
-- [ ] Console for Fyrox (rg3d) - planned soon™
-- [ ] Console for Bevy - not currently planned but will accept a PR
-- [ ] Console for Macroquad - implemented [here](https://github.com/martin-t/rec-wars/blob/master/src/console.rs), needs to be extracted into a separate crate
-- [ ] Browser GUI for games without a console
+- [ ] Console for the Fyrox engine - planned soon™
+- [ ] Console for the Macroquad engine - implemented [here](https://github.com/martin-t/rec-wars/blob/master/src/console.rs), needs to be extracted into a separate crate
 - [ ] Autocompletion for in-game consoles / GUI
+
+Features I am not planning but would accept a PR:
+
+- [ ] Console for the Bevy engine
+- [ ] Console for the Egui UI toolkit
+- [ ] Browser GUI for games without a console
 
 # Alternatives
 
