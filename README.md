@@ -21,7 +21,7 @@ Cvars (_console variables_ or _configuration variables_) are a way to store sett
 
 No boilerplate - there are no traits to implement manually and no setup code to call per cvar. There is also no extra performance cost for keeping everything configurable even after you're done finding the best values - you can (and are meant to) keep things tweakable for your players to experiment themselves.
 
-# Usage
+## Usage
 
 ```rust
 use cvars::SetGet;
@@ -66,7 +66,7 @@ For a real-world example, look at games using cvars:
 - [RecWars](https://github.com/martin-t/rec-wars/blob/master/src/cvars.rs) - every aspect of the gameplay is configurable, you can test it [in your browsser](https://martin-t.gitlab.io/gitlab-pages/rec-wars/macroquad.html)
 - [RustCycles](https://github.com/rustcycles/rustcycles/blob/master/src/cvars.rs)
 
-## Enums
+### Enums
 
 Cvar values can have any type which implements the `FromStr` and `Display` traits. If you want to use enums, it's best to derive these traits automatically via `[strum](https://crates.io/crates/strum)`.
 
@@ -90,15 +90,15 @@ pub enum Splitscreen {
 
 Tip: use `#[strum(ascii_case_insensitive)]` so players don't need to pay attention to capilatization when changing cvars - both `"Vertical"` and `"vertical"` will parse into `Splitscreen::Vertical`.
 
-## Skipping fields
+### Skipping fields
 
 If a field is not meant to be configurable, mark it with `#[cvars(skip)]`.
 
-## MSRV
+### MSRV
 
 The minimum supported Rust version is currently 1.54 because of `#![doc = include_str!("README.md")]`. It could be lowered to 1.36 or 1.31 if somebody was interested in using this lib but couldn't use latest Rust.
 
-# Features
+## Features
 
 - [x] Derive macro `SetGet` to create settters and getters for cvars based on their name
   - [x] Statically typed (`set`, `get`)
@@ -115,7 +115,7 @@ Features I am not planning but would accept a PR:
 - [ ] Console for the Egui UI toolkit
 - [ ] Browser GUI for games without a console
 
-# Alternatives
+## Alternatives
 
 - [inline_tweak](https://crates.io/crates/inline_tweak)
   - Uses hashmaps - overhead on every access
@@ -134,8 +134,40 @@ Features I am not planning but would accept a PR:
   - Uses a trait instead of a macro. The trait seems to need to be implemented manually so more boilerplate.
   - Has additional features (lists, actions) which `cvars` currently doesn't.
 
-Compared to these, cvars either has no overhead at runtime or requires less setup code. The downside [currently](https://github.com/martin-t/cvars/issues/6) is that it increases compile times - e.g. 300 cvars can add 700 ms to incremental builds even when no cvars were changed. This should be fixed before a 1.0 release.
+Compared to these, cvars either has no overhead at runtime or requires less setup code. The downside [currently](https://github.com/martin-t/cvars/issues/6) might be slightly increased incremental compile times (hundreds of milliseconds).
 
-# License
+## Development
+
+### Fast compiles (optional)
+
+You can make the project compile _significantly_ faster and iterate quicker:
+
+#### Use nightly, lld and -Zshare-generics
+
+- Enable `rust-toolchain-example.toml` and `.cargo/config-example.toml`:
+  - Run this in project root: `ln -s rust-toolchain-example.toml rust-toolchain.toml; cd .cargo; ln -s config-example.toml config.toml; cd -`
+
+This can provide a 5x speedup on some projects, the other tips are less important.
+
+#### Prevent rust-analyzer from locking the `target` directory
+
+If you're using RA with `clippy` instead of `check`, add this to your VSCode config (or something similar for your editor):
+
+```json
+"rust-analyzer.server.extraEnv": {
+    "CARGO_TARGET_DIR": "target/ra"
+}
+```
+
+Explanation: Normally, if rust-analyzer runs `cargo clippy` on save, it locks `target` so if you switch to a terminal and do `cargo run`, it blocks the build. This will make rust-analyzer use a separate target directory so that it'll never block a build at the expense of slightly more disk space. Alternatively, you could disable saving when losing focus, disable running check on save or use the terminal inside VSCode to build the project.
+
+#### On linux, use the `mold` linker
+
+- Get it [here](https://github.com/rui314/mold)
+- Run cargo commands like this: `~/your/path/to/mold -run cargo build`
+
+This gives a 10% reduction in build times on some projects. Might not be worth it for you.
+
+## License
 
 AGPL-v3 or newer

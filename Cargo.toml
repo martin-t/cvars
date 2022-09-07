@@ -19,6 +19,27 @@ proc-macro = true
 name = "tests"
 path = "tests/progress.rs"
 
+[profile.dev]
+opt-level = 1 # Can be changed without recompiling all deps
+
+[profile.dev.package."*"]
+# Optimize deps but not this crate itself.
+# This can significantly improve performance (e.g. 7x speedup on some projects)
+# and shouldn't meaningfully increase incremental compile times because deps only change rarely.
+opt-level = 3
+codegen-units = 1
+debug = false
+
+# https://doc.rust-lang.org/cargo/reference/profiles.html#build-dependencies
+# The reference might be wrong - it says this affects proc macros but in my experience it doesn't.
+[profile.dev.build-override]
+opt-level = 3
+codegen-units = 1
+
+[profile.release.build-override]
+opt-level = 3
+codegen-units = 1
+
 [dev-dependencies]
 trybuild = { version = "1.0", features = ["diff"] }
 strum = "0.21.0"
