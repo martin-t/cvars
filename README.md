@@ -142,7 +142,8 @@ Cvars also serves a slightly different purpose. It's meant to stay in code forev
 
 ### Fast compiles (optional)
 
-You can make the project compile _significantly_ faster and iterate quicker:
+<!-- You can make the project compile _significantly_ faster and iterate quicker: -->
+Currently, this has no effect on this particular project, although it usually provides massive speedups.
 
 #### Use nightly, lld and -Zshare-generics
 
