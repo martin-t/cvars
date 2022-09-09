@@ -105,7 +105,7 @@ The minimum supported Rust version is currently 1.54 because of `#![doc = includ
   - [x] As string (`set_str`, `get_string`)
 - [x] Function like `cvars!` macro to declare type and initial value on one line
 - [ ] Save config to and load it from files - useful if your game has multiple balance presets
-- [ ] Console for the Fyrox engine - planned soon™
+- [x] Console for the Fyrox engine
 - [ ] Console for the Macroquad engine - implemented [here](https://github.com/martin-t/rec-wars/blob/master/src/console.rs), needs to be extracted into a separate crate
 - [ ] Autocompletion for in-game consoles / GUI
 
