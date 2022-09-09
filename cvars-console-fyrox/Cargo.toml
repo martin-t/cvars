@@ -1,0 +1,9 @@
+[package]
+name = "cvars-console-fyrox"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+cvars-console = { path = "../cvars-console" }
+#fyrox = "0.27.1"
+fyrox = { git = "https://github.com/FyroxEngine/Fyrox", rev = "d137bd39ea5d6171f6908e8f0a005bce4c2c90de" }
