@@ -63,8 +63,8 @@ See [examples/stdin.rs](https://github.com/martin-t/cvars/blob/master/examples/s
 
 For a real-world example, look at games using cvars:
 
-- [RecWars](https://github.com/martin-t/rec-wars/blob/master/src/cvars.rs) - every aspect of the gameplay is configurable, you can test it [in your browsser](https://martin-t.gitlab.io/gitlab-pages/rec-wars/macroquad.html)
-- [RustCycles](https://github.com/rustcycles/rustcycles/blob/master/src/cvars.rs)
+- [RecWars](https://github.com/martin-t/rec-wars/blob/master/src/cvars.rs) - uses the Macroquad console, every aspect of the gameplay is configurable, you can test it [in your browsser](https://martin-t.gitlab.io/gitlab-pages/rec-wars/macroquad.html)
+- [RustCycles](https://github.com/rustcycles/rustcycles/blob/master/src/cvars.rs) - uses the Fyrox console
 
 ### Enums
 
@@ -107,7 +107,7 @@ The minimum supported Rust version is currently 1.54 because of `#![doc = includ
 - [ ] Save config to and load it from files - useful if your game has multiple balance presets
 - [x] In-game console for the Fyrox engine
 - [ ] In-game console for the Macroquad engine - implemented [here](https://github.com/martin-t/rec-wars/blob/master/src/console.rs), needs to be extracted into a separate crate
-- [ ] Autocompletion for in-game consoles / GUI
+- [ ] Autocompletion for consoles / GUI
 
 Features I am not planning but would accept a PR:
 
@@ -141,9 +141,6 @@ Cvars also serves a slightly different purpose. It's meant to stay in code forev
 ## Development
 
 ### Fast compiles (optional)
-
-<!-- You can make the project compile _significantly_ faster and iterate quicker: -->
-Currently, this has no effect on this particular project, although it usually provides massive speedups.
 
 #### Use nightly, lld and -Zshare-generics
 
