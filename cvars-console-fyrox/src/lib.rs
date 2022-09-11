@@ -2,21 +2,17 @@
 
 // LATER Possible to depend only on fyrox-ui?
 
-use fyrox::{
-    core::{pool::Handle, color::Color},
-    dpi::PhysicalSize,
-    engine::Engine,
-    gui::{
-        border::BorderBuilder,
-        brush::Brush,
-        formatted_text::WrapMode,
-        message::{KeyCode, MessageDirection, UiMessage},
-        stack_panel::StackPanelBuilder,
-        text::{TextBuilder, TextMessage},
-        text_box::{TextBoxBuilder, TextBoxMessage, TextCommitMode},
-        widget::{WidgetBuilder, WidgetMessage},
-        Orientation, UiNode, VerticalAlignment,
-    },
+use fyrox_ui::{
+    border::BorderBuilder,
+    brush::Brush,
+    core::{color::Color, pool::Handle},
+    formatted_text::WrapMode,
+    message::{KeyCode, MessageDirection, UiMessage},
+    stack_panel::StackPanelBuilder,
+    text::{TextBuilder, TextMessage},
+    text_box::{TextBoxBuilder, TextBoxMessage, TextCommitMode},
+    widget::{WidgetBuilder, WidgetMessage},
+    Orientation, UiNode, UserInterface, VerticalAlignment,
 };
 
 use cvars_console::{Console, CvarAccess};
@@ -27,32 +23,32 @@ pub struct FyroxConsole {
     first_open: bool,
     was_mouse_grabbed: bool,
     console: Console,
-    height: u32,
+    height: f32,
     history: Handle<UiNode>,
     prompt_text_box: Handle<UiNode>,
     layout: Handle<UiNode>,
 }
 
 impl FyroxConsole {
-    pub fn new(engine: &mut Engine) -> Self {
+    pub fn new(user_interface: &mut UserInterface) -> Self {
         let history = TextBuilder::new(WidgetBuilder::new())
             // Word wrap doesn't work if there's an extremely long word.
             .with_wrap(WrapMode::Letter)
-            .build(&mut engine.user_interface.build_ctx());
+            .build(&mut user_interface.build_ctx());
 
         let prompt_arrow = TextBuilder::new(WidgetBuilder::new())
             .with_text("> ")
-            .build(&mut engine.user_interface.build_ctx());
+            .build(&mut user_interface.build_ctx());
 
         let prompt_text_box = TextBoxBuilder::new(WidgetBuilder::new())
             .with_text_commit_mode(TextCommitMode::Immediate)
-            .build(&mut engine.user_interface.build_ctx());
+            .build(&mut user_interface.build_ctx());
 
         let prompt_line = StackPanelBuilder::new(
             WidgetBuilder::new().with_children([prompt_arrow, prompt_text_box]),
         )
         .with_orientation(Orientation::Horizontal)
-        .build(&mut engine.user_interface.build_ctx());
+        .build(&mut user_interface.build_ctx());
 
         // StackPanel doesn't support colored background so we wrap it in a Border.
         let layout = BorderBuilder::new(
@@ -66,54 +62,59 @@ impl FyroxConsole {
                             .with_children([history, prompt_line]),
                     )
                     .with_orientation(Orientation::Vertical)
-                    .build(&mut engine.user_interface.build_ctx()),
+                    .build(&mut user_interface.build_ctx()),
                 ),
         )
-        .build(&mut engine.user_interface.build_ctx());
+        .build(&mut user_interface.build_ctx());
 
         FyroxConsole {
             is_open: false,
             first_open: true,
             was_mouse_grabbed: false,
             console: Console::new(),
-            height: 0,
+            height: 0.0,
             history,
             prompt_text_box,
             layout,
         }
     }
 
-    pub fn resized(&mut self, engine: &mut Engine, size: PhysicalSize<u32>) {
-        engine.user_interface.send_message(WidgetMessage::width(
+    pub fn resized(&mut self, user_interface: &mut UserInterface, width: f32, height: f32) {
+        user_interface.send_message(WidgetMessage::width(
             self.layout,
             MessageDirection::ToWidget,
-            size.width as f32,
+            width,
         ));
 
-        self.height = size.height / 2;
-        engine.user_interface.send_message(WidgetMessage::height(
+        self.height = height / 2.0;
+        user_interface.send_message(WidgetMessage::height(
             self.layout,
             MessageDirection::ToWidget,
-            self.height as f32,
+            self.height,
         ));
 
         // This actually goes beyond the screen but who cares.
         // It, however, still won't let me put the cursor at the end by clicking after the text:
         // https://github.com/FyroxEngine/Fyrox/issues/361
-        engine.user_interface.send_message(WidgetMessage::width(
+        user_interface.send_message(WidgetMessage::width(
             self.prompt_text_box,
             MessageDirection::ToWidget,
-            size.width as f32,
+            width,
         ));
 
         // The number of lines that can fit might have changed - reprint history.
-        self.update_ui_history(engine);
+        self.update_ui_history(user_interface);
     }
 
-    pub fn ui_message(&mut self, engine: &mut Engine, cvars: &mut impl CvarAccess, msg: UiMessage) {
+    pub fn ui_message(
+        &mut self,
+        user_interface: &mut UserInterface,
+        cvars: &mut impl CvarAccess,
+        msg: UiMessage,
+    ) {
         // We could just listen for KeyboardInput and get the text from the prompt via
         // ```
-        // let node = engine.user_interface.node(self.prompt_text_box);
+        // let node = user_interface.node(self.prompt_text_box);
         // let text = node.query_component::<TextBox>().unwrap().text();
         // ```
         // But this is the intended way to use the UI, even if it's more verbose.
@@ -131,7 +132,7 @@ impl FyroxConsole {
             Some(WidgetMessage::Unfocus) => {
                 // As long as the console is open, always keep the prompt focused
                 if self.is_open {
-                    engine.user_interface.send_message(WidgetMessage::focus(
+                    user_interface.send_message(WidgetMessage::focus(
                         self.prompt_text_box,
                         MessageDirection::ToWidget,
                     ));
@@ -139,46 +140,46 @@ impl FyroxConsole {
             }
             Some(WidgetMessage::KeyDown(KeyCode::Up)) => {
                 self.console.history_back();
-                self.update_ui_prompt(engine);
+                self.update_ui_prompt(user_interface);
             }
             Some(WidgetMessage::KeyDown(KeyCode::Down)) => {
                 self.console.history_forward();
-                self.update_ui_prompt(engine);
+                self.update_ui_prompt(user_interface);
             }
             Some(WidgetMessage::KeyDown(KeyCode::PageUp)) => {
                 self.console.history_scroll_up(10);
-                self.update_ui_history(engine);
+                self.update_ui_history(user_interface);
             }
             Some(WidgetMessage::KeyDown(KeyCode::PageDown)) => {
                 self.console.history_scroll_down(10);
-                self.update_ui_history(engine);
+                self.update_ui_history(user_interface);
             }
             Some(WidgetMessage::KeyDown(KeyCode::Return | KeyCode::NumpadEnter)) => {
                 self.console.enter(cvars);
-                self.update_ui_prompt(engine);
-                self.update_ui_history(engine);
+                self.update_ui_prompt(user_interface);
+                self.update_ui_history(user_interface);
             }
             _ => (),
         }
     }
 
-    fn update_ui_prompt(&mut self, engine: &mut Engine) {
-        engine.user_interface.send_message(TextBoxMessage::text(
+    fn update_ui_prompt(&mut self, user_interface: &mut UserInterface) {
+        user_interface.send_message(TextBoxMessage::text(
             self.prompt_text_box,
             MessageDirection::ToWidget,
             self.console.prompt.clone(),
         ));
     }
 
-    fn update_ui_history(&mut self, engine: &mut Engine) {
+    fn update_ui_history(&mut self, user_interface: &mut UserInterface) {
         // LATER There should be a cleaner way to measure lines
         let line_height = 14;
         // Leave 1 line room for the prompt
         // LATER This is not exact for tiny windows but good enough for now.
-        let max_lines = (self.height / line_height).saturating_sub(1);
+        let max_lines = (self.height as usize / line_height).saturating_sub(1);
 
         let hi = self.console.history_view_end;
-        let lo = hi.saturating_sub(max_lines.try_into().unwrap());
+        let lo = hi.saturating_sub(max_lines);
 
         let mut hist = String::new();
         for line in &self.console.history[lo..hi] {
@@ -189,7 +190,7 @@ impl FyroxConsole {
             hist.push('\n');
         }
 
-        engine.user_interface.send_message(TextMessage::text(
+        user_interface.send_message(TextMessage::text(
             self.history,
             MessageDirection::ToWidget,
             hist,
@@ -204,19 +205,17 @@ impl FyroxConsole {
     ///
     /// If your game grabs the mouse, you can save the previous state here
     /// and get it back when closing.
-    pub fn open(&mut self, engine: &mut Engine, was_mouse_grabbed: bool) {
+    pub fn open(&mut self, user_interface: &mut UserInterface, was_mouse_grabbed: bool) {
         self.is_open = true;
         self.was_mouse_grabbed = was_mouse_grabbed;
 
-        engine
-            .user_interface
-            .send_message(WidgetMessage::visibility(
-                self.layout,
-                MessageDirection::ToWidget,
-                true,
-            ));
+        user_interface.send_message(WidgetMessage::visibility(
+            self.layout,
+            MessageDirection::ToWidget,
+            true,
+        ));
 
-        engine.user_interface.send_message(WidgetMessage::focus(
+        user_interface.send_message(WidgetMessage::focus(
             self.prompt_text_box,
             MessageDirection::ToWidget,
         ));
@@ -228,7 +227,7 @@ impl FyroxConsole {
             // so if the message was at the top, nobody would see it.
             self.first_open = false;
             self.console.print("Type 'help' or '?' for basic info");
-            self.update_ui_history(engine);
+            self.update_ui_history(user_interface);
         }
     }
 
@@ -237,15 +236,13 @@ impl FyroxConsole {
     /// It's #[must_use] so you don't accidentally forget to restore it.
     /// You can safely ignore it intentionally.
     #[must_use]
-    pub fn close(&mut self, engine: &mut Engine) -> bool {
-        engine
-            .user_interface
-            .send_message(WidgetMessage::visibility(
-                self.layout,
-                MessageDirection::ToWidget,
-                false,
-            ));
-        engine.user_interface.send_message(WidgetMessage::unfocus(
+    pub fn close(&mut self, user_interface: &mut UserInterface) -> bool {
+        user_interface.send_message(WidgetMessage::visibility(
+            self.layout,
+            MessageDirection::ToWidget,
+            false,
+        ));
+        user_interface.send_message(WidgetMessage::unfocus(
             self.prompt_text_box,
             MessageDirection::ToWidget,
         ));
