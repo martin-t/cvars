@@ -10,7 +10,7 @@ use fyrox_ui::{
     message::{KeyCode, MessageDirection, UiMessage},
     stack_panel::StackPanelBuilder,
     text::{TextBuilder, TextMessage},
-    text_box::{TextBoxBuilder, TextBoxMessage, TextCommitMode},
+    text_box::{TextBoxBuilder, TextCommitMode},
     widget::{WidgetBuilder, WidgetMessage},
     Orientation, UiNode, UserInterface, VerticalAlignment,
 };
@@ -124,7 +124,7 @@ impl FyroxConsole {
         // Note that it might still be better to read the text from the UI as the souce of truth
         // because right now the console doesn't know about any text we set from code.
 
-        if let Some(TextBoxMessage::Text(text)) = msg.data() {
+        if let Some(TextMessage::Text(text)) = msg.data() {
             self.console.prompt = text.to_owned();
         }
 
@@ -164,7 +164,7 @@ impl FyroxConsole {
     }
 
     fn update_ui_prompt(&mut self, user_interface: &mut UserInterface) {
-        user_interface.send_message(TextBoxMessage::text(
+        user_interface.send_message(TextMessage::text(
             self.prompt_text_box,
             MessageDirection::ToWidget,
             self.console.prompt.clone(),
