@@ -113,6 +113,10 @@ impl FyroxConsole {
         cvars: &mut impl CvarAccess,
         msg: UiMessage,
     ) {
+        if msg.destination != self.prompt_text_box {
+            return;
+        }
+
         // We could just listen for KeyboardInput and get the text from the prompt via
         // ```
         // let node = user_interface.node(self.prompt_text_box);
@@ -124,7 +128,6 @@ impl FyroxConsole {
         //
         // Note that it might still be better to read the text from the UI as the souce of truth
         // because right now the console doesn't know about any text we set from code.
-
         if let Some(TextMessage::Text(text)) = msg.data() {
             self.console.prompt = text.to_owned();
         }
