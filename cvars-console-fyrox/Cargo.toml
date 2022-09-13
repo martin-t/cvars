@@ -5,4 +5,4 @@ edition = "2021"
 
 [dependencies]
 cvars-console = { path = "../cvars-console" }
-fyrox-ui = { git = "https://github.com/FyroxEngine/Fyrox", rev = "fe402974da2ba3305518660c6efaea96ea185e2a" }
+fyrox-ui = { git = "https://github.com/FyroxEngine/Fyrox", rev = "102ec67c7ab86cb993864d51c49069dca0ec0fd0" }
