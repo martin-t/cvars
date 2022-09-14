@@ -113,7 +113,7 @@ impl FyroxConsole {
         cvars: &mut impl CvarAccess,
         msg: UiMessage,
     ) {
-        if msg.destination != self.prompt_text_box {
+        if !self.is_open || msg.destination != self.prompt_text_box {
             return;
         }
 
@@ -127,7 +127,7 @@ impl FyroxConsole {
         // but not others given KeyboardInput doesn't require focus.
         //
         // Note that it might still be better to read the text from the UI as the souce of truth
-        // because right now the console doesn't know about any text we set from code.
+        // because right now the console doesn't know about any text we set from code on init.
         if let Some(TextMessage::Text(text)) = msg.data() {
             self.console.prompt = text.to_owned();
         }
@@ -135,12 +135,10 @@ impl FyroxConsole {
         match msg.data() {
             Some(WidgetMessage::Unfocus) => {
                 // As long as the console is open, always keep the prompt focused
-                if self.is_open {
-                    user_interface.send_message(WidgetMessage::focus(
-                        self.prompt_text_box,
-                        MessageDirection::ToWidget,
-                    ));
-                }
+                user_interface.send_message(WidgetMessage::focus(
+                    self.prompt_text_box,
+                    MessageDirection::ToWidget,
+                ));
             }
             Some(WidgetMessage::KeyDown(KeyCode::Up)) => {
                 self.console.history_back();
