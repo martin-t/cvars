@@ -1,0 +1,10 @@
+[package]
+name = "cvars-console-macroquad"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+cvars-console = { path = "../cvars-console" }
+macroquad = "0.3.24"

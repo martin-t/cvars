@@ -50,4 +50,4 @@ syn = { version = "1.0.74", features = ["extra-traits"] }
 quote = "1.0.9"
 
 [workspace]
-members = ["cvars-console", "cvars-console-fyrox", "test-compile-time"]
+members = ["cvars-console", "cvars-console-fyrox", "cvars-console-macroquad", "test-compile-time"]
