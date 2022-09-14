@@ -111,7 +111,7 @@ impl FyroxConsole {
         &mut self,
         user_interface: &mut UserInterface,
         cvars: &mut impl CvarAccess,
-        msg: UiMessage,
+        msg: &UiMessage,
     ) {
         if !self.is_open || msg.destination != self.prompt_text_box {
             return;
