@@ -16,6 +16,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         # 1.54 is needed for #![doc = include_str!("README.md")]
         # If that was removed, then MSRV would probably be 1.36 which is needed for trybuild (dev-dep)
