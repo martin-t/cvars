@@ -96,7 +96,7 @@ If a field is not meant to be configurable, mark it with `#[cvars(skip)]`.
 
 ### MSRV
 
-The minimum supported Rust version is currently 1.54 because of `#![doc = include_str!("README.md")]`. It could be lowered to 1.36 or 1.31 if somebody was interested in using this lib but couldn't use latest Rust.
+The minimum supported Rust version is currently 1.56. Increasing the MSRV is not a breaking change as long as the new MSRV is at least 3 releases behind the current stable.
 
 ## Features
 
