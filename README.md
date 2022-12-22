@@ -136,7 +136,7 @@ Features I am not planning but would accept a PR or you can implement it in your
 
 Compared to these, cvars either has no overhead at runtime or requires less setup code. The downside [currently](https://github.com/martin-t/cvars/issues/6) might be slightly increased incremental compile times (hundreds of milliseconds).
 
-Cvars also serves a slightly different purpose. It's meant to stay in code forever, even after releasing your game, to enable modding by players.
+Cvars also serves a slightly different purpose than inline_tweak and const-tweaker. It's meant to stay in code forever, even after releasing your game, to enable modding by players.
 
 ## Development
 
