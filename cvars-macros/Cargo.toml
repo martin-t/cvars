@@ -1,0 +1,36 @@
+[package]
+name = "cvars-macros"
+version = "0.1.0"
+edition = "2018" # TODO
+authors = ["Martin Taibr <taibr.martin@gmail.com>"]
+description = "Configuration variables for games - procedural macros for the cvars crate"
+homepage = "https://github.com/martin-t/cvars"
+repository = "https://github.com/martin-t/cvars"
+license = "AGPL-3.0-or-later"
+readme = "README.md" # TODO
+keywords = ["configuration", "console", "debugging", "gamedev", "settings"]
+categories = [
+    "config",
+    "command-line-interface",
+    "development-tools::procedural-macro-helpers",
+    "game-development",
+    "rust-patterns",
+]
+autotests = false
+
+[lib]
+proc-macro = true
+
+[[test]]
+name = "tests"
+path = "tests/progress.rs"
+
+
+[dev-dependencies]
+trybuild = { version = "1.0", features = ["diff"] }
+strum = "0.21.0"
+strum_macros = "0.21.1"
+
+[dependencies]
+syn = { version = "1.0.74", features = ["extra-traits"] }
+quote = "1.0.9"
