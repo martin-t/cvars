@@ -1,9 +1,9 @@
 [package]
-name = "cvars-console-fyrox"
+name = "cvars"
 version = "0.1.0"
 edition = "2021"
 authors = ["Martin Taibr <taibr.martin@gmail.com>"]
-description = "In-game console for the Fyrox game engine, using the cvars crate for configuration"
+description = "Configuration variables for games"
 homepage = "https://github.com/martin-t/cvars"
 repository = "https://github.com/martin-t/cvars"
 license = "AGPL-3.0-or-later"
@@ -18,6 +18,8 @@ categories = [
 ]
 
 [dependencies]
-cvars = { path = "../cvars" }
-cvars-console = { path = "../cvars-console" }
-fyrox-ui = "0.20.0"
+cvars-macros = { path = "../cvars-macros" }
+
+[dev-dependencies]
+strum = "0.21.0"
+strum_macros = "0.21.1"

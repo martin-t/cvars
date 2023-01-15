@@ -2,9 +2,22 @@
 name = "cvars-console-macroquad"
 version = "0.1.0"
 edition = "2021"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+authors = ["Martin Taibr <taibr.martin@gmail.com>"]
+description = "In-game console for the macroquad game engine, using the cvars crate for configuration"
+homepage = "https://github.com/martin-t/cvars"
+repository = "https://github.com/martin-t/cvars"
+license = "AGPL-3.0-or-later"
+readme = "../README.md"
+keywords = ["configuration", "console", "debugging", "gamedev", "settings"]
+categories = [
+    "config",
+    "command-line-interface",
+    "development-tools::procedural-macro-helpers",
+    "game-development",
+    "rust-patterns",
+]
 
 [dependencies]
+cvars = { path = "../cvars" }
 cvars-console = { path = "../cvars-console" }
 macroquad = "0.3.24"

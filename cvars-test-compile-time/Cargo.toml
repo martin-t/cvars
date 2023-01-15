@@ -1,0 +1,14 @@
+[package]
+name = "cvars-test-compile-time"
+version = "0.1.0"
+edition = "2021"
+authors = ["Martin Taibr <taibr.martin@gmail.com>"]
+description = "Configuration variables for games - internal crate"
+homepage = "https://github.com/martin-t/cvars"
+repository = "https://github.com/martin-t/cvars"
+license = "AGPL-3.0-or-later"
+readme = "../README.md"
+publish = false
+
+[dependencies]
+cvars = { path = "../cvars" }

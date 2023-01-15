@@ -15,7 +15,8 @@ use fyrox_ui::{
     Orientation, UiNode, UserInterface, VerticalAlignment,
 };
 
-use cvars_console::{Console, CvarAccess};
+use cvars::SetGet;
+use cvars_console::Console;
 
 /// In-game console for the Fyrox game engine.
 pub struct FyroxConsole {
@@ -110,7 +111,7 @@ impl FyroxConsole {
     pub fn ui_message(
         &mut self,
         user_interface: &mut UserInterface,
-        cvars: &mut impl CvarAccess,
+        cvars: &mut impl SetGet,
         msg: &UiMessage,
     ) {
         if !self.is_open || msg.destination != self.prompt_text_box {
