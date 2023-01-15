@@ -1,10 +1,12 @@
 [workspace]
-# The cvars-console* crates are not part of the workspace because:
+# The cvars-console-* crates are not part of the workspace because:
 #   - They would share Cargo.lock which can cause conflicts.
 #   - Opening the workspace would cause RA to automatically load them, slowing it down and creating a large target dir.
 #     It would also require installing system-wide deps for the given engines and GUI toolkits.
 #     This is especially important for first-time contributors who might only want to work on one subproject.
-members = ["cvars", "cvars-macros", "cvars-test-compile-time", "cvars-tests"]
+# Note that .cargo/config.toml and rust-toolchain still apply to them.
+members = ["cvars", "cvars-console", "cvars-macros", "cvars-test-compile-time", "cvars-tests"]
+exclude = ["cvars-console-fyrox", "cvars-console-macroquad"]
 
 [profile.dev]
 opt-level = 1 # Can be changed without recompiling all deps

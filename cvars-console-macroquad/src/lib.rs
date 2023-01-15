@@ -1,6 +1,5 @@
 //! The in-game console which allows changing cvars at runtime.
 
-use cvars_console::{Console, CvarAccess};
 use macroquad::{
     prelude::*,
     ui::{
@@ -9,6 +8,9 @@ use macroquad::{
         Layout, Skin,
     },
 };
+
+use cvars::SetGet;
+use cvars_console::Console;
 
 #[derive(Debug, Clone, Default)]
 pub struct MacroquadConsole {
@@ -30,7 +32,7 @@ impl MacroquadConsole {
         }
     }
 
-    pub fn update(&mut self, cvars: &mut dyn CvarAccess) {
+    pub fn update(&mut self, cvars: &mut dyn SetGet) {
         self.input_prev = self.input;
         self.input = get_input();
 

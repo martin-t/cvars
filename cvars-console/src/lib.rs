@@ -4,6 +4,8 @@
 
 use std::mem;
 
+use cvars::SetGet;
+
 /// Engine-independant parts of the in-game console.
 #[derive(Debug, Clone, Default)]
 pub struct Console {
@@ -102,7 +104,7 @@ impl Console {
     }
 
     /// The user pressed enter - process the line of text
-    pub fn enter(&mut self, cvars: &mut dyn CvarAccess) {
+    pub fn enter(&mut self, cvars: &mut dyn SetGet) {
         let cmd = mem::take(&mut self.prompt);
 
         self.print_input(&cmd);
@@ -118,7 +120,7 @@ impl Console {
     }
 
     /// Parse what the user typed and get or set a cvar
-    fn execute_command(&mut self, cvars: &mut dyn CvarAccess, cmd: &str) -> Result<(), String> {
+    fn execute_command(&mut self, cvars: &mut dyn SetGet, cmd: &str) -> Result<(), String> {
         // Splitting on whitespace also in effect trims leading and trailing whitespace.
         let mut parts = cmd.split_whitespace();
 
