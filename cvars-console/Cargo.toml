@@ -2,5 +2,19 @@
 name = "cvars-console"
 version = "0.1.0"
 edition = "2021"
+authors = ["Martin Taibr <taibr.martin@gmail.com>"]
+description = "In-game console using the cvars crate for configuration - internal crate, use cvars-console-fyrox or cvars-console-macroquad instead"
+homepage = "https://github.com/martin-t/cvars"
+repository = "https://github.com/martin-t/cvars"
+license = "AGPL-3.0-or-later"
+readme = "../README.md"
+keywords = ["configuration", "console", "debugging", "gamedev", "settings"]
+categories = [
+    "config",
+    "command-line-interface",
+    "development-tools::procedural-macro-helpers",
+    "game-development",
+    "rust-patterns",
+]
 
 [dependencies]

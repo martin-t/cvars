@@ -1,7 +1,0 @@
-[package]
-name = "test-compile-time"
-version = "0.1.0"
-edition = "2021"
-
-[dependencies]
-cvars = { path = ".." }

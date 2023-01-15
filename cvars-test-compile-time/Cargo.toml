@@ -1,5 +1,5 @@
 [package]
-name = "cvars-tests"
+name = "cvars-test-compile-time"
 version = "0.1.0"
 edition = "2021"
 authors = ["Martin Taibr <taibr.martin@gmail.com>"]
@@ -10,14 +10,5 @@ license = "AGPL-3.0-or-later"
 readme = "../README.md"
 publish = false
 
-[[test]]
-name = "tests"
-path = "tests/progress.rs"
-
 [dependencies]
 cvars = { path = "../cvars" }
-
-[dev-dependencies]
-trybuild = { version = "1.0", features = ["diff"] }
-strum = "0.21.0"
-strum_macros = "0.21.1"
