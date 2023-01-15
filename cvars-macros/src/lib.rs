@@ -159,7 +159,7 @@ pub fn derive(input: TokenStream) -> TokenStream {
     }
 
     // Get the set of types used as cvars.
-    // We need to impl CvarValue for them and it needs to be done
+    // We need to impl SetGetType for them and it needs to be done
     // once per type, not once per cvar.
     let unique_tys: HashSet<_> = tys.iter().collect();
     let mut trait_impls = Vec::new();
@@ -170,7 +170,7 @@ pub fn derive(input: TokenStream) -> TokenStream {
         for i in 0..fields.len() {
             let field = fields[i];
             let ty = tys[i];
-            // Each `impl CvarValue for X` block only generates match arms for cvars of type X
+            // Each `impl SetGetType for X` block only generates match arms for cvars of type X
             // so that the getters and setters typecheck.
             if ty == *unique_ty {
                 let getter_arm = quote! {
@@ -189,7 +189,7 @@ pub fn derive(input: TokenStream) -> TokenStream {
         //       e.g. integers default to i32 even though cvar type is usize
         //       At the very least, it should suggest specifying the type.
         let trait_impl = quote! {
-            impl CvarValue for #unique_ty {
+            impl SetGetType for #unique_ty {
                 fn get(cvars: &Cvars, cvar_name: &str) -> ::core::result::Result<Self, String> {
                     match cvar_name {
                         #( #getter_arms )*
@@ -222,11 +222,11 @@ pub fn derive(input: TokenStream) -> TokenStream {
             /// Finds the cvar whose name matches `cvar_name` and returns it's value.
             ///
             /// Returns `Err` if the cvar doesn't exist.
-            pub fn get<T: CvarValue>(&self, cvar_name: &str) -> ::core::result::Result<T, String> {
+            pub fn get<T: SetGetType>(&self, cvar_name: &str) -> ::core::result::Result<T, String> {
                 // We can't generate all the match arms here because we don't know what concrety type T is.
-                // Instead, we statically dispatch it through the CvarValue trait and then only look up
+                // Instead, we statically dispatch it through the SetGetType trait and then only look up
                 // fields of the correct type in each impl block.
-                CvarValue::get(self, cvar_name)
+                SetGetType::get(self, cvar_name)
             }
 
             /// Finds the cvar whose name matches `cvar_name` and returns it's value as a `String`.
@@ -234,7 +234,7 @@ pub fn derive(input: TokenStream) -> TokenStream {
             /// Returns `Err` if the cvar doesn't exist.
             pub fn get_string(&self, cvar_name: &str) -> ::core::result::Result<String, String> {
                 match cvar_name {
-                    // This doesn't need to be dispatched via CvarValue, it uses Display instead.
+                    // This doesn't need to be dispatched via SetGetType, it uses Display instead.
                     #( stringify!(#fields) => ::core::result::Result::Ok(self.#fields.to_string()), )*
                     _ => ::core::result::Result::Err(format!(
                         "Cvar named {} not found",
@@ -257,8 +257,8 @@ pub fn derive(input: TokenStream) -> TokenStream {
             ///
             /// This limitation doesn't apply to `set_str` since it determines which type to parse to
             /// *after* looking up the right field at runtime.
-            pub fn set<T: CvarValue>(&mut self, cvar_name: &str, value: T) -> ::core::result::Result<(), String> {
-                CvarValue::set(self, cvar_name, value)
+            pub fn set<T: SetGetType>(&mut self, cvar_name: &str, value: T) -> ::core::result::Result<(), String> {
+                SetGetType::set(self, cvar_name, value)
             }
 
             /// Finds the cvar whose name matches `cvar_name`, tries to parse `str_value` to its type and sets it to the parsed value.
@@ -266,7 +266,7 @@ pub fn derive(input: TokenStream) -> TokenStream {
             /// Returns `Err` if the cvar doesn't exist or if `str_value` fails to parse to its type.
             pub fn set_str(&mut self, cvar_name: &str, str_value: &str) -> ::core::result::Result<(), String> {
                 match cvar_name {
-                    // This doesn't need to be dispatched via CvarValue, it uses FromStr instead.
+                    // This doesn't need to be dispatched via SetGetType, it uses FromStr instead.
                     #( stringify!(#fields) => match str_value.parse() {
                         ::core::result::Result::Ok(val) => ::core::result::Result::Ok(self.#fields = val),
                         ::core::result::Result::Err(err) => ::core::result::Result::Err(format!("failed to parse {} as type {}: {}",
@@ -286,7 +286,7 @@ pub fn derive(input: TokenStream) -> TokenStream {
         /// This trait is needed to dispatch cvar get/set based on its type.
         /// You're not meant to impl it yourself, it's done automatically
         /// for all types used as cvars.
-        pub trait CvarValue {
+        pub trait SetGetType {
             fn get(cvars: &Cvars, cvar_name: &str) -> ::core::result::Result<Self, String>
                 where Self: Sized;
             fn set(cvars: &mut Cvars, cvar_name: &str, value: Self) -> ::core::result::Result<(), String>;
