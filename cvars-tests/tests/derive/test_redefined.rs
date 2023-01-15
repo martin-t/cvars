@@ -1,8 +1,9 @@
 #![allow(unused_imports)]
+#![allow(dead_code)]
 
 use strum_macros::{Display, EnumString};
 
-use cvars::cvars;
+use cvars::SetGet;
 
 type Option = ();
 type Result = ();
@@ -18,13 +19,14 @@ enum BadResult {
 }
 use BadResult::*;
 
-cvars! {
-    g_bool: bool = true,
-    g_int: i32 = 42,
-    g_usize: usize = 987654,
-    g_float: f32 = 5.0,
-    g_double: f64 = 10.0,
-    g_enum: Enum = Enum::Two,
+#[derive(Debug, Clone, Default, SetGet)]
+pub struct Cvars {
+    pub g_bool: bool,
+    pub g_int: i32,
+    pub g_usize: usize,
+    pub g_float: f32,
+    pub g_double: f64,
+    pub g_enum: Enum,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Display, EnumString)]

@@ -4,7 +4,7 @@
 #   - Opening the workspace would cause RA to automatically load them, slowing it down and creating a large target dir.
 #     It would also require installing system-wide deps for the given engines and GUI toolkits.
 #     This is especially important for first-time contributors who might only want to work on one subproject.
-members = ["cvars", "cvars-macros"]
+members = ["cvars", "cvars-macros", "cvars-tests"]
 # TODO readd "test-compile-time"
 
 [profile.dev]

@@ -32,6 +32,7 @@ impl Default for Enum {
 // Just test that it generates the getters and setters but don't run it.
 // Trybuild doesn't offer a better way to just assert the code compiles without runnin it.
 // I also tried catch_unwind but it still ended up producing ugly warnings.
+#[allow(dead_code)]
 fn unused() {
     let mut cvars = Cvars::default();
     let _ = cvars.set("g_bool", true);

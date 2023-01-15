@@ -17,7 +17,9 @@ categories = [
     "rust-patterns",
 ]
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [dependencies]
 cvars-macros = { path = "../cvars-macros" }
+
+[dev-dependencies]
+strum = "0.21.0"
+strum_macros = "0.21.1"

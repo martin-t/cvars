@@ -16,21 +16,13 @@ categories = [
     "game-development",
     "rust-patterns",
 ]
-autotests = false
 
 [lib]
 proc-macro = true
 
-[[test]]
-name = "tests"
-path = "tests/progress.rs"
-
-
-[dev-dependencies]
-trybuild = { version = "1.0", features = ["diff"] }
-strum = "0.21.0"
-strum_macros = "0.21.1"
-
 [dependencies]
 syn = { version = "1.0.74", features = ["extra-traits"] }
 quote = "1.0.9"
+
+[dev-dependencies]
+cvars = { path = "../cvars" }
