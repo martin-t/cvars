@@ -13,13 +13,15 @@
 [![Discord](https://img.shields.io/discord/770013530593689620?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/aA7hCFvYh9)
 ![Total lines](https://tokei.rs/b1/github/martin-t/cvars)
 
-Cvars (_console variables_ or _configuration variables_) are a way to store settings you want to change at runtime without restarting. They are inspired by the idTech (Doom, Quake) and Source family of game engines but they can be useful outside games. Cvars allow you to iterate faster by letting you test certain gameplay changes without recompiling. They also make your game more moddable if you expose them to players.
+Cvars (_console variables_ or _configuration variables_) are a **simple** way to store settings you want to change at runtime without restarting your program.
 
-**TL;DR**: Set and get struct fields based on the field's name as a string. User writes the cvar's name and new value into the console, it sets the appropriate field in your config struct and the game now behaves differently.
+They are inspired by the idTech (Doom, Quake) and Source family of game engines but they can be useful outside games. Cvars allow you to iterate faster by letting you test certain gameplay changes without recompiling. They also make your game more moddable if you expose (a subset of) them to players.
 
-<a href="https://user-images.githubusercontent.com/4079823/152082630-a705286d-c630-4507-9213-b8a7b106d47e.mp4">Usage example video</a>
+**TL;DR**: Set and get struct fields based on the field's name as a string. User writes the cvar's name and new value into the console, it sets the appropriate field in your config struct and the game now behaves differently. Your gamecode uses cvars as regular staticly typed values.
 
-No boilerplate - there are no traits to implement manually and no setup code to call per cvar. There is also no extra performance cost for keeping everything configurable even after you're done finding the best values - you can (and are meant to) keep things tweakable for your players to experiment themselves.
+<a href="https://user-images.githubusercontent.com/4079823/152082630-a705286d-c630-4507-9213-b8a7b106d47e.mp4">Usage example video worth 15*1000 words per second</a>
+
+Zero boilerplate - there are no traits to implement manually and no setup code to call per cvar. There is also minimal performance cost for keeping everything configurable even after you're done finding the best values - you can (and are meant to) keep things tweakable for your players to experiment themselves.
 
 ## Usage
 
@@ -59,7 +61,7 @@ The player wants to change a cvar and types `g_rocket_launcher_damage 150` into 
 
 The important thing is that in the rest of your application, you can still access your cvars as regular struct fields - e.g. `player.health -= cvars.g_rocket_launcher_damage;`. This means you only need to use strings when the user (player or developer when debugging or testing a different balance) is changing the values. The rest of your gamelogic is still statically typed and using a cvar in gamecode is just a field access without any overhead.
 
-See [examples/stdin.rs](https://github.com/martin-t/cvars/blob/master/examples/stdin.rs) for a small runnable example.
+See [cvars-tests/examples/stdin.rs](https://github.com/martin-t/cvars/blob/master/cvars-tests/examples/stdin.rs) for a small runnable example.
 
 For a real-world example, look at games using cvars:
 
@@ -109,11 +111,11 @@ The minimum supported Rust version is currently 1.56. Increasing the MSRV is not
 - [x] In-game console for the Macroquad engine
 - [ ] Autocompletion for consoles / GUI
 
-Features I am not planning but would accept a PR or you can implement it in your own repo if you're willing to (co-)maintain it:
+Features I am not planning - I might accept a PR if it's simple and maintainable but it's probably better if you implement them in your own crate:
 
-- [ ] In-game console for the Bevy engine
-- [ ] In-game console for the Egui UI toolkit
-- [ ] Browser GUI for games without a console
+- In-game console for the Bevy engine
+- In-game console for the Egui UI toolkit
+- Browser GUI for games without a console
 
 ## Alternatives
 
