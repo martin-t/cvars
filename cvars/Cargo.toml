@@ -1,13 +1,13 @@
 [package]
 name = "cvars"
 version = "0.1.0"
-edition = "2018" # TODO
+edition = "2021"
 authors = ["Martin Taibr <taibr.martin@gmail.com>"]
 description = "Configuration variables for games"
 homepage = "https://github.com/martin-t/cvars"
 repository = "https://github.com/martin-t/cvars"
 license = "AGPL-3.0-or-later"
-readme = "README.md" # TODO
+readme = "../README.md"
 keywords = ["configuration", "console", "debugging", "gamedev", "settings"]
 categories = [
     "config",

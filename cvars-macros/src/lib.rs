@@ -1,4 +1,10 @@
-//! TODO
+//! Proc macros for generating methods on your Cvars struct.
+//!
+//! This crate is not meant to be used directly,
+//! its macros are reexported by the `cvars` crate
+//! and might not work if used directly due to language limitations.
+
+// LATER The macros don't need to depend on each other but should call a common function to generate the code.
 
 #![warn(missing_docs)]
 
@@ -325,13 +331,15 @@ fn skip_field(field: &Field) -> bool {
     false
 }
 
-/// Dummy version of SetGet for debugging how long things take to compile.
+/// Dummy version of SetGet for debugging how much cvars add to _incremental_ compile times of your project.
 ///
 /// Generates the 4 setters and getters like SetGet but they contain only `unimplemented!()`,
 /// therefore the code to dispatch from string to struct field is not generated.
 /// This exists only to test how using SetGet affects the total compile time of downstream crates.
 /// Simply replace SetGet with SetGetDummy and compare how long `cargo build` takes.
 /// The resulting code should compile but will crash if the generated methods are used.
+///
+/// TODO Generate trait impls, also add those to dummy test
 #[doc(hidden)]
 #[proc_macro_derive(SetGetDummy, attributes(cvars))]
 pub fn derive_dummy(input: TokenStream) -> TokenStream {
