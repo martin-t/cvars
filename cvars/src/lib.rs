@@ -2,7 +2,7 @@
 
 //#![warn(missing_docs)] TODO
 
-pub use cvars_macros::{SetGet, SetGetDummy, cvars};
+pub use cvars_macros::{cvars, SetGet, SetGetDummy};
 
 /// A trait for writing generic code
 /// that can access cvars but doesn't know the concrete Cvars struct.
