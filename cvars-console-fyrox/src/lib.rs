@@ -1,6 +1,6 @@
 //! The in-game console which allows changing cvars at runtime.
 
-// LATER Possible to depend only on fyrox-ui?
+#![warn(missing_docs)]
 
 use fyrox_ui::{
     border::BorderBuilder,
@@ -19,6 +19,9 @@ use cvars::SetGet;
 use cvars_console::Console;
 
 /// In-game console for the Fyrox game engine.
+///
+/// You're responsible for opening and closing it according to your game's key bindings.
+/// You also need to call `resized` and `ui_message` on the appropriate engine events.
 pub struct FyroxConsole {
     is_open: bool,
     first_open: bool,
@@ -31,6 +34,7 @@ pub struct FyroxConsole {
 }
 
 impl FyroxConsole {
+    /// Create a new console. Build its UI but keep it closed.
     pub fn new(ui: &mut UserInterface) -> Self {
         let history = TextBuilder::new(WidgetBuilder::new())
             // Word wrap doesn't work if there's an extremely long word.
@@ -81,6 +85,7 @@ impl FyroxConsole {
         }
     }
 
+    /// Call this when the window is resized.
     pub fn resized(&mut self, ui: &mut UserInterface, width: f32, height: f32) {
         ui.send_message(WidgetMessage::width(
             self.layout,
@@ -108,6 +113,15 @@ impl FyroxConsole {
         self.update_ui_history(ui);
     }
 
+    /// Call this for every Fyrox UI message. The console will only react to them if it's open.
+    ///
+    /// # Example
+    /// ```rust,ignore
+    /// while let Some(msg) = engine.user_interface.poll_message() {
+    ///     console.ui_message(&msg);
+    ///     // ... Whatever else you do with UI messages ...
+    /// }
+    /// ```
     pub fn ui_message(&mut self, ui: &mut UserInterface, cvars: &mut impl SetGet, msg: &UiMessage) {
         if !self.is_open || msg.destination != self.prompt_text_box {
             return;
@@ -195,6 +209,7 @@ impl FyroxConsole {
         ));
     }
 
+    /// Returns true if the console is currently open.
     pub fn is_open(&self) -> bool {
         self.is_open
     }
@@ -232,7 +247,7 @@ impl FyroxConsole {
     /// Close the console. Returns whether the mouse was grabbed before opening the console.
     ///
     /// It's `#[must_use]` so you don't accidentally forget to restore it.
-    /// You can safely ignore it intentionally.
+    /// You can safely ignore it if you don't grab the mouse.
     #[must_use]
     pub fn close(&mut self, ui: &mut UserInterface) -> bool {
         ui.send_message(WidgetMessage::visibility(
