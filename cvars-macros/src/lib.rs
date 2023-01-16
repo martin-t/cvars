@@ -19,8 +19,6 @@ use syn::{
     DeriveInput, Expr, Field, Ident, Meta, MetaList, NestedMeta, Token, Type,
 };
 
-// TODO Readme: table with comparison to alternatives?
-
 struct CvarDef {
     name: Ident,
     ty: Type,
@@ -65,7 +63,7 @@ impl Parse for CvarDef {
 pub fn cvars(input: TokenStream) -> TokenStream {
     // TODO doc comments above cvars
     // TODO cvars(skip)
-    // TODO proper error reporting (no unwraps, expect only for infallible)
+    // LATER proper error reporting (no unwraps, expect only for infallible)
 
     let parser = Punctuated::<CvarDef, Token![,]>::parse_terminated;
     let punctuated = parser.parse(input).unwrap();
@@ -185,7 +183,7 @@ pub fn derive(input: TokenStream) -> TokenStream {
             }
         }
 
-        // TODO  Is there a sane way to automatically convert? (even fallibly)
+        // LATER Is there a sane way to automatically convert? (even fallibly)
         //       e.g. integers default to i32 even though cvar type is usize
         //       At the very least, it should suggest specifying the type.
         let trait_impl = quote! {
