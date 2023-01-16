@@ -1,4 +1,4 @@
-name: audit
+name: audit-macroquad
 
 # This is a separate file so it can have a separate badge in readme
 # and therefore spread awareness of cargo audit a tiny bit.
@@ -18,6 +18,9 @@ env:
 jobs:
   audit:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: cvars-console-macroquad
     steps:
       - uses: actions/checkout@v2
       - uses: actions-rs/install@v0.1

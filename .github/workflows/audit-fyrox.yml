@@ -1,4 +1,4 @@
-name: audit
+name: audit-fyrox
 
 # This is a separate file so it can have a separate badge in readme
 # and therefore spread awareness of cargo audit a tiny bit.
@@ -18,6 +18,9 @@ env:
 jobs:
   audit:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: cvars-console-fyrox
     steps:
       - uses: actions/checkout@v2
       - uses: actions-rs/install@v0.1
@@ -25,4 +28,5 @@ jobs:
           crate: cargo-audit
           version: latest
       - run: cargo audit --version
-      - run: cargo audit --deny warnings
+      # Ignore known fyrox issues: https://github.com/FyroxEngine/Fyrox/issues/208
+      - run: cargo audit --deny warnings --ignore RUSTSEC-2020-0016 --ignore RUSTSEC-2020-0097 --ignore RUSTSEC-2022-0048

@@ -1,4 +1,4 @@
-name: CI
+name: CI-macroquad
 
 on:
   push:
@@ -8,6 +8,9 @@ on:
   schedule:
     # Runs at 15:00 UTC on Fri
     - cron: "0 15 * * 5"
+  workflow_dispatch:
+    # This allows running it on any branch manually:
+    # https://docs.github.com/en/actions/managing-workflow-runs/manually-running-a-workflow
 
 env:
   CARGO_TERM_COLOR: always
@@ -20,6 +23,9 @@ env:
 jobs:
   test:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: cvars-console-macroquad
     strategy:
       fail-fast: false
       matrix:
@@ -32,12 +38,20 @@ jobs:
           profile: minimal
           toolchain: ${{ matrix.rust }}
           override: true
+      - name: Install linux deps
+        run: |
+          sudo apt-get update # Run update first or install might start failing eventually.
+          # Macroquad deps
+          sudo apt-get install --no-install-recommends -y pkg-config libx11-dev libxi-dev libgl1-mesa-dev libasound2-dev
       - run: rustc --version && cargo --version
       - run: cargo build --verbose
       - run: cargo test --verbose --all-features
 
   format:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: cvars-console-macroquad
     steps:
       - uses: actions/checkout@v2
       - run: cargo fmt --version
@@ -45,8 +59,16 @@ jobs:
 
   lint:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: cvars-console-macroquad
     steps:
       - uses: actions/checkout@v2
+      - name: Install linux deps
+        run: |
+          sudo apt-get update # Run update first or install might start failing eventually.
+          # Macroquad deps
+          sudo apt-get install --no-install-recommends -y pkg-config libx11-dev libxi-dev libgl1-mesa-dev libasound2-dev
       - run: cargo clippy --version
         # Use --all-targets to also check tests.
         # Note that --all-features doesn't check all code when something is *disabled* by a feature.
@@ -63,6 +85,9 @@ jobs:
 
   docs:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: cvars-console-macroquad
     steps:
       - uses: actions/checkout@v2
       - uses: actions-rs/toolchain@v1
