@@ -9,6 +9,7 @@ cvars! {
     g_float: f32 = 5.0,
     g_double: f64 = 10.0,
     g_enum: Enum = Enum::Two,
+    g_skipped: i32 = 0,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Display, EnumString)]

@@ -2,7 +2,7 @@ use strum_macros::{Display, EnumString};
 
 use cvars::SetGet;
 
-#[derive(Debug, Clone, Default, SetGet)]
+#[derive(Debug, Clone, SetGet)]
 pub struct Cvars {
     pub g_bool: bool,
     pub g_int: i32,
@@ -14,6 +14,27 @@ pub struct Cvars {
     #[cvars(skip)]
     #[allow(clippy::pedantic)]
     pub g_skipped: i32,
+}
+
+impl Cvars {
+    #[allow(dead_code)]
+    pub fn new() -> Self {
+        Self::default()
+    }
+}
+
+impl Default for Cvars {
+    fn default() -> Self {
+        Self {
+            g_bool: true,
+            g_int: 42,
+            g_usize: 987654,
+            g_float: 5.0,
+            g_double: 10.0,
+            g_enum: Enum::Two,
+            g_skipped: 0,
+        }
+    }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Display, EnumString)]

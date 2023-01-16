@@ -1,17 +1,10 @@
 mod shared;
 
-use shared::{Cvars, Enum};
+use shared::Cvars;
 
 fn main() {
-    let cvars = Cvars {
-        g_bool: true,
-        g_int: 42,
-        g_usize: 987654,
-        g_float: 5.0,
-        g_double: 10.0,
-        g_enum: Enum::Two,
-        g_skipped: 0,
-    };
+    let cvars = Cvars::new();
+
     // Creating a second struct so that type inferrence works.
     // Just `assert_eq!(cvars.get("g_int"), cvars.g_int);`
     // would require specifying types, same for using `==`.
