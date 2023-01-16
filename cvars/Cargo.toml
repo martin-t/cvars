@@ -27,6 +27,6 @@ path = "tests/progress.rs"
 cvars-macros = { path = "../cvars-macros" }
 
 [dev-dependencies]
-strum = "0.21.0"
-strum_macros = "0.21.1"
+strum = "0.24.1"
+strum_macros = "0.24.3"
 trybuild = { version = "1.0", features = ["diff"] }
