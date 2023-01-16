@@ -281,7 +281,7 @@ pub fn derive(input: TokenStream) -> TokenStream {
             }
         }
 
-        impl SetGet for #struct_name {
+        impl ::cvars::SetGet for #struct_name {
             fn get_string(&self, cvar_name: &str) -> ::core::result::Result<String, String> {
                 self.get_string(cvar_name)
             }
