@@ -22,4 +22,4 @@ cvars-macros = { path = "../cvars-macros" }
 
 [dev-dependencies]
 strum = "0.21.0"
-strum_macros = "0.21.1"
+strum_macros = "0.24.3"
