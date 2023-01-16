@@ -96,10 +96,6 @@ Tip: use `#[strum(ascii_case_insensitive)]` so players don't need to pay attenti
 
 If a field is not meant to be configurable, mark it with `#[cvars(skip)]`.
 
-### MSRV
-
-The minimum supported Rust version is currently 1.56. Increasing the MSRV is not a breaking change as long as the new MSRV is at least 3 releases behind the current stable.
-
 ## Features
 
 - [x] Derive macro `SetGet` to create settters and getters for cvars based on their name
