@@ -5,7 +5,7 @@
 #     It would also require installing system-wide deps for the given engines and GUI toolkits.
 #     This is especially important for first-time contributors who might only want to work on one subproject.
 # Note that .cargo/config.toml and rust-toolchain still apply to them.
-members = ["cvars", "cvars-console", "cvars-macros", "cvars-test-compile-time", "cvars-tests"]
+members = ["cvars", "cvars-console", "cvars-macros", "cvars-test-compile-time"]
 exclude = ["cvars-console-fyrox", "cvars-console-macroquad"]
 
 [profile.dev]

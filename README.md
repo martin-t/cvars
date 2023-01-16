@@ -61,7 +61,7 @@ The player wants to change a cvar and types `g_rocket_launcher_damage 150` into 
 
 The important thing is that in the rest of your application, you can still access your cvars as regular struct fields - e.g. `player.health -= cvars.g_rocket_launcher_damage;`. This means you only need to use strings when the user (player or developer when debugging or testing a different balance) is changing the values. The rest of your gamelogic is still statically typed and using a cvar in gamecode is just a field access without any overhead.
 
-See [cvars-tests/examples/stdin.rs](https://github.com/martin-t/cvars/blob/master/cvars-tests/examples/stdin.rs) for a small runnable example.
+See [cvars/examples/stdin.rs](https://github.com/martin-t/cvars/blob/master/cvars/examples/stdin.rs) for a small runnable example.
 
 For a real-world example, look at games using cvars:
 
