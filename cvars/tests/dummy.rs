@@ -1,3 +1,5 @@
+// Test SetGetDummy instead of the real SetGet.
+
 use strum_macros::{Display, EnumString};
 
 use cvars::SetGetDummy;
