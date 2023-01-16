@@ -31,26 +31,26 @@ pub struct FyroxConsole {
 }
 
 impl FyroxConsole {
-    pub fn new(user_interface: &mut UserInterface) -> Self {
+    pub fn new(ui: &mut UserInterface) -> Self {
         let history = TextBuilder::new(WidgetBuilder::new())
             // Word wrap doesn't work if there's an extremely long word.
             .with_wrap(WrapMode::Letter)
-            .build(&mut user_interface.build_ctx());
+            .build(&mut ui.build_ctx());
 
         let prompt_arrow = TextBuilder::new(WidgetBuilder::new())
             .with_text("> ")
-            .build(&mut user_interface.build_ctx());
+            .build(&mut ui.build_ctx());
 
         let prompt_text_box = TextBoxBuilder::new(WidgetBuilder::new())
             .with_text_commit_mode(TextCommitMode::Immediate)
             .with_skip_chars(vec!['-', '_'])
-            .build(&mut user_interface.build_ctx());
+            .build(&mut ui.build_ctx());
 
         let prompt_line = StackPanelBuilder::new(
             WidgetBuilder::new().with_children([prompt_arrow, prompt_text_box]),
         )
         .with_orientation(Orientation::Horizontal)
-        .build(&mut user_interface.build_ctx());
+        .build(&mut ui.build_ctx());
 
         // StackPanel doesn't support colored background so we wrap it in a Border.
         let layout = BorderBuilder::new(
@@ -64,10 +64,10 @@ impl FyroxConsole {
                             .with_children([history, prompt_line]),
                     )
                     .with_orientation(Orientation::Vertical)
-                    .build(&mut user_interface.build_ctx()),
+                    .build(&mut ui.build_ctx()),
                 ),
         )
-        .build(&mut user_interface.build_ctx());
+        .build(&mut ui.build_ctx());
 
         FyroxConsole {
             is_open: false,
@@ -81,15 +81,15 @@ impl FyroxConsole {
         }
     }
 
-    pub fn resized(&mut self, user_interface: &mut UserInterface, width: f32, height: f32) {
-        user_interface.send_message(WidgetMessage::width(
+    pub fn resized(&mut self, ui: &mut UserInterface, width: f32, height: f32) {
+        ui.send_message(WidgetMessage::width(
             self.layout,
             MessageDirection::ToWidget,
             width,
         ));
 
         self.height = height / 2.0;
-        user_interface.send_message(WidgetMessage::height(
+        ui.send_message(WidgetMessage::height(
             self.layout,
             MessageDirection::ToWidget,
             self.height,
@@ -98,29 +98,24 @@ impl FyroxConsole {
         // This actually goes beyond the screen but who cares.
         // It, however, still won't let me put the cursor at the end by clicking after the text:
         // https://github.com/FyroxEngine/Fyrox/issues/361
-        user_interface.send_message(WidgetMessage::width(
+        ui.send_message(WidgetMessage::width(
             self.prompt_text_box,
             MessageDirection::ToWidget,
             width,
         ));
 
         // The number of lines that can fit might have changed - reprint history.
-        self.update_ui_history(user_interface);
+        self.update_ui_history(ui);
     }
 
-    pub fn ui_message(
-        &mut self,
-        user_interface: &mut UserInterface,
-        cvars: &mut impl SetGet,
-        msg: &UiMessage,
-    ) {
+    pub fn ui_message(&mut self, ui: &mut UserInterface, cvars: &mut impl SetGet, msg: &UiMessage) {
         if !self.is_open || msg.destination != self.prompt_text_box {
             return;
         }
 
         // We could just listen for KeyboardInput and get the text from the prompt via
         // ```
-        // let node = user_interface.node(self.prompt_text_box);
+        // let node = ui.node(self.prompt_text_box);
         // let text = node.query_component::<TextBox>().unwrap().text();
         // ```
         // But this is the intended way to use the UI, even if it's more verbose.
@@ -136,45 +131,45 @@ impl FyroxConsole {
         match msg.data() {
             Some(WidgetMessage::Unfocus) => {
                 // As long as the console is open, always keep the prompt focused
-                user_interface.send_message(WidgetMessage::focus(
+                ui.send_message(WidgetMessage::focus(
                     self.prompt_text_box,
                     MessageDirection::ToWidget,
                 ));
             }
             Some(WidgetMessage::KeyDown(KeyCode::Up)) => {
                 self.console.history_back();
-                self.update_ui_prompt(user_interface);
+                self.update_ui_prompt(ui);
             }
             Some(WidgetMessage::KeyDown(KeyCode::Down)) => {
                 self.console.history_forward();
-                self.update_ui_prompt(user_interface);
+                self.update_ui_prompt(ui);
             }
             Some(WidgetMessage::KeyDown(KeyCode::PageUp)) => {
                 self.console.history_scroll_up(10);
-                self.update_ui_history(user_interface);
+                self.update_ui_history(ui);
             }
             Some(WidgetMessage::KeyDown(KeyCode::PageDown)) => {
                 self.console.history_scroll_down(10);
-                self.update_ui_history(user_interface);
+                self.update_ui_history(ui);
             }
             Some(WidgetMessage::KeyDown(KeyCode::Return | KeyCode::NumpadEnter)) => {
                 self.console.enter(cvars);
-                self.update_ui_prompt(user_interface);
-                self.update_ui_history(user_interface);
+                self.update_ui_prompt(ui);
+                self.update_ui_history(ui);
             }
             _ => (),
         }
     }
 
-    fn update_ui_prompt(&mut self, user_interface: &mut UserInterface) {
-        user_interface.send_message(TextMessage::text(
+    fn update_ui_prompt(&mut self, ui: &mut UserInterface) {
+        ui.send_message(TextMessage::text(
             self.prompt_text_box,
             MessageDirection::ToWidget,
             self.console.prompt.clone(),
         ));
     }
 
-    fn update_ui_history(&mut self, user_interface: &mut UserInterface) {
+    fn update_ui_history(&mut self, ui: &mut UserInterface) {
         // LATER There should be a cleaner way to measure lines
         let line_height = 14;
         // Leave 1 line room for the prompt
@@ -193,7 +188,7 @@ impl FyroxConsole {
             hist.push('\n');
         }
 
-        user_interface.send_message(TextMessage::text(
+        ui.send_message(TextMessage::text(
             self.history,
             MessageDirection::ToWidget,
             hist,
@@ -208,17 +203,17 @@ impl FyroxConsole {
     ///
     /// If your game grabs the mouse, you can save the previous state here
     /// and get it back when closing.
-    pub fn open(&mut self, user_interface: &mut UserInterface, was_mouse_grabbed: bool) {
+    pub fn open(&mut self, ui: &mut UserInterface, was_mouse_grabbed: bool) {
         self.is_open = true;
         self.was_mouse_grabbed = was_mouse_grabbed;
 
-        user_interface.send_message(WidgetMessage::visibility(
+        ui.send_message(WidgetMessage::visibility(
             self.layout,
             MessageDirection::ToWidget,
             true,
         ));
 
-        user_interface.send_message(WidgetMessage::focus(
+        ui.send_message(WidgetMessage::focus(
             self.prompt_text_box,
             MessageDirection::ToWidget,
         ));
@@ -230,7 +225,7 @@ impl FyroxConsole {
             // so if the message was at the top, nobody would see it.
             self.first_open = false;
             self.console.print("Type 'help' or '?' for basic info");
-            self.update_ui_history(user_interface);
+            self.update_ui_history(ui);
         }
     }
 
@@ -239,13 +234,13 @@ impl FyroxConsole {
     /// It's `#[must_use]` so you don't accidentally forget to restore it.
     /// You can safely ignore it intentionally.
     #[must_use]
-    pub fn close(&mut self, user_interface: &mut UserInterface) -> bool {
-        user_interface.send_message(WidgetMessage::visibility(
+    pub fn close(&mut self, ui: &mut UserInterface) -> bool {
+        ui.send_message(WidgetMessage::visibility(
             self.layout,
             MessageDirection::ToWidget,
             false,
         ));
-        user_interface.send_message(WidgetMessage::unfocus(
+        ui.send_message(WidgetMessage::unfocus(
             self.prompt_text_box,
             MessageDirection::ToWidget,
         ));
