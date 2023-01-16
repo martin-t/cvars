@@ -236,7 +236,7 @@ impl FyroxConsole {
 
     /// Close the console. Returns whether the mouse was grabbed before opening the console.
     ///
-    /// It's #[must_use] so you don't accidentally forget to restore it.
+    /// It's `#[must_use]` so you don't accidentally forget to restore it.
     /// You can safely ignore it intentionally.
     #[must_use]
     pub fn close(&mut self, user_interface: &mut UserInterface) -> bool {
