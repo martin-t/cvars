@@ -23,9 +23,10 @@ This is a shared changelog for all projects in this repo:
 
 ## Cvars v0.2.0 - 2023-01-16
 
+- `SetGet` trait for dynamic dispatch
 - `#[cvars(skip)]` for ignoring some struct fields
 
 ## Cvars v0.1.0 - 2021-08-11
 
-- experimental `cvars!` macro to generate the `Cvars` struct
-- derive macro for structs (`#[derive(SetGet)]`) which generates getters and setters
+- Experimental `cvars!` macro to generate the `Cvars` struct
+- Derive macro for structs (`#[derive(SetGet)]`) which generates getters and setters

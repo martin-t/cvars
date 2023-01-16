@@ -283,6 +283,16 @@ pub fn derive(input: TokenStream) -> TokenStream {
             }
         }
 
+        impl SetGet for #struct_name {
+            fn get_string(&self, cvar_name: &str) -> ::core::result::Result<String, String> {
+                self.get_string(cvar_name)
+            }
+
+            fn set_str(&mut self, cvar_name: &str, cvar_value: &str) -> ::core::result::Result<(), String> {
+                self.set_str(cvar_name, cvar_value)
+            }
+        }
+
         /// This trait is needed to dispatch cvar get/set based on its type.
         /// You're not meant to impl it yourself, it's done automatically
         /// for all types used as cvars.
