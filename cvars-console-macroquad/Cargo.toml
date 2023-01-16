@@ -18,6 +18,6 @@ categories = [
 ]
 
 [dependencies]
-cvars = { path = "../cvars" }
-cvars-console = { path = "../cvars-console" }
+cvars = { version = "0.2.0", path = "../cvars" }
+cvars-console = { version = "0.1.0", path = "../cvars-console" }
 macroquad = "0.3.24"

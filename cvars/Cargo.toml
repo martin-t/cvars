@@ -24,7 +24,7 @@ name = "tests"
 path = "tests/progress.rs"
 
 [dependencies]
-cvars-macros = { path = "../cvars-macros" }
+cvars-macros = { version = "0.1.0", path = "../cvars-macros" }
 
 [dev-dependencies]
 strum = "0.24.1"
