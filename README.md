@@ -14,15 +14,19 @@
 [![Discord](https://img.shields.io/discord/770013530593689620?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/aA7hCFvYh9)
 <!-- ![Total lines](https://tokei.rs/b1/github/martin-t/cvars) Disabled because it counts cvars-test-compile-time, plus it's currently broken and always shows 0 anyway. -->
 
-Cvars (_console variables_ or _configuration variables_) are a **simple** way to store settings you want to change at runtime without restarting your program.
+_Cvars_ (console variables or configuration variables) are a **simple** way to store settings you want to change at runtime without restarting your program.
 
-They are inspired by the idTech (Doom, Quake) and Source family of game engines but they can be useful outside games. Cvars allow you to iterate faster by letting you test certain gameplay changes without recompiling. They also make your game more moddable if you expose (a subset of) them to players.
+_Consoles_ are the most **ergonomic** way to set cvars but you can write your own UI or read them from stdin if you want.
+
+These crates are inspired by the idTech (Doom, Quake) and Source family of game engines but they can be useful outside games. Cvars allow you to iterate faster by letting you test certain gameplay changes without recompiling. They also make your game more moddable if you expose (a subset of) them to players.
 
 **TL;DR**: Set and get struct fields based on the field's name as a string. User writes the cvar's name and new value into the console, it sets the appropriate field in your config struct and the game now behaves differently. Your gamecode uses cvars as regular staticly typed values.
 
 <a href="https://user-images.githubusercontent.com/4079823/152082630-a705286d-c630-4507-9213-b8a7b106d47e.mp4">Usage example video worth 15*1000 words per second</a>
 
-Zero boilerplate - there are no traits to implement manually and no setup code to call per cvar. There is also minimal performance cost for keeping everything configurable even after you're done finding the best values - you can (and are meant to) keep things tweakable for your players to experiment themselves.
+**Zero boilerplate** - there are no traits to implement manually and no setup code to call per cvar.
+
+**Minimal performance cost** - just struct field access vs hardcoded constant. Keep everything configurable even after you're done finding the best values - you can keep things tweakable in your released game for players to experiment themselves.
 
 ## Usage
 

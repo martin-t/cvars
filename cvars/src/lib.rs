@@ -1,4 +1,9 @@
-#![doc = include_str!("../../README.md")]
+//! TODO Short intro, example, what it generates, trait, consoles
+//!
+//! TODO Move enums, skipping from readme to here
+//!
+//! See the [README](https://github.com/martin-t/cvars) or [crates.io](https://crates.io/crates/cvars) for more information.
+
 #![warn(missing_docs)]
 
 pub use cvars_macros::{cvars, SetGet, SetGetDummy};
