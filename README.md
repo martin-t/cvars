@@ -66,6 +66,8 @@ The player wants to change a cvar and types `g_rocket_launcher_damage 150` into 
 
 The important thing is that in the rest of your application, you can still access your cvars as regular struct fields - e.g. `player.health -= cvars.g_rocket_launcher_damage;`. This means you only need to use strings when the user (player or developer when debugging or testing a different balance) is changing the values. The rest of your gamelogic is still statically typed and using a cvar in gamecode is just a field access without any overhead.
 
+A typical game will have hundreds or thousands of tunable parameters. With cvars and a console you can keep them all configurable for advanced players, modders and your-gamedev-self via a simple TUI while also exposing common settings to normal players in your game's GUI.
+
 See [cvars/examples/stdin.rs](https://github.com/martin-t/cvars/blob/master/cvars/examples/stdin.rs) for a small runnable example.
 
 For a real-world example, look at games using cvars:
@@ -73,40 +75,13 @@ For a real-world example, look at games using cvars:
 - [RecWars](https://github.com/martin-t/rec-wars/blob/master/src/cvars.rs) - uses the Macroquad console, every aspect of the gameplay is configurable, you can test it [in your browsser](https://martin-t.gitlab.io/gitlab-pages/rec-wars/macroquad.html)
 - [RustCycles](https://github.com/rustcycles/rustcycles/blob/master/src/cvars.rs) - uses the Fyrox console
 
-### Enums
-
-Cvar values can have any type which implements the `FromStr` and `Display` traits. If you want to use enums, it's best to derive these traits automatically via `[strum](https://crates.io/crates/strum)`.
-
-```rust
-use strum_macros::{Display, EnumString};
-
-use cvars::SetGet;
-
-#[derive(Debug, Clone, SetGet)]
-pub struct Cvars {
-    pub cl_splitscreen: Splitscreen,
-}
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Display, EnumString)]
-#[strum(ascii_case_insensitive)]
-pub enum Splitscreen {
-    Vertical,
-    Horizontal,
-}
-```
-
-Tip: use `#[strum(ascii_case_insensitive)]` so players don't need to pay attention to capilatization when changing cvars - both `"Vertical"` and `"vertical"` will parse into `Splitscreen::Vertical`.
-
-### Skipping fields
-
-If a field is not meant to be configurable, mark it with `#[cvars(skip)]`.
-
 ## Features
 
 - [x] Derive macro `SetGet` to create settters and getters for cvars based on their name
   - [x] Statically typed (`set`, `get`)
   - [x] As string (`set_str`, `get_string`)
 - [x] Function like `cvars!` macro to declare type and initial value on one line
+- [x] Support user-defined cvar types (both structs and enums)
 - [ ] Save config to and load it from files - useful if your game has multiple balance presets
 - [x] In-game console for the Fyrox engine
 - [x] In-game console for the Macroquad engine
