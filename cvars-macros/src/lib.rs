@@ -221,7 +221,7 @@ pub fn derive(input: TokenStream) -> TokenStream {
             ///
             /// Returns `Err` if the cvar doesn't exist.
             pub fn get<T: SetGetType>(&self, cvar_name: &str) -> ::core::result::Result<T, String> {
-                // We can't generate all the match arms here because we don't know what concrety type T is.
+                // We can't generate all the match arms here because we don't know what concrete type T is.
                 // Instead, we statically dispatch it through the SetGetType trait and then only look up
                 // fields of the correct type in each impl block.
                 SetGetType::get(self, cvar_name)
