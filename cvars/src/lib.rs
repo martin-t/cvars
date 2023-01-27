@@ -8,7 +8,7 @@
 //!
 //! **TL;DR:** Cvars allow you to access struct fields based on their name as a string.
 //!
-//! This is useful for app configuration - gamedevs, modders and players access cvars dynamically using a TUI
+//! This is useful for app configuration, especially in games - gamedevs, modders and players access cvars dynamically using a TUI
 //! while your gamecode accesses them statically as struct fields.
 //!
 //! This crate contains proc macros to generate:
