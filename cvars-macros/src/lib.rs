@@ -217,7 +217,7 @@ pub fn derive(input: TokenStream) -> TokenStream {
     let expanded = quote! {
         #[automatically_derived]
         impl #struct_name {
-            /// Finds the cvar whose name matches `cvar_name` and returns it's value.
+            /// Finds the cvar whose name matches `cvar_name` and returns its value.
             ///
             /// Returns `Err` if the cvar doesn't exist.
             pub fn get<T: SetGetType>(&self, cvar_name: &str) -> ::core::result::Result<T, String> {
@@ -227,7 +227,7 @@ pub fn derive(input: TokenStream) -> TokenStream {
                 SetGetType::get(self, cvar_name)
             }
 
-            /// Finds the cvar whose name matches `cvar_name` and returns it's value as a `String`.
+            /// Finds the cvar whose name matches `cvar_name` and returns its value as a `String`.
             ///
             /// Returns `Err` if the cvar doesn't exist.
             pub fn get_string(&self, cvar_name: &str) -> ::core::result::Result<String, String> {
