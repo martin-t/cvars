@@ -1,8 +1,7 @@
 #![doc = include_str!("../README.md")]
+#![warn(missing_docs)]
 
 // LATER The macros don't need to depend on each other but should call a common function to generate the code.
-
-#![warn(missing_docs)]
 
 use std::collections::HashSet;
 
