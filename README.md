@@ -2,7 +2,7 @@
     <h1>Cvars</h1>
     <i>Configuration variables .rs</i>
     <br />
-    A simple and ergonomic way to store and edit runtime configuration in your game or other software.
+    A simple and ergonomic way to store and edit runtime configuration in your program
 </div>
 <br />
 

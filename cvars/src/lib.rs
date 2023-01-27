@@ -2,7 +2,7 @@
 //!     <h1>Cvars</h1>
 //!     <i>Configuration variables .rs</i>
 //!     <br />
-//!     A simple and ergonomic way to store and edit runtime configuration in your game or other software.
+//!     A simple and ergonomic way to store and edit runtime configuration in your program
 //! </div>
 //! <br />
 //!
@@ -134,11 +134,10 @@
 //!
 //! If a field is not meant to be configurable, mark it with `#[cvars(skip)]`.
 //!
-//! # In-game consoles
+//! # Related crates
 //!
-//! The `cvars` crate only contains TODO
-//!
-//! See the [README](https://github.com/martin-t/cvars) or [crates.io](https://crates.io/crates/cvars) for more information. TODO move to top?
+//! See the [README](https://github.com/martin-t/cvars) for more information about the cvars family of crates
+//! and for comparison with alternatives such as [inline_tweak](https://crates.io/crates/inline_tweak).
 
 #![warn(missing_docs)]
 
