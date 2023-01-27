@@ -1,14 +1,25 @@
-//! TODO center
+//! <div align="center">
+//!     <h1>Cvars</h1>
+//!     <i>Configuration variables .rs</i>
+//!     <br />
+//!     A simple and ergonomic way to store and edit runtime configuration in your game or other software.
+//! </div>
+//! <br />
 //!
-//! Cvars allow you to access struct fields based on their name as a string.
+//! **TL;DR:** Cvars allow you to access struct fields based on their name as a string.
 //!
 //! This is useful for app configuration - gamedevs, modders and players access cvars dynamically using a TUI
 //! while your gamecode accesses them statically as struct fields.
 //!
-//! This crate contains proc macros to generate the getter and setter methods on your config struct
-//! and a trait which
+//! This crate contains proc macros to generate:
+//! - setter and getter methods directly on your config struct
+//! - an impl of `SetGet` for your config struct so it can use dynamic dispatch
 //!
-//! # Examples
+//! In-game consoles are in separate crates - pick one based on your game engine:
+//! - [cvars-console-fyrox](https://crates.io/crates/cvars-console-fyrox) - [Fyrox](https://crates.io/crates/fyrox) console
+//! - [cvars-console-macroquad](https://crates.io/crates/cvars-console-macroquad) - [Macroquad](https://crates.io/crates/macroquad) console
+//!
+//! # Example
 //!
 //! ```rust
 //! use cvars::SetGet;
@@ -73,7 +84,24 @@
 //!
 //! # What it generates
 //!
-//! TODO
+//! The generated methods have these signatures (same as the `SetGet` trait):
+//!
+//! ```rust
+//! # struct Cvars {}
+//! impl Cvars {
+//!     /// Finds the cvar whose name matches `cvar_name` and returns its value as a `String`.
+//!     ///
+//!     /// Returns `Err` if the cvar doesn't exist.
+//!     pub fn get_string(&self, cvar_name: &str) -> Result<String, String>
+//!     # { unimplemented!() }
+//!
+//!     /// Finds the cvar whose name matches `cvar_name`, tries to parse `str_value` to its type and sets it to the parsed value.
+//!     ///
+//!     /// Returns `Err` if the cvar doesn't exist or if `str_value` fails to parse to its type.
+//!     pub fn set_str(&mut self, cvar_name: &str, str_value: &str) -> Result<(), String>
+//!     # { unimplemented!() }
+//! }
+//! ```
 //!
 //! # Enums
 //!
@@ -118,7 +146,10 @@ pub use cvars_macros::{cvars, SetGet, SetGetDummy};
 
 /// A trait for writing generic code that can access cvars but doesn't know the concrete Cvars struct.
 ///
-/// The methods provided here are also available on the concrete Cvars struct directly.
+/// This is implemented automatically by both `#[derive(SetGet)]` and `cvars! {}`.
+///
+/// The methods provided here call those implemented directly on the concrete Cvars struct,
+/// there is no difference between them.
 ///
 /// Implementation note: This trait can't include the `get` and `set` methods
 /// because it would no longer be object-safe.
