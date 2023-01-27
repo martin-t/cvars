@@ -4,9 +4,17 @@
 #   - Opening the workspace would cause RA to automatically load them, slowing it down and creating a large target dir.
 #     It would also require installing system-wide deps for the given engines and GUI toolkits.
 #     This is especially important for first-time contributors who might only want to work on one subproject.
+#
+# The cvars-test-compile-time is also excluded to better simulate a standalone project using cvars
+# and so we can change optimization settings in its Cargo.toml without affecting the rest.
+#
 # Note that .cargo/config.toml and rust-toolchain still apply to them.
-members = ["cvars", "cvars-console", "cvars-macros", "cvars-test-compile-time"]
-exclude = ["cvars-console-fyrox", "cvars-console-macroquad"]
+members = ["cvars", "cvars-console", "cvars-macros"]
+exclude = [
+    "cvars-console-fyrox",
+    "cvars-console-macroquad",
+    "cvars-test-compile-time",
+]
 
 [profile.dev]
 opt-level = 1 # Can be changed without recompiling all deps
