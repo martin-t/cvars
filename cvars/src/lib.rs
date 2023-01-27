@@ -11,7 +11,7 @@
 //! This is useful for app configuration, especially in games - gamedevs, modders and players access cvars dynamically using a TUI
 //! while your gamecode accesses them statically as struct fields.
 //!
-//! This crate contains proc macros to generate:
+//! The `cvars` crate contains proc macros to generate:
 //! - setter and getter methods directly on your config struct
 //! - an impl of `SetGet` for your config struct so it can use dynamic dispatch
 //!
@@ -75,7 +75,7 @@
 //! See [cvars/examples/stdin.rs](https://github.com/martin-t/cvars/blob/master/cvars/examples/stdin.rs)
 //! for a small runnable example.
 //!
-//! For a real-world example, look at games using cvars:
+//! For real-world examples, look at games using cvars:
 //!
 //! - [RecWars](https://github.com/martin-t/rec-wars/blob/master/src/cvars.rs) - uses the Macroquad console,
 //!   every aspect of the gameplay is configurable,
