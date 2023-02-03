@@ -11,7 +11,7 @@ use syn::{
     parse::{Parse, Parser},
     parse_macro_input,
     punctuated::Punctuated,
-    DeriveInput, Expr, Field, Ident, Meta, MetaList, NestedMeta, Token, Type, Attribute,
+    Attribute, DeriveInput, Expr, Field, Ident, Meta, MetaList, NestedMeta, Token, Type,
 };
 
 struct CvarDef {
@@ -29,7 +29,12 @@ impl Parse for CvarDef {
         let ty = input.parse()?;
         let _: Token![=] = input.parse()?;
         let value = input.parse()?;
-        Ok(CvarDef { attrs, name, ty, value })
+        Ok(CvarDef {
+            attrs,
+            name,
+            ty,
+            value,
+        })
     }
 }
 
