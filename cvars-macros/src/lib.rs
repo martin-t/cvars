@@ -11,10 +11,11 @@ use syn::{
     parse::{Parse, Parser},
     parse_macro_input,
     punctuated::Punctuated,
-    DeriveInput, Expr, Field, Ident, Meta, MetaList, NestedMeta, Token, Type,
+    DeriveInput, Expr, Field, Ident, Meta, MetaList, NestedMeta, Token, Type, Attribute,
 };
 
 struct CvarDef {
+    attrs: Vec<Attribute>,
     name: Ident,
     ty: Type,
     value: Expr,
@@ -22,12 +23,13 @@ struct CvarDef {
 
 impl Parse for CvarDef {
     fn parse(input: syn::parse::ParseStream) -> syn::Result<Self> {
+        let attrs = input.call(Attribute::parse_outer)?;
         let name = input.parse()?;
         let _: Token![:] = input.parse()?;
         let ty = input.parse()?;
         let _: Token![=] = input.parse()?;
         let value = input.parse()?;
-        Ok(CvarDef { name, ty, value })
+        Ok(CvarDef { attrs, name, ty, value })
     }
 }
 
@@ -39,10 +41,7 @@ impl Parse for CvarDef {
 /// The generated code contains the struct definition and an impl block
 /// with a `new` function which sets the initial values.
 ///
-/// **Open question**: Should the generated `Default` use the specified initial values
-/// or default values of the field types?
-///
-/// **Currently will crash on doc comments and (other) attributes**
+/// **TODO**: The generated `Default` should use the specified initial values.
 ///
 /// # Example
 ///
@@ -64,6 +63,7 @@ pub fn cvars(input: TokenStream) -> TokenStream {
     let punctuated = parser.parse(input).unwrap();
     let cvar_defs: Vec<_> = punctuated.iter().collect();
 
+    let attrss: Vec<_> = cvar_defs.iter().map(|cvar_def| &cvar_def.attrs).collect();
     let names: Vec<_> = cvar_defs.iter().map(|cvar_def| &cvar_def.name).collect();
     let tys: Vec<_> = cvar_defs.iter().map(|cvar_def| &cvar_def.ty).collect();
     let values: Vec<_> = cvar_defs.iter().map(|cvar_def| &cvar_def.value).collect();
@@ -72,6 +72,7 @@ pub fn cvars(input: TokenStream) -> TokenStream {
         #[derive(Debug, Clone, Default, ::cvars::SetGet)]
         pub struct Cvars {
             #(
+                #( #attrss )*
                 pub #names: #tys,
             )*
         }

@@ -24,6 +24,7 @@ fn tests() {
     t.pass("tests/fnlike/test_string_setters.rs");
     t.pass("tests/fnlike/test_dyn.rs");
     t.pass("tests/fnlike/test_redefined.rs");
+    t.pass("tests/fnlike/test_skip.rs");
 
     t.pass("tests/dummy.rs");
 }
