@@ -7,6 +7,10 @@ This is a shared changelog for all projects in this repo:
 - The console backend `cvars-console`
 - Frontends for game engines `cvars-console-fyrox` and `cvars-console-macroquad`
 
+## Cvars unreleased
+
+- Accept attributes in `cvars! {}`
+
 ## Cvars-console-fyrox v0.1.0 - 2023-01-16
 
 - First release - in-game console with history
