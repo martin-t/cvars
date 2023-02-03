@@ -32,7 +32,7 @@ impl Default for Cvars {
             g_float: 5.0,
             g_double: 10.0,
             g_enum: Enum::Two,
-            g_skipped: 0,
+            g_skipped: 666,
         }
     }
 }
