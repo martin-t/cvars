@@ -21,8 +21,9 @@ categories = [
 proc-macro = true
 
 [dependencies]
-syn = { version = "1.0.74", features = ["extra-traits"] }
+proc-macro2 = "1.0.50"
 quote = "1.0.9"
+syn = { version = "1.0.74", features = ["extra-traits"] }
 
 [dev-dependencies]
 cvars = { path = "../cvars" }

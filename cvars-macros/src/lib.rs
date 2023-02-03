@@ -126,6 +126,7 @@ pub fn cvars(input: TokenStream) -> TokenStream {
 pub fn derive(input: TokenStream) -> TokenStream {
     let input: DeriveInput = parse_macro_input!(input);
     let struct_name = input.ident;
+    let set_get_impl = impl_set_get(&struct_name);
 
     let named_fields = match input.data {
         syn::Data::Struct(struct_data) => match struct_data.fields {
@@ -275,15 +276,7 @@ pub fn derive(input: TokenStream) -> TokenStream {
             }
         }
 
-        impl ::cvars::SetGet for #struct_name {
-            fn get_string(&self, cvar_name: &str) -> ::core::result::Result<String, String> {
-                self.get_string(cvar_name)
-            }
-
-            fn set_str(&mut self, cvar_name: &str, cvar_value: &str) -> ::core::result::Result<(), String> {
-                self.set_str(cvar_name, cvar_value)
-            }
-        }
+        #set_get_impl
 
         /// This trait is needed to dispatch cvar get/set based on its type.
         /// You're not meant to impl it yourself, it's done automatically
@@ -347,6 +340,7 @@ fn skip_field(field: &Field) -> bool {
 pub fn derive_dummy(input: TokenStream) -> TokenStream {
     let input: DeriveInput = parse_macro_input!(input);
     let struct_name = input.ident;
+    let set_get_impl = impl_set_get(&struct_name);
 
     let expanded = quote! {
         impl #struct_name {
@@ -363,6 +357,22 @@ pub fn derive_dummy(input: TokenStream) -> TokenStream {
                 unimplemented!("SetGetDummy is only for compile time testing.");
             }
         }
+
+        #set_get_impl
     };
     TokenStream::from(expanded)
+}
+
+fn impl_set_get(struct_name: &Ident) -> proc_macro2::TokenStream {
+    quote! {
+        impl ::cvars::SetGet for #struct_name {
+            fn get_string(&self, cvar_name: &str) -> ::core::result::Result<String, String> {
+                self.get_string(cvar_name)
+            }
+
+            fn set_str(&mut self, cvar_name: &str, cvar_value: &str) -> ::core::result::Result<(), String> {
+                self.set_str(cvar_name, cvar_value)
+            }
+        }
+    }
 }
