@@ -2,7 +2,7 @@
 
 use strum_macros::{Display, EnumString};
 
-use cvars::SetGetDummy;
+use cvars::{SetGet, SetGetDummy};
 
 #[derive(Debug, Clone, Default, SetGetDummy)]
 pub struct Cvars {
@@ -39,6 +39,12 @@ fn unused() {
     let mut cvars = Cvars::default();
     let _ = cvars.set("g_bool", true);
     let _ = cvars.get::<bool>("g_bool");
+    let _ = cvars.set_str("g_bool", "true");
+    let _ = cvars.get_string("g_bool");
+    dynamic(&mut cvars);
+}
+
+fn dynamic(cvars: &mut dyn SetGet) {
     let _ = cvars.set_str("g_bool", "true");
     let _ = cvars.get_string("g_bool");
 }
