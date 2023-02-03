@@ -333,8 +333,6 @@ fn skip_field(field: &Field) -> bool {
 /// This exists only to test how using SetGet affects the total compile time of downstream crates.
 /// Simply replace SetGet with SetGetDummy and compare how long `cargo build` takes.
 /// The resulting code should compile but will crash if the generated methods are used.
-///
-/// TODO Generate trait impls, also add those to dummy test
 #[doc(hidden)]
 #[proc_macro_derive(SetGetDummy, attributes(cvars))]
 pub fn derive_dummy(input: TokenStream) -> TokenStream {
