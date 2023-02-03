@@ -55,8 +55,6 @@ impl Parse for CvarDef {
 /// ```
 #[proc_macro]
 pub fn cvars(input: TokenStream) -> TokenStream {
-    // TODO doc comments above cvars
-    // TODO cvars(skip)
     // LATER proper error reporting (no unwraps, expect only for infallible)
 
     let parser = Punctuated::<CvarDef, Token![,]>::parse_terminated;
