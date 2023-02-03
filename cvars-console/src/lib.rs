@@ -145,7 +145,7 @@ impl Console {
             }
         };
         if let Some(rest) = parts.next() {
-            return Err(format!("expected only cvar name and value, found {}", rest));
+            return Err(format!("expected only cvar name and value, found {rest}"));
         }
         cvars.set_str(cvar_name, cvar_value)
     }
