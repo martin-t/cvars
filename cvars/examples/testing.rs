@@ -22,17 +22,12 @@ pub struct Cvars {
     pub g_skipped: i32,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Display, EnumString)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Display, EnumString)]
 #[strum(ascii_case_insensitive)]
 pub enum Enum {
+    #[default]
     One,
     Two,
-}
-
-impl Default for Enum {
-    fn default() -> Self {
-        Enum::One
-    }
 }
 
 fn main() {}
