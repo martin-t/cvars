@@ -21,7 +21,7 @@ This is a shared changelog for all projects in this repo:
 - Command history
 - Setting / getting cvars
 
-## Cvars v0.2.0 - TODO
+## Cvars v0.2.0 - 2023-02-03
 
 - `SetGet` trait for dynamic dispatch
 
