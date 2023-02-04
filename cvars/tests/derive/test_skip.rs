@@ -22,5 +22,5 @@ fn main() {
         cvars.set_str("g_skipped", "1"),
         Err("Cvar named g_skipped not found".to_owned())
     );
-    aassert_eq!(cvars.g_skipped, old_value);
+    assert_eq!(cvars.g_skipped, old_value);
 }
