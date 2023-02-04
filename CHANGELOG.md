@@ -2,10 +2,13 @@
 
 This is a shared changelog for all projects in this repo:
 
-- The main `cvars` crate
-- The proc macros in `cvars-macros`
+- The main `cvars` crate (with its internal proc macro crate `cvars-macros`)
 - The console backend `cvars-console`
 - Frontends for game engines `cvars-console-fyrox` and `cvars-console-macroquad`
+
+## Cvars, cvars-macros - unreleased
+
+- Docs
 
 ## Cvars-console-fyrox v0.1.0 - TODO
 
@@ -21,20 +24,13 @@ This is a shared changelog for all projects in this repo:
 - Command history
 - Setting / getting cvars
 
-## Cvars v0.3.0 - 2023-02-04
-
-- **Breaking change:** Depend on `cvars-macros` v0.2.0
-
-## Cvars-macros v0.2.0 - 2023-02-04
+## Cvars v0.3.0, cvars-macros v0.2.0 - 2023-02-04
 
 - **Breaking change:** `cvars! {}` now generates a `Default` impl that uses the specified values instead of a `new` function
 
-## Cvars v0.2.0 - 2023-02-03
+## Cvars v0.2.0, cvars-macros 0.1.1 - 2023-02-03
 
 - `SetGet` trait for dynamic dispatch
-
-## Cvars-macros 0.1.1 - 2023-02-03
-
 - Accept attributes in `cvars! {}`
 
 ## Cvars-macros 0.1.0 - 2023-01-16
