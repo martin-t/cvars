@@ -186,6 +186,7 @@ pub fn derive(input: TokenStream) -> TokenStream {
         //       e.g. integers default to i32 even though cvar type is usize
         //       At the very least, it should suggest specifying the type.
         let trait_impl = quote! {
+            #[automatically_derived]
             impl SetGetType for #unique_ty {
                 fn get(cvars: &Cvars, cvar_name: &str) -> ::core::result::Result<Self, String> {
                     match cvar_name {
@@ -345,6 +346,7 @@ pub fn derive_dummy(input: TokenStream) -> TokenStream {
     let set_get_impl = impl_set_get(&struct_name);
 
     let expanded = quote! {
+        #[automatically_derived]
         impl #struct_name {
             pub fn get<T>(&self, cvar_name: &str) -> ::core::result::Result<T, String> {
                 unimplemented!("SetGetDummy is only for compile time testing.");
@@ -367,6 +369,7 @@ pub fn derive_dummy(input: TokenStream) -> TokenStream {
 
 fn impl_set_get(struct_name: &Ident) -> proc_macro2::TokenStream {
     quote! {
+        #[automatically_derived]
         impl ::cvars::SetGet for #struct_name {
             fn get_string(&self, cvar_name: &str) -> ::core::result::Result<String, String> {
                 self.get_string(cvar_name)
