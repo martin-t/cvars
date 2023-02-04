@@ -21,6 +21,10 @@ This is a shared changelog for all projects in this repo:
 - Command history
 - Setting / getting cvars
 
+## Cvars v0.3.0 - 2023-02-04
+
+- **Breaking change:** Depend on `cvars-macros` v0.2.0
+
 ## Cvars-macros v0.2.0 - 2023-02-04
 
 - **Breaking change:** `cvars! {}` now generates a `Default` impl that uses the specified values instead of a `new` function
