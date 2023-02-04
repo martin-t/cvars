@@ -2,6 +2,8 @@
 //!
 //! Parsing and executing commands, help, history, eventually cvarlist and tab completion, ...
 
+#![warn(missing_docs)]
+
 use std::mem;
 
 use cvars::SetGet;
@@ -33,6 +35,7 @@ pub struct Console {
 }
 
 impl Console {
+    /// Create a new console backend.
     pub fn new() -> Self {
         Console {
             prompt: String::new(),
@@ -90,6 +93,7 @@ impl Console {
         }
     }
 
+    /// Scroll up in the history view.
     pub fn history_scroll_up(&mut self, count: usize) {
         self.history_view_end = self.history_view_end.saturating_sub(count);
         if self.history_view_end == 0 && !self.history.is_empty() {
@@ -99,6 +103,7 @@ impl Console {
         }
     }
 
+    /// Scroll down in the history view.
     pub fn history_scroll_down(&mut self, count: usize) {
         self.history_view_end = (self.history_view_end + count).min(self.history.len());
     }
@@ -150,10 +155,12 @@ impl Console {
         cvars.set_str(cvar_name, cvar_value)
     }
 
+    /// Print a line in the console and save it to history as output.
     pub fn print<S: Into<String>>(&mut self, text: S) {
         self.push_history_line(text.into(), false);
     }
 
+    /// Print a line in the console and save it to history as input.
     fn print_input<S: Into<String>>(&mut self, text: S) {
         self.push_history_line(text.into(), true);
     }
@@ -167,14 +174,19 @@ impl Console {
     }
 }
 
+/// A line in the console's history view.
+///
+/// Might have come from the user or is the result of running a command.
 #[derive(Debug, Clone)]
 pub struct HistoryLine {
+    /// The line's text.
     pub text: String,
     /// Whether the line is input from the user or output from running a command.
     pub is_input: bool,
 }
 
 impl HistoryLine {
+    /// Create a new history line.
     pub fn new(text: String, is_input: bool) -> Self {
         Self { text, is_input }
     }
