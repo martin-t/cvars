@@ -16,13 +16,6 @@ pub struct Cvars {
     pub g_skipped: i32,
 }
 
-impl Cvars {
-    #[allow(dead_code)]
-    pub fn new() -> Self {
-        Self::default()
-    }
-}
-
 impl Default for Cvars {
     fn default() -> Self {
         Self {
