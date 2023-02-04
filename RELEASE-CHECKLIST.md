@@ -1,6 +1,7 @@
 # Release checklist
 
 - `git pull`
+- Look for fixmes/todos
 - Look for outdated deps
 - `cargo publish --dry-run -p crate-name`
 - Bump version
