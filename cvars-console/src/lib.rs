@@ -1,7 +1,4 @@
-//! Engine-independant parts of in-game consoles.
-//!
-//! Parsing and executing commands, help, history, eventually cvarlist and tab completion, ...
-
+#![doc = include_str!("../README.md")]
 #![warn(missing_docs)]
 
 use std::mem;
