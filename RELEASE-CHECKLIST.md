@@ -2,14 +2,14 @@
 
 - `git pull`
 - Look for outdated deps
-- `git push`, make sure CI passes
-  - Optionally run tests/clippy locally or do next steps while waiting for CI
 - `cargo publish --dry-run -p crate-name`
 - Bump version
 - Update CHANGELOG.md
+- `git push`, make sure CI passes
+  - This is after bumping versions to make sure all the packages in the repo are still compatible
+- `cargo publish -p crate-name`
 - `git tag -a 'crate-name-vX.Y.Z'
   - If specifying multiple versions, put more important first in case the line gets truncated on GitHub
-- `cargo publish -p crate-name`
 - `git push` the tag
 - GitHub release
   - Copy relevant part of CHANGELOG.md to description
