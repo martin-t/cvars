@@ -3,10 +3,10 @@
 This is a shared changelog for all projects in this repo:
 
 - The main [`cvars`](https://crates.io/crates/cvars) crate (with its internal proc macros in `cvars-macros`)
-- The console backend `cvars-console`
+- The console backend [`cvars-console`](https://crates.io/crates/cvars-console)
 - Frontends for game engines
-  - `cvars-console-fyrox`
-  - `cvars-console-macroquad`
+  - [`cvars-console-fyrox`](https://crates.io/crates/cvars-console-fyrox)
+  - [`cvars-console-macroquad`](https://crates.io/crates/cvars-console-macroquad)
 
 ## Cvars, cvars-macros - unreleased
 
@@ -20,7 +20,7 @@ This is a shared changelog for all projects in this repo:
 
 - First release - in-game console with history
 
-## Cvars-console v0.1.0 - TODO
+## Cvars-console v0.1.0 - 2023-02-04
 
 - Basic help message
 - Command history
@@ -28,7 +28,7 @@ This is a shared changelog for all projects in this repo:
 
 ## Cvars v0.3.0, cvars-macros v0.2.0 - 2023-02-04
 
-- **Breaking change:** `cvars! {}` now generates a `Default` impl that uses the specified values instead of a `new` function
+- **Breaking change:** The `cvars! {}` macro now generates a `Default` impl that uses the specified values instead of the default for the field's type. It no longer generates a `new` function.
 
 ## Cvars v0.2.0, cvars-macros 0.1.1 - 2023-02-03
 
