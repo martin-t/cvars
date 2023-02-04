@@ -2,9 +2,11 @@
 
 This is a shared changelog for all projects in this repo:
 
-- The main `cvars` crate (with its internal proc macro crate `cvars-macros`)
+- The main [`cvars`](https://crates.io/crates/cvars) crate (with its internal proc macros in `cvars-macros`)
 - The console backend `cvars-console`
-- Frontends for game engines `cvars-console-fyrox` and `cvars-console-macroquad`
+- Frontends for game engines
+  - `cvars-console-fyrox`
+  - `cvars-console-macroquad`
 
 ## Cvars, cvars-macros - unreleased
 
