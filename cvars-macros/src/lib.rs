@@ -72,7 +72,7 @@ pub fn cvars(input: TokenStream) -> TokenStream {
     let values: Vec<_> = cvar_defs.iter().map(|cvar_def| &cvar_def.value).collect();
 
     let expanded = quote! {
-        #[derive(Debug, Clone, Default, ::cvars::SetGet)]
+        #[derive(Debug, Clone, ::cvars::SetGet)]
         pub struct Cvars {
             #(
                 #( #attrss )*
@@ -81,14 +81,13 @@ pub fn cvars(input: TokenStream) -> TokenStream {
         }
 
         #[automatically_derived]
-        impl Cvars {
-            pub fn new() -> Self {
+        impl ::std::default::Default for Cvars {
+            fn default() -> Self {
                 Self {
                     #(
                         #names: #values,
                     )*
                 }
-
             }
         }
     };
