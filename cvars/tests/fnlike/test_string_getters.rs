@@ -3,7 +3,7 @@ mod shared;
 use shared::Cvars;
 
 fn main() {
-    let cvars = Cvars::default();
+    let cvars = Cvars::new(); // TODO use default when it uses default values properly
 
     assert_eq!(cvars.get_string("g_bool"), Ok("true".to_owned()));
     assert_eq!(cvars.get_string("g_int"), Ok("42".to_owned()));
