@@ -41,7 +41,7 @@ impl Parse for CvarDef {
 /// **Experimental**. Generate the whole `Cvars` struct.
 ///
 /// This allows both the field types and their initial values to be defined on one line.
-/// The downside is that users can't specify attributes on the struct.
+/// The downside is that users currently can't specify attributes on the struct.
 ///
 /// The generated code contains the struct definition and an `impl Default for Cvars` block
 /// which sets the initial values.
