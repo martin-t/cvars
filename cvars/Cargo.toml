@@ -1,6 +1,6 @@
 [package]
 name = "cvars"
-version = "0.2.0"
+version = "0.3.0"
 edition = "2021"
 authors = ["Martin Taibr <taibr.martin@gmail.com>"]
 description = "Configuration variables for games"
@@ -24,7 +24,7 @@ name = "tests"
 path = "tests/progress.rs"
 
 [dependencies]
-cvars-macros = { version = "0.1.1", path = "../cvars-macros" }
+cvars-macros = { version = "0.2.0", path = "../cvars-macros" }
 
 [dev-dependencies]
 strum = "0.24.1"
