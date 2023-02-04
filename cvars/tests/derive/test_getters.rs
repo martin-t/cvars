@@ -3,7 +3,7 @@ mod shared;
 use shared::Cvars;
 
 fn main() {
-    let cvars = Cvars::new();
+    let cvars = Cvars::default();
 
     // Creating a second struct so that type inferrence works.
     // Just `assert_eq!(cvars.get("g_int"), cvars.g_int);`
