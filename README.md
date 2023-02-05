@@ -22,6 +22,7 @@ These crates are inspired by the idTech (Doom, Quake) and Source family of game 
 
 **TL;DR**: Set and get struct fields based on the field's name as a string. User writes the cvar's name and new value into the console, it sets the appropriate field in your config struct and the game now behaves differently. Your gamecode uses cvars as regular staticly typed values.
 
+<!-- To avoid keeping a large file in the repo forever, this video was uploaded to a dummy github issue. AFAIK the issue doesn't even need to be submitted and it'll still be hosted forever. -->
 <a href="https://user-images.githubusercontent.com/4079823/152082630-a705286d-c630-4507-9213-b8a7b106d47e.mp4">Usage example video worth 15*1000 words per second</a>
 
 **Zero boilerplate** - there are no traits to implement manually and no setup code to call per cvar.
