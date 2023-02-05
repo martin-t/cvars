@@ -1,5 +1,7 @@
 //! The in-game console which allows changing cvars at runtime.
 
+#![warn(missing_docs)]
+
 use macroquad::{
     prelude::*,
     ui::{
@@ -12,6 +14,9 @@ use macroquad::{
 use cvars::SetGet;
 use cvars_console::Console;
 
+/// In-game console for the Macroquad game engine.
+///
+/// It handles all the input and drawing, you just need to call `update` every frame after rendering.
 #[derive(Debug, Clone, Default)]
 pub struct MacroquadConsole {
     is_open: bool,
@@ -22,6 +27,7 @@ pub struct MacroquadConsole {
 }
 
 impl MacroquadConsole {
+    /// Create a new console. Build its UI but keep it closed.
     pub fn new() -> Self {
         Self {
             is_open: false,
@@ -32,6 +38,9 @@ impl MacroquadConsole {
         }
     }
 
+    /// Process input, handle opening and closing, draw the console.
+    ///
+    /// Call this every frame after your game's rendering code so the console is drawn on top.
     pub fn update(&mut self, cvars: &mut dyn SetGet) {
         self.input_prev = self.input;
         self.input = get_input();
@@ -190,18 +199,19 @@ impl MacroquadConsole {
     }
 }
 
+/// Configuration for the console.
 #[derive(Debug, Clone)]
-pub struct Config {
-    pub background_alpha: f32,
-    pub prompt_group_x: f32,
-    pub prompt_group_y_offset: f32,
-    pub height_fraction: f32,
-    pub history_line_font_size: f32,
-    pub history_line_height: f32,
-    pub history_x: f32,
-    pub history_y_offset: f32,
-    pub prompt_label_x: f32,
-    pub prompt_label_y_offset: f32,
+struct Config {
+    background_alpha: f32,
+    prompt_group_x: f32,
+    prompt_group_y_offset: f32,
+    height_fraction: f32,
+    history_line_font_size: f32,
+    history_line_height: f32,
+    history_x: f32,
+    history_y_offset: f32,
+    prompt_label_x: f32,
+    prompt_label_y_offset: f32,
 }
 
 impl Default for Config {
