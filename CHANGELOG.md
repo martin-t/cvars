@@ -12,11 +12,11 @@ This is a shared changelog for all projects in this repo:
 
 - Docs
 
-## Cvars-console-fyrox v0.1.0 - TODO
+## Cvars-console-fyrox v0.1.0 - 2023-02-06
 
 - First release - in-game console with history
 
-## Cvars-console-macroquad v0.1.0 - TODO
+## Cvars-console-macroquad v0.1.0 - 2023-02-06
 
 - First release - in-game console with history
 
