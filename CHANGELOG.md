@@ -8,9 +8,9 @@ This is a shared changelog for all projects in this repo:
   - [`cvars-console-fyrox`](https://crates.io/crates/cvars-console-fyrox)
   - [`cvars-console-macroquad`](https://crates.io/crates/cvars-console-macroquad)
 
-## Cvars, cvars-macros - unreleased
+## Cvars v0.3.1, cvars-macros v0.2.1 - 2023-02-06
 
-- Docs
+- Fix and improve docs
 
 ## Cvars-console-fyrox v0.1.0 - 2023-02-06
 

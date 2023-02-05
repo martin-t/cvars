@@ -1,6 +1,6 @@
 [package]
 name = "cvars-macros"
-version = "0.2.0"
+version = "0.2.1"
 edition = "2021"
 authors = ["Martin Taibr <taibr.martin@gmail.com>"]
 description = "Configuration variables for games - internal crate, use the main cvars crate instead"
