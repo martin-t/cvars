@@ -30,6 +30,14 @@ These crates are inspired by the idTech (Doom, Quake) and Source family of game 
 
 ## Usage
 
+- Add cvars to your `Cargo.toml`:
+
+```shell
+cargo add cvars
+```
+
+- Put your config in a struct and derive `SetGet`:
+
 ```rust
 use cvars::SetGet;
 
@@ -38,6 +46,7 @@ use cvars::SetGet;
 pub struct Cvars {
     g_rocket_launcher_ammo_max: i32,
     g_rocket_launcher_damage: f32,
+    // more cvars ...
 }
 
 // Here you set default values.
@@ -52,7 +61,11 @@ impl Cvars {
 
 // Store this in your game state.
 let mut cvars = Cvars::new();
+```
 
+- Allow users to change the config:
+
+```rust
 // These normally come from the user
 // (from stdin / your game's console / etc.)
 let cvar_name = "g_rocket_launcher_damage";
@@ -62,7 +75,9 @@ let new_value = "150";
 cvars.set_str(cvar_name, new_value).unwrap();
 ```
 
-The player wants to change a cvar and types `g_rocket_launcher_damage 150` into the game's console or stdin. You get both the cvar name and new value as strings so you can't do `cvars.g_rocket_launcher_damage = 150`. You need to look up the correct field based on the string - this is what `cvars` does - it generates `set_str` (and some other useful methods). You call `cvars.set_str("g_rocket_launcher_damage", "150");` which looks up the right field, parses the value into its type and updates the field with it. From then on, rockets do 150 damage.
+## Motivation
+
+A modder wants rockets to do more damage. He types `g_rocket_launcher_damage 150` into the game's console or stdin. You get both the cvar name and new value as strings so you can't do `cvars.g_rocket_launcher_damage = 150`. You need to look up the correct field based on the string - this is what `cvars` does - it generates `set_str` (and some other useful methods). You call `cvars.set_str("g_rocket_launcher_damage", "150");` which looks up the right field, parses the value into its type and updates the field with it. From then on, rockets do 150 damage.
 
 The important thing is that in the rest of your application, you can still access your cvars as regular struct fields - e.g. `player.health -= cvars.g_rocket_launcher_damage;`. This means you only need to use strings when the user (player or developer when debugging or testing a different balance) is changing the values. The rest of your gamelogic is still statically typed and using a cvar in gamecode is just a field access without any overhead.
 
@@ -75,6 +90,36 @@ For a real-world example, look at games using cvars:
 - [RecWars](https://github.com/martin-t/rec-wars/blob/master/src/cvars.rs) - uses the Macroquad console, every aspect of the gameplay is configurable, you can test it [in your browsser](https://martin-t.gitlab.io/gitlab-pages/rec-wars/macroquad.html)
 - [RustCycles](https://github.com/rustcycles/rustcycles/blob/master/src/cvars.rs) - uses the Fyrox console
 
+## Fyrox console
+
+[![Crates.io](https://img.shields.io/crates/v/cvars-console-fyrox)](https://crates.io/crates/cvars-console-fyrox)
+[![License (AGPL3)](https://img.shields.io/github/license/martin-t/cvars)](https://github.com/martin-t/cvars/blob/master/LICENSE)
+[![CI](https://github.com/martin-t/cvars/workflows/CI-fyrox/badge.svg)](https://github.com/martin-t/cvars/actions)
+[![Audit](https://github.com/martin-t/cvars/workflows/audit-fyrox/badge.svg)](https://rustsec.org/)
+[![Dependency status](https://deps.rs/repo/github/martin-t/cvars/status.svg?path=cvars-console-fyrox)](https://deps.rs/repo/github/martin-t/cvars?path=cvars-console-fyrox)
+[![Discord](https://img.shields.io/discord/770013530593689620?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/aA7hCFvYh9)
+
+The Fyrox console is a separate crate in this repo. To use it in your game, add it to your `Cargo.toml` and call its methods on the relevant engine events.
+
+![Fyrox console](media/cvars-console-fyrox.png)
+
+See the [crates.io page](https://crates.io/crates/cvars-console-fyrox) or its [docs](https://docs.rs/cvars-console/*/cvars_console_fyrox/) for more information.
+
+## Macroquad console
+
+[![Crates.io](https://img.shields.io/crates/v/cvars-console-macroquad)](https://crates.io/crates/cvars-console-macroquad)
+[![License (AGPL3)](https://img.shields.io/github/license/martin-t/cvars)](https://github.com/martin-t/cvars/blob/master/LICENSE)
+[![CI](https://github.com/martin-t/cvars/workflows/CI-macroquad/badge.svg)](https://github.com/martin-t/cvars/actions)
+[![Audit](https://github.com/martin-t/cvars/workflows/audit-macroquad/badge.svg)](https://rustsec.org/)
+[![Dependency status](https://deps.rs/repo/github/martin-t/cvars/status.svg?path=cvars-console-macroquad)](https://deps.rs/repo/github/martin-t/cvars?path=cvars-console-macroquad)
+[![Discord](https://img.shields.io/discord/770013530593689620?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/aA7hCFvYh9)
+
+The Macroquad console is a separate crate in this repo. To use it in your game, add it to your `Cargo.toml` and call its `update` method every frame.
+
+![Macroquad console](media/cvars-console-macroquad.png)
+
+See the [crates.io page](https://crates.io/crates/cvars-console-macroquad) or its [docs](https://docs.rs/cvars-console/*0.1.0*/cvars_console_macroquad/) for more information.
+
 ## Features
 
 - [x] Derive macro `SetGet` to create settters and getters for cvars based on their name
@@ -82,12 +127,12 @@ For a real-world example, look at games using cvars:
   - [x] As string (`set_str`, `get_string`)
 - [x] Function like `cvars!` macro to declare type and initial value on one line
 - [x] Support user-defined cvar types (both structs and enums)
-- [ ] Save config to and load it from files - useful if your game has multiple balance presets
+- [ ] Saving and loading cvars to/from files - useful if your game has multiple balance presets
 - [x] In-game console for the Fyrox engine
 - [x] In-game console for the Macroquad engine
-- [ ] Autocompletion for consoles / GUI
+- [ ] Autocompletion
 
-Features I am not planning - I might accept a PR if it's simple and maintainable but it's probably better if you implement them in your own crate:
+Features I am not planning to implement myself but would be nice to have. I might accept a PR if it's clean and maintainable but it's probably better if you implement them in your own crate:
 
 - In-game console for the Bevy engine
 - In-game console for the Egui UI toolkit
@@ -112,39 +157,9 @@ Features I am not planning - I might accept a PR if it's simple and maintainable
   - Uses a trait instead of a macro. The trait seems to need to be implemented manually so more boilerplate.
   - Has additional features (lists, actions) which `cvars` currently doesn't.
 
-Compared to these, cvars either has no overhead at runtime or requires less setup code. The downside [currently](https://github.com/martin-t/cvars/issues/6) might be slightly increased incremental compile times (hundreds of milliseconds).
+Compared to these, cvars either has no overhead during runtime or requires less setup code. The downside [currently](https://github.com/martin-t/cvars/issues/6) might be slightly increased incremental compile times (by hundreds of milliseconds).
 
-Cvars also serves a slightly different purpose than inline_tweak and const-tweaker. It's meant to stay in code forever, even after releasing your game, to enable modding by players.
-
-## Development
-
-### Fast compiles (optional)
-
-#### Use nightly, lld and -Zshare-generics
-
-- Enable `rust-toolchain-example.toml` and `.cargo/config-example.toml`:
-  - Run this in project root: `ln -s rust-toolchain-example.toml rust-toolchain.toml; cd .cargo; ln -s config-example.toml config.toml; cd -`
-
-This can provide a 5x speedup on some projects, the other tips are less important.
-
-#### Prevent rust-analyzer from locking the `target` directory
-
-If you're using RA with `clippy` instead of `check`, add this to your VSCode config (or something similar for your editor):
-
-```json
-"rust-analyzer.server.extraEnv": {
-    "CARGO_TARGET_DIR": "target/ra"
-}
-```
-
-Explanation: Normally, if rust-analyzer runs `cargo clippy` on save, it locks `target` so if you switch to a terminal and do `cargo run`, it blocks the build. This will make rust-analyzer use a separate target directory so that it'll never block a build at the expense of slightly more disk space. Alternatively, you could disable saving when losing focus, disable running check on save or use the terminal inside VSCode to build the project.
-
-#### On linux, use the `mold` linker
-
-- Get it [here](https://github.com/rui314/mold)
-- Run cargo commands like this: `~/your/path/to/mold -run cargo build`
-
-This gives a 10% reduction in build times on some projects. Might not be worth it for you.
+Cvars also serves a slightly different purpose than inline_tweak and const-tweaker. It's meant to stay in code forever, even after releasing your game, to enable modding by your game's community.
 
 ## License
 

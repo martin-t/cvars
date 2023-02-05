@@ -1,5 +1,4 @@
-//! The in-game console which allows changing cvars at runtime.
-
+#![doc = include_str!("../README.md")]
 #![warn(missing_docs)]
 
 use fyrox_ui::{
@@ -19,9 +18,6 @@ use cvars::SetGet;
 use cvars_console::Console;
 
 /// In-game console for the Fyrox game engine.
-///
-/// You're responsible for opening and closing it according to your game's key bindings.
-/// You also need to call `resized` and `ui_message` on the appropriate engine events.
 pub struct FyroxConsole {
     is_open: bool,
     first_open: bool,

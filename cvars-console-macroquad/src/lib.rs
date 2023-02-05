@@ -1,5 +1,4 @@
-//! The in-game console which allows changing cvars at runtime.
-
+#![doc = include_str!("../README.md")]
 #![warn(missing_docs)]
 
 use macroquad::{

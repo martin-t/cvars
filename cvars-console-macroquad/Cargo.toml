@@ -7,7 +7,7 @@ description = "In-game console for the macroquad game engine, using the cvars cr
 homepage = "https://github.com/martin-t/cvars"
 repository = "https://github.com/martin-t/cvars"
 license = "AGPL-3.0-or-later"
-readme = "../README.md"
+readme = "README.md"
 keywords = ["configuration", "console", "debugging", "gamedev", "settings"]
 categories = [
     "config",
