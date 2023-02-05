@@ -164,4 +164,4 @@ Cvars also serves a slightly different purpose than inline_tweak and const-tweak
 
 ## License
 
-AGPL-v3 or newer
+[AGPL-v3](LICENSE) or newer
