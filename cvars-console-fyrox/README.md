@@ -9,7 +9,7 @@
 
 In-game console for the [Fyrox](https://github.com/FyroxEngine/Fyrox) game engine for changing [cvars](https://github.com/martin-t/cvars) at runtime.
 
-![Fyrox console](https://raw.githubusercontent.com/martin-t/cvars/master/media/cvars-console-fyrox.png)
+![Fyrox console](screenshot.png)
 
 ## Usage
 

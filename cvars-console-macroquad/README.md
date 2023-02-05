@@ -9,7 +9,7 @@
 
 In-game console for the [macroquad](https://github.com/not-fl3/macroquad) game engine for changing [cvars](https://github.com/martin-t/cvars) at runtime.
 
-![Macroquad console](https://raw.githubusercontent.com/martin-t/cvars/master/media/cvars-console-macroquad.png)
+![Macroquad console](screenshot.png)
 
 ## Usage
 
