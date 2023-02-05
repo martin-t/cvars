@@ -2,7 +2,7 @@
     <h1>Cvars</h1>
     <i>Configuration variables .rs</i>
     <br />
-    A simple and ergonomic way to store and edit runtime configuration in your program
+    A simple and ergonomic way to store and edit configuration at runtime
 </div>
 <br />
 
@@ -158,7 +158,7 @@ Features I am not planning to implement myself but would be nice to have. I migh
   - Uses a trait instead of a macro. The trait seems to need to be implemented manually so more boilerplate.
   - Has additional features (lists, actions) which `cvars` currently doesn't.
 
-Compared to these, cvars either has no overhead during runtime or requires less setup code. The downside [currently](https://github.com/martin-t/cvars/issues/6) might be slightly increased incremental compile times (by hundreds of milliseconds).
+Compared to these, cvars either has no overhead at runtime or requires less setup code. The downside [currently](https://github.com/martin-t/cvars/issues/6) might be slightly increased incremental compile times (by hundreds of milliseconds).
 
 Cvars also serves a slightly different purpose than inline_tweak and const-tweaker. It's meant to stay in code forever, even after releasing your game, to enable modding by your game's community.
 

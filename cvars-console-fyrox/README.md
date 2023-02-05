@@ -1,4 +1,9 @@
-# Cvars-console-fyrox
+<div align="center">
+    <h1>Fyrox console</h1>
+    <br />
+    A simple and ergonomic way to store and edit configuration in your game at runtime
+</div>
+<br />
 
 [![Crates.io](https://img.shields.io/crates/v/cvars-console-fyrox)](https://crates.io/crates/cvars-console-fyrox)
 [![License (AGPL3)](https://img.shields.io/github/license/martin-t/cvars)](https://github.com/martin-t/cvars/blob/master/LICENSE)
