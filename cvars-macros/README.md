@@ -2,7 +2,7 @@
 
 Proc macros for generating methods on your Cvars struct.
 
-Internal crate.
+_Internal crate._
 
 This crate is not meant to be used directly,
 its macros are reexported by the [cvars](https://crates.io/crates/cvars) crate
