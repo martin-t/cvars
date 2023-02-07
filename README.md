@@ -104,7 +104,7 @@ The Fyrox console is a separate crate in this repo. To use it in your game, add 
 
 ![Fyrox console](cvars-console-fyrox/screenshot.png)
 
-See the [crates.io page](https://crates.io/crates/cvars-console-fyrox) or its [docs](https://docs.rs/cvars-console/*/cvars_console_fyrox/) for more information.
+See the [crates.io page](https://crates.io/crates/cvars-console-fyrox) or its [docs](https://docs.rs/cvars-console-fyrox/*/cvars_console_fyrox/) for more information.
 
 ## Macroquad console
 
@@ -119,7 +119,7 @@ The Macroquad console is a separate crate in this repo. To use it in your game, 
 
 ![Macroquad console](cvars-console-macroquad/screenshot.png)
 
-See the [crates.io page](https://crates.io/crates/cvars-console-macroquad) or its [docs](https://docs.rs/cvars-console/*0.1.0*/cvars_console_macroquad/) for more information.
+See the [crates.io page](https://crates.io/crates/cvars-console-macroquad) or its [docs](https://docs.rs/cvars-console-macroquad/*/cvars_console_macroquad/) for more information.
 
 ## Features
 
