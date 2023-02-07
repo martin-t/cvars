@@ -133,11 +133,12 @@ See the [crates.io page](https://crates.io/crates/cvars-console-macroquad) or it
 - [x] In-game console for the Macroquad engine
 - [ ] Autocompletion
 
-Features I am not planning to implement myself but would be nice to have. I might accept a PR if it's clean and maintainable but it's probably better if you implement them in your own crate:
+Features I am currently not planning to implement myself but would be nice to have. I might accept a PR if it's clean and maintainable but it's probably better if you implement them in your own crate:
 
 - In-game console for the Bevy engine
 - In-game console for the Egui UI toolkit
-- Browser GUI for games without a console
+- Non-blocking stdio-based console
+  - This would bring the full power of cvars to any program that can access stdin/out without the need to implement a console for every engine or UI toolkit.
 
 ## Alternatives
 
