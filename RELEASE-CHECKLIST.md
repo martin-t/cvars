@@ -4,9 +4,10 @@
 - Look for fixmes/todos
 - Look for outdated deps
 - `cargo publish --dry-run -p crate-name`
+  - Check the generated package has the correct versions of `cvars-*` deps, otherwise `cargo update`
 - Bump version
 - Update CHANGELOG.md
-- `git push`, make sure CI passes
+- Commit, `git push`, make sure CI passes
   - This is after bumping versions to make sure all the packages in the repo are still compatible
 - `cargo publish -p crate-name`
 - `git tag -a crate-name-vX.Y.Z`

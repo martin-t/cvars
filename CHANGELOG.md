@@ -8,6 +8,10 @@ This is a shared changelog for all projects in this repo:
   - [`cvars-console-fyrox`](https://crates.io/crates/cvars-console-fyrox)
   - [`cvars-console-macroquad`](https://crates.io/crates/cvars-console-macroquad)
 
+## Cvars v0.3.2 - 2023-02-08
+
+- Fix docs of reexported items
+
 ## Cvars v0.3.1, cvars-macros v0.2.1 - 2023-02-06
 
 - Fix and improve docs

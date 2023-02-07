@@ -1,6 +1,6 @@
 [package]
 name = "cvars"
-version = "0.3.1"
+version = "0.3.2"
 edition = "2021"
 authors = ["Martin Taibr <taibr.martin@gmail.com>"]
 description = "Configuration variables for games"
