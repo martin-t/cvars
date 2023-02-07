@@ -91,7 +91,7 @@ For a real-world example, look at games using cvars:
 - [RecWars](https://github.com/martin-t/rec-wars/blob/master/src/cvars.rs) - uses the Macroquad console, every aspect of the gameplay is configurable, you can test it [in your browsser](https://martin-t.gitlab.io/gitlab-pages/rec-wars/macroquad.html)
 - [RustCycles](https://github.com/rustcycles/rustcycles/blob/master/src/cvars.rs) - uses the Fyrox console
 
-## Fyrox console
+## [Fyrox console](https://github.com/martin-t/cvars/tree/master/cvars-console-fyrox)
 
 [![Crates.io](https://img.shields.io/crates/v/cvars-console-fyrox)](https://crates.io/crates/cvars-console-fyrox)
 [![License (AGPL3)](https://img.shields.io/github/license/martin-t/cvars)](https://github.com/martin-t/cvars/blob/master/LICENSE)
@@ -106,7 +106,7 @@ The Fyrox console is a separate crate in this repo. To use it in your game, add 
 
 See the [crates.io page](https://crates.io/crates/cvars-console-fyrox) or its [docs](https://docs.rs/cvars-console-fyrox/*/cvars_console_fyrox/) for more information.
 
-## Macroquad console
+## [Macroquad console](https://github.com/martin-t/cvars/tree/master/cvars-console-macroquad)
 
 [![Crates.io](https://img.shields.io/crates/v/cvars-console-macroquad)](https://crates.io/crates/cvars-console-macroquad)
 [![License (AGPL3)](https://img.shields.io/github/license/martin-t/cvars)](https://github.com/martin-t/cvars/blob/master/LICENSE)
