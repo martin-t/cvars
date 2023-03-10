@@ -53,8 +53,10 @@
 //! cvars.set_str(cvar_name, new_value).unwrap();
 //! ```
 //!
-//! The player wants to change a cvar and types `g_rocket_launcher_damage 150` into the game's console or stdin.
-//! You get both the cvar name and new value as strings so you can't do `cvars.g_rocket_launcher_damage = 150`.
+//! A player/modder/gamedev wants rockets to do more damage.
+//! He types `g_rocket_launcher_damage 150` into the game's console or stdin.
+//! The code gets both the cvar name and new value as strings
+//! so you can't write `cvars.g_rocket_launcher_damage = 150`.
 //! You need to look up the correct field based on the string - this is what `cvars` does - it generates `set_str`
 //! (and some other useful methods). You call `cvars.set_str("g_rocket_launcher_damage", "150");`
 //! which looks up the right field, parses the value into its type and updates the field with it.
@@ -64,12 +66,13 @@
 //! you can still access your cvars as regular struct fields - e.g. `player.health -= cvars.g_rocket_launcher_damage;`.
 //! This means you only need to use strings when the user
 //! (player or developer when debugging or testing a different balance) is changing the values.
-//! The rest of your gamelogic is still statically typed and using a cvar in gamecode
+//! The rest of your **gamelogic is still statically typed** and using a cvar in gamecode
 //! is just a field access without any overhead.
 //!
 //! A typical game will have hundreds or thousands of tunable parameters.
 //! With cvars and a console you can keep them all configurable for advanced players,
-//! modders and your-gamedev-self via a simple TUI
+//! modders and your-gamedev-self without having a build and elaborate settings menu.
+//! You can keep everything configurable using a TUI
 //! while also exposing common settings to normal players in your game's GUI.
 //!
 //! See [cvars/examples/stdin.rs](https://github.com/martin-t/cvars/blob/master/cvars/examples/stdin.rs)
