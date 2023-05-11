@@ -12,9 +12,9 @@ use cvars1000::Cvars;
 #[cfg(feature = "cvars10000")]
 use cvars10000::Cvars;
 
-#[cfg(feature = "setget")]
+#[cfg(feature = "derive")]
 use cvars::SetGet;
-#[cfg(feature = "setgetdummy")]
+#[cfg(feature = "derive-dummy")]
 use cvars::SetGetDummy as SetGet;
 
 #[cfg(feature = "nomacro")]

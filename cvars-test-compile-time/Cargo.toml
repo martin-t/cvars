@@ -35,9 +35,9 @@ codegen-units = 1
 cvars100 = []
 cvars1000 = []
 cvars10000 = []
-setget = []
-setgetdummy = []
 nomacro = []
+derive-dummy = []
+derive = []
 
 [dependencies]
 cvars = { path = "../cvars" }
