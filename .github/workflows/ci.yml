@@ -36,6 +36,20 @@ jobs:
       - run: cargo build --verbose
       - run: cargo test --verbose --all-features
 
+  bench:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: nightly
+          override: true
+      - run: rustc --version && cargo --version
+      - run: |
+          cd cvars-test-compile-time
+          ./bench.rs
+
   format:
     runs-on: ubuntu-latest
     steps:
