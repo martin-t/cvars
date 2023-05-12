@@ -45,10 +45,12 @@ jobs:
           profile: minimal
           toolchain: nightly
           override: true
-      - run: rustc --version && cargo --version
       - run: |
-          cd cvars-test-compile-time
-          ./bench.rs
+          sudo apt-get update # Run update first or install might start failing eventually.
+          sudo apt-get install --no-install-recommends -y hyperfine
+      - run: rustc --version && cargo --version
+      - run: ./bench.rs
+        working-directory: cvars-test-compile-time
 
   format:
     runs-on: ubuntu-latest
