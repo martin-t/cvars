@@ -1,5 +1,3 @@
-use crate::SetGet;
-
 #[derive(Debug, Default, SetGet)]
 pub struct Cvars {
     pub test0: i32,
