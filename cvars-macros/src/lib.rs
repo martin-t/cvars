@@ -156,6 +156,7 @@ pub fn derive(input: TokenStream) -> TokenStream {
     // Get the set of types used as cvars.
     // We need to impl SetGetType for them and it needs to be done
     // once per type, not once per cvar.
+    // Note: I benchmarked this against FnvHashSet and it doesn't make a difference.
     let unique_tys: HashSet<_> = tys.iter().collect();
     let mut trait_impls = Vec::new();
     for unique_ty in unique_tys {
