@@ -1,7 +1,14 @@
 #[cfg(feature = "nomacro")]
 mod bench {
-    #[derive(Default)]
-    pub struct Cvars;
+    // Hack so we can reuse the same code as for the derive benchmarks.
+    use std::clone::Clone as SetGet;
+
+    #[cfg(feature = "cvars-100")]
+    include!("derive-100.in");
+    #[cfg(feature = "cvars-1000")]
+    include!("derive-1000.in");
+    #[cfg(feature = "cvars-10000")]
+    include!("derive-10000.in");
 
     impl Cvars {
         pub fn get_string(&self, _cvar_name: &str) -> Result<String, String> {
