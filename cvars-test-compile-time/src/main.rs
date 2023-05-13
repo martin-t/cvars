@@ -20,12 +20,24 @@ mod bench {
     #[cfg(feature = "derive")]
     use cvars::SetGet;
 
-    #[cfg(feature = "cvars100")]
+    #[cfg(feature = "cvars-100")]
     include!("derive-100.in");
-    #[cfg(feature = "cvars1000")]
+    #[cfg(feature = "cvars-1000")]
     include!("derive-1000.in");
-    #[cfg(feature = "cvars10000")]
+    #[cfg(feature = "cvars-10000")]
     include!("derive-10000.in");
+}
+
+#[cfg(feature = "fnlike")]
+mod bench {
+    use cvars::cvars;
+
+    #[cfg(feature = "cvars-100")]
+    include!("fnlike-100.in");
+    #[cfg(feature = "cvars-1000")]
+    include!("fnlike-1000.in");
+    #[cfg(feature = "cvars-10000")]
+    include!("fnlike-10000.in");
 }
 
 use bench::*;

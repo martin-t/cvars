@@ -32,12 +32,15 @@ opt-level = 3
 codegen-units = 1
 
 [features]
-cvars100 = []
-cvars1000 = []
-cvars10000 = []
+# Pick one of these to determine the method used to generate cvars
 nomacro = []
 derive-dummy = []
 derive = []
+fnlike = []
+# Pick one of these to determine how many cvars to generate
+cvars-100 = []
+cvars-1000 = []
+cvars-10000 = []
 
 [dependencies]
 cvars = { path = "../cvars" }
