@@ -49,7 +49,7 @@ jobs:
           sudo apt-get update # Run update first or install might start failing eventually.
           sudo apt-get install --no-install-recommends -y hyperfine
       - run: rustc --version && cargo --version
-      - run: ./bench.rs
+      - run: ./bench.sh
         working-directory: cvars-test-compile-time
 
   format:
