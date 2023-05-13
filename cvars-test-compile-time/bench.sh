@@ -3,8 +3,9 @@
 # Exit on error, unset variables and pipeline errors
 set -euo pipefail
 
-# In case this is the first time building this project, this'll also build deps.
-# Run it outside hyperfine so we can see progress
+# In case this is the first time building this project,
+# this'll also build deps which can take a while.
+# Run it outside hyperfine so we can see progress.
 cargo build --features nomacro,cvars-100
 
 hyperfine --warmup 2 "echo '// test' >> src/main.rs && cargo build --features nomacro,cvars-100"
