@@ -1,3 +1,6 @@
+// FIXME compare without derive Debug/Default
+// FIXME compare all manual / code generation
+
 #[cfg(feature = "nomacro")]
 mod bench {
     // Hack so we can reuse the same code as for the derive benchmarks.
@@ -9,6 +12,8 @@ mod bench {
     include!("derive-1000.in");
     #[cfg(feature = "cvars-10000")]
     include!("derive-10000.in");
+    #[cfg(feature = "cvars-10000d")]
+    include!("derive-10000d.in");
 
     impl Cvars {
         pub fn get_string(&self, _cvar_name: &str) -> Result<String, String> {
@@ -33,6 +38,8 @@ mod bench {
     include!("derive-1000.in");
     #[cfg(feature = "cvars-10000")]
     include!("derive-10000.in");
+    #[cfg(feature = "cvars-10000d")]
+    include!("derive-10000d.in");
 }
 
 #[cfg(feature = "fnlike")]

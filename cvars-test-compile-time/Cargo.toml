@@ -41,6 +41,7 @@ fnlike = []
 cvars-100 = []
 cvars-1000 = []
 cvars-10000 = []
+cvars-10000d = []
 
 [dependencies]
 cvars = { path = "../cvars" }
