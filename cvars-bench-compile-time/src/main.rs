@@ -65,8 +65,17 @@ fn main() {
     let number = path.len();
     let set = args.next().unwrap();
     let get = args.next().unwrap();
-    let mut cvars = Cvars::default();
+    if false {
+        unsafe {
+            take_cvars(std::mem::transmute(5usize), &set, number);
+        }
+    }
+    // let mut cvars = Cvars::default();
+    // cvars.set_str(&set, &number.to_string()).unwrap();
+    // let val = cvars.get_string(&get).unwrap();
+    // println!("set {set} -> {number}, get {get} -> {val}");
+}
+
+fn take_cvars(cvars: &mut Cvars, set: &str, number: usize) {
     cvars.set_str(&set, &number.to_string()).unwrap();
-    let val = cvars.get_string(&get).unwrap();
-    println!("set {set} -> {number}, get {get} -> {val}");
 }
