@@ -5,6 +5,7 @@
 // - Replacing derive(Debug) with a manual impl
 //   reduces the compile time by on nomacro/dummy 10k cvars by a bit over 10%
 //   but makes rustc crash when using the fast compiles configuration.
+// - Dummy 10k cvars: derive(Default) 703.1 ms, no Default 552.6 ms, manual impl 657.4 ms
 
 #[cfg(feature = "nomacro")]
 mod bench {
