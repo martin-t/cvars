@@ -12,7 +12,7 @@
 [![Audit](https://github.com/martin-t/cvars/workflows/audit/badge.svg)](https://rustsec.org/)
 [![Dependency status](https://deps.rs/repo/github/martin-t/cvars/status.svg)](https://deps.rs/repo/github/martin-t/cvars)
 [![Discord](https://img.shields.io/discord/770013530593689620?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/aA7hCFvYh9)
-<!-- ![Total lines](https://tokei.rs/b1/github/martin-t/cvars) Disabled because it counts cvars-test-compile-time, plus it's currently broken and always shows 0 anyway. -->
+<!-- ![Total lines](https://tokei.rs/b1/github/martin-t/cvars) Disabled because it counts cvars-bench-compile-time, plus it's currently broken and always shows 0 anyway. -->
 
 _Cvars_ (console variables or configuration variables) are a **simple** way to store settings you want to change at runtime without restarting your program.
 

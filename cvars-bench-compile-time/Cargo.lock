@@ -10,19 +10,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "cvars-bench-compile-time"
+version = "0.1.0"
+dependencies = [
+ "cvars",
+]
+
+[[package]]
 name = "cvars-macros"
 version = "0.2.1"
 dependencies = [
  "proc-macro2",
  "quote",
  "syn",
-]
-
-[[package]]
-name = "cvars-test-compile-time"
-version = "0.1.0"
-dependencies = [
- "cvars",
 ]
 
 [[package]]

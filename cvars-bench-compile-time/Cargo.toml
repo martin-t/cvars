@@ -1,5 +1,5 @@
 [package]
-name = "cvars-test-compile-time"
+name = "cvars-bench-compile-time"
 version = "0.1.0"
 edition = "2021"
 authors = ["Martin Taibr <taibr.martin@gmail.com>"]

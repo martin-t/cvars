@@ -5,7 +5,7 @@
 #     It would also require installing system-wide deps for the given engines and GUI toolkits.
 #     This is especially important for first-time contributors who might only want to work on one subproject.
 #
-# The cvars-test-compile-time is also excluded to better simulate a standalone project using cvars
+# The cvars-bench-compile-time is also excluded to better simulate a standalone project using cvars
 # and so we can change optimization settings in its Cargo.toml without affecting the rest.
 #
 # Note that .cargo/config.toml and rust-toolchain still apply to them.
@@ -13,7 +13,7 @@ members = ["cvars", "cvars-console", "cvars-macros"]
 exclude = [
     "cvars-console-fyrox",
     "cvars-console-macroquad",
-    "cvars-test-compile-time",
+    "cvars-bench-compile-time",
 ]
 
 [profile.dev]
