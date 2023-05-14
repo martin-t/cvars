@@ -8,6 +8,10 @@ This is a shared changelog for all projects in this repo:
   - [`cvars-console-fyrox`](https://crates.io/crates/cvars-console-fyrox)
   - [`cvars-console-macroquad`](https://crates.io/crates/cvars-console-macroquad)
 
+## Cvars-macros unrelased
+
+- **Breaking change:** `cvars!` no longer adds `#[derive(Debug, Clone)]` to the generated struct. This might improve compile times with a large (~10k) number of cvars.
+
 ## Cvars v0.3.2 - 2023-02-08
 
 - Fix docs of reexported items
