@@ -70,7 +70,7 @@ pub fn cvars(input: TokenStream) -> TokenStream {
     let values: Vec<_> = cvar_defs.iter().map(|cvar_def| &cvar_def.value).collect();
 
     let expanded = quote! {
-        #[derive(Debug, Clone, ::cvars::SetGet)]
+        #[derive(::cvars::SetGet)]
         pub struct Cvars {
             #(
                 #( #attrss )*

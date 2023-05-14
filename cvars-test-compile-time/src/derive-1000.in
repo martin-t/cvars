@@ -1,4 +1,4 @@
-#[derive(Debug, Default, SetGet)]
+#[derive(Default, SetGet)]
 pub struct Cvars {
     pub test0: i32,
     pub test1: i32,

@@ -1,3 +1,11 @@
+// TODO compare without derive Default
+// TODO compare all manual / code generation
+
+// Notes:
+// - Replacing derive(Debug) with a manual impl
+//   reduces the compile time by on nomacro/dummy 10k cvars by a bit over 10%
+//   but makes rustc crash when using the fast compiles configuration.
+
 #[cfg(feature = "nomacro")]
 mod bench {
     // Hack so we can reuse the same code as for the derive benchmarks.
