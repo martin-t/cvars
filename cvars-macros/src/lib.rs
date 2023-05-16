@@ -6,12 +6,13 @@
 use std::collections::HashSet;
 
 use proc_macro::TokenStream;
+use proc_macro2::TokenTree;
 use quote::quote;
 use syn::{
     parse::{Parse, Parser},
     parse_macro_input,
     punctuated::Punctuated,
-    Attribute, DeriveInput, Expr, Field, Ident, Meta, MetaList, NestedMeta, Token, Type,
+    Attribute, DeriveInput, Expr, Field, Ident, Meta, MetaList, Token, Type,
 };
 
 struct CvarDef {
@@ -299,22 +300,17 @@ pub fn derive(input: TokenStream) -> TokenStream {
 /// Check whether the field has the `#[cvars(skip)]` attribute
 fn skip_field(field: &Field) -> bool {
     for attr in &field.attrs {
-        // Only attempt to parse the attribute if it's ours.
-        // Not all attributes are parseable by `parse_meta`.
-        if !attr.path.is_ident("cvars") {
-            continue;
-        }
-
-        let meta = attr
-            .parse_meta()
-            .expect("expected #[cvars(skip)], failed to parse");
-        if let Meta::List(MetaList { nested, .. }) = meta {
-            if nested.len() != 1 {
-                panic!("expected #[cvars(skip)]");
+        if let Meta::List(MetaList { path, tokens, .. }) = &attr.meta {
+            if !path.is_ident("cvars") {
+                continue;
             }
-            let nested_meta = nested.first().expect("len != 1");
-            if let NestedMeta::Meta(Meta::Path(path)) = nested_meta {
-                if path.is_ident("skip") {
+
+            // Is it #[cvars(skip)]?
+            let mut tokens = tokens.clone().into_iter();
+            let nested = tokens.next().expect("expected #[cvars(skip)]");
+            assert!(tokens.next().is_none(), "expected #[cvars(skip)]");
+            if let TokenTree::Ident(ident) = nested {
+                if ident.to_string() == "skip" {
                     return true;
                 } else {
                     panic!("expected #[cvars(skip)]");
@@ -322,8 +318,6 @@ fn skip_field(field: &Field) -> bool {
             } else {
                 panic!("expected #[cvars(skip)]");
             }
-        } else {
-            panic!("expected #[cvars(skip)]");
         }
     }
 
