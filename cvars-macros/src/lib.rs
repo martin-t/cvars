@@ -310,7 +310,7 @@ fn skip_field(field: &Field) -> bool {
             let nested = tokens.next().expect("expected #[cvars(skip)]");
             assert!(tokens.next().is_none(), "expected #[cvars(skip)]");
             if let TokenTree::Ident(ident) = nested {
-                if ident.to_string() == "skip" {
+                if ident == "skip" {
                     return true;
                 } else {
                     panic!("expected #[cvars(skip)]");
