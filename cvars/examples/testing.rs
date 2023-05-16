@@ -1,5 +1,5 @@
 // This is not a real example but a test file for debugging
-// the macros using `cargo expand --example testing`.
+// the macros using `cargo expand --package cvars --example testing`.
 // I used an example, not a bin (main.rs),
 // so that it can use dev-dependencies
 // to avoid having to put strum in normal dependencies.

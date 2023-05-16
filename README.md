@@ -182,6 +182,22 @@ Compared to these, cvars either has no overhead at runtime or requires less setu
 
 Cvars also serves a slightly different purpose than inline_tweak and const-tweaker. It's meant to stay in code forever, even after releasing your game, to enable modding by your game's community.
 
+## Development
+
+The repo is organized as a cargo workspace for the main functionality, with consoles and benchmarks as separate crates - see `Cargo.toml` for the technical reasons.
+
+- **Testing:** Use `cargo test` in the root directory to test everything in the workspace. To test the consoles, you have to `cd` into their directories and run `cargo test` there.
+
+- **Benchmarking:** Run `./bench.sh` in `cvars-bench-compile-time` to benchmark incremental compile time when using the proc macros.
+
+- **Debugging**: Edit `cvars/examples/testing.rs` and run `cargo expand --package cvars --example testing` to see what the proc macros generate. You can use `println!` and `dbg!` in the macros as well.
+
+## Contributing
+
+You can always find me on the [Rusty Games Discord server](https://discord.gg/aA7hCFvYh9) if you have any questions or suggestions.
+
+[Issues](https://github.com/martin-t/cvars/issues/new) and [Pull Requests](https://github.com/martin-t/cvars/pulls) are welcome. See the [good first issue](https://github.com/martin-t/cvars/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) label for easy tasks.
+
 ## License
 
 [AGPL-v3](LICENSE) or newer
