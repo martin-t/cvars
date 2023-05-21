@@ -13,6 +13,10 @@ use syn::{
     Attribute, Data, DeriveInput, Expr, Fields, Ident, Meta, MetaList, Token, Type,
 };
 
+// LATER Optional feature to generate cvars from build.rs to avoid running the macro every build?
+//  Format with prettyplease - https://docs.rs/quote/latest/quote/#non-macro-code-generators ?
+// LATER How to profile? https://users.rust-lang.org/t/profiling-a-proc-macro/64274
+
 struct CvarDef {
     attrs: Vec<Attribute>,
     skip: bool,
