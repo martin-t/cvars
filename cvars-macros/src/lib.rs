@@ -13,9 +13,32 @@ use syn::{
     Attribute, Data, DeriveInput, Expr, Fields, Ident, Meta, MetaList, Token, Type,
 };
 
-// LATER Optional feature to generate cvars from build.rs to avoid running the macro every build?
-//  Format with prettyplease - https://docs.rs/quote/latest/quote/#non-macro-code-generators ?
-// LATER How to profile? https://users.rust-lang.org/t/profiling-a-proc-macro/64274
+// LATER(perf) How to optimize and speed up everything?
+//  - Optional feature to generate cvars from build.rs to avoid running the macro every build?
+//      - Format with prettyplease - https://docs.rs/quote/latest/quote/#non-macro-code-generators ?
+//  - How to profile? https://users.rust-lang.org/t/profiling-a-proc-macro/64274
+//      - Probably not worth it, macros take 100ms for 1k cvars and 1s for 10k (scaled linearly),
+//        the rest is spent probably in codegen.
+//
+// Tested using cargo build --features fnlike,cvars-10000 and changing the number of cvars:
+//
+// cvars   editing cvars       editing main        actually in macro
+// 1k      9.26s               764.8ms             100ms
+// 2k      23.85s
+// 3k      43.56s
+// 4k      1m 12s
+// 5k      1m 48s              2.75s               506ms
+// 6k      2m 34s
+// 7k      3m 22s
+// 8k      4m 28s
+// 9k      5m 39s
+// 10k     7m 17s              5.5s                1s
+//
+// Editing cvars means adding/removing cvars.
+// Editing main means adding a comment to main.rs to trigger an incremental rebuild.
+//
+// This indicates the bottleneck is compiling the code generated for the Cvars struct.
+// If it stays the same and only other parts of the program are changed, cached code is used.
 
 struct CvarDef {
     attrs: Vec<Attribute>,
@@ -72,10 +95,10 @@ impl Parse for CvarDef {
 /// ```
 #[proc_macro]
 pub fn cvars(input: TokenStream) -> TokenStream {
-    // LATER proper error reporting (no unwraps, expect only for infallible)
+    // let begin = std::time::Instant::now();
 
     let parser = Punctuated::<CvarDef, Token![,]>::parse_terminated;
-    let punctuated = parser.parse(input).unwrap();
+    let punctuated = parser.parse(input).expect("failed to parse");
 
     let mut attrss = Vec::new();
     let mut skips = Vec::new();
@@ -114,8 +137,12 @@ pub fn cvars(input: TokenStream) -> TokenStream {
 
         #generated
     };
+    let expanded = expanded.into();
 
-    expanded.into()
+    // let end = std::time::Instant::now();
+    // eprintln!("cvars! took {:?}", end - begin);
+
+    expanded
 }
 
 /// Generate setters and getters that take cvar names as string.
@@ -152,6 +179,8 @@ pub fn cvars(input: TokenStream) -> TokenStream {
 /// ```
 #[proc_macro_derive(SetGet, attributes(cvars))]
 pub fn derive(input: TokenStream) -> TokenStream {
+    // let begin = std::time::Instant::now();
+
     let input: DeriveInput = parse_macro_input!(input);
     let struct_name = input.ident;
 
@@ -176,7 +205,12 @@ pub fn derive(input: TokenStream) -> TokenStream {
     }
 
     let expanded = generate(struct_name, &skips, &names, &tys);
-    expanded.into()
+    let expanded = expanded.into();
+
+    // let end = std::time::Instant::now();
+    // eprintln!("derive(SetGet) took {:?}", end - begin);
+
+    expanded
 }
 
 fn generate(
