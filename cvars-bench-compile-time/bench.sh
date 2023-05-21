@@ -24,6 +24,4 @@ hyperfine --warmup 2 "echo '// test' >> src/main.rs && cargo build --features fn
 hyperfine --warmup 2 "echo '// test' >> src/main.rs && cargo build --features fnlike,cvars-1000"
 #hyperfine --warmup 2 "echo '// test' >> src/main.rs && cargo build --features fnlike,cvars-10000" # TODO this gets stuck
 
-# Cleanup
-grep --invert-match '^// test$' src/main.rs > src/main.rs.tmp
-mv src/main.rs.tmp src/main.rs
+./cleanup.sh
