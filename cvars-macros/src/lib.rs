@@ -1,30 +1,38 @@
 #![doc = include_str!("../README.md")]
 #![warn(missing_docs)]
 
-// LATER The macros don't need to depend on each other but should call a common function to generate the code.
-
 use std::collections::HashSet;
 
 use proc_macro::TokenStream;
-use proc_macro2::TokenTree;
+use proc_macro2::{Span, TokenTree};
 use quote::quote;
 use syn::{
-    parse::{Parse, Parser},
+    parse::{Parse, ParseStream, Parser},
     parse_macro_input,
     punctuated::Punctuated,
-    Attribute, DeriveInput, Expr, Field, Ident, Meta, MetaList, Token, Type,
+    Attribute, Data, DeriveInput, Expr, Fields, Ident, Meta, MetaList, Token, Type,
 };
 
 struct CvarDef {
     attrs: Vec<Attribute>,
+    skip: bool,
     name: Ident,
     ty: Type,
     value: Expr,
 }
 
 impl Parse for CvarDef {
-    fn parse(input: syn::parse::ParseStream) -> syn::Result<Self> {
-        let attrs = input.call(Attribute::parse_outer)?;
+    fn parse(input: ParseStream) -> syn::Result<Self> {
+        let attrs_raw = input.call(Attribute::parse_outer)?;
+        let mut attrs = Vec::new();
+        let mut skip = false;
+        for attr in attrs_raw {
+            if is_skip(&attr) {
+                skip = true;
+            } else {
+                attrs.push(attr);
+            }
+        }
         let name = input.parse()?;
         let _: Token![:] = input.parse()?;
         let ty = input.parse()?;
@@ -32,6 +40,7 @@ impl Parse for CvarDef {
         let value = input.parse()?;
         Ok(CvarDef {
             attrs,
+            skip,
             name,
             ty,
             value,
@@ -63,15 +72,24 @@ pub fn cvars(input: TokenStream) -> TokenStream {
 
     let parser = Punctuated::<CvarDef, Token![,]>::parse_terminated;
     let punctuated = parser.parse(input).unwrap();
-    let cvar_defs: Vec<_> = punctuated.iter().collect();
 
-    let attrss: Vec<_> = cvar_defs.iter().map(|cvar_def| &cvar_def.attrs).collect();
-    let names: Vec<_> = cvar_defs.iter().map(|cvar_def| &cvar_def.name).collect();
-    let tys: Vec<_> = cvar_defs.iter().map(|cvar_def| &cvar_def.ty).collect();
-    let values: Vec<_> = cvar_defs.iter().map(|cvar_def| &cvar_def.value).collect();
+    let mut attrss = Vec::new();
+    let mut skips = Vec::new();
+    let mut names = Vec::new();
+    let mut tys = Vec::new();
+    let mut values = Vec::new();
+    for cvar_def in punctuated {
+        attrss.push(cvar_def.attrs);
+        skips.push(cvar_def.skip);
+        names.push(cvar_def.name);
+        tys.push(cvar_def.ty);
+        values.push(cvar_def.value);
+    }
+
+    let struct_name = Ident::new("Cvars", Span::call_site());
+    let generated = generate(struct_name, &skips, &names, &tys);
 
     let expanded = quote! {
-        #[derive(::cvars::SetGet)]
         pub struct Cvars {
             #(
                 #( #attrss )*
@@ -89,8 +107,11 @@ pub fn cvars(input: TokenStream) -> TokenStream {
                 }
             }
         }
+
+        #generated
     };
-    TokenStream::from(expanded)
+
+    expanded.into()
 }
 
 /// Generate setters and getters that take cvar names as string.
@@ -129,30 +150,49 @@ pub fn cvars(input: TokenStream) -> TokenStream {
 pub fn derive(input: TokenStream) -> TokenStream {
     let input: DeriveInput = parse_macro_input!(input);
     let struct_name = input.ident;
-    let set_get_impl = impl_set_get(&struct_name);
 
     let named_fields = match input.data {
-        syn::Data::Struct(struct_data) => match struct_data.fields {
-            syn::Fields::Named(named_fields) => named_fields,
-            syn::Fields::Unnamed(_) => panic!("tuple structs are not supported, use named fields"),
-            syn::Fields::Unit => panic!("unit structs are not supported, use curly braces"),
+        Data::Struct(struct_data) => match struct_data.fields {
+            Fields::Named(named_fields) => named_fields,
+            Fields::Unnamed(_) => panic!("tuple structs are not supported, use named fields"),
+            Fields::Unit => panic!("unit structs are not supported, use curly braces"),
         },
-        syn::Data::Enum(_) => panic!("enums are not supported, use a struct"),
-        syn::Data::Union(_) => panic!("unions are not supported, use a struct"),
+        Data::Enum(_) => panic!("enums are not supported, use a struct"),
+        Data::Union(_) => panic!("unions are not supported, use a struct"),
     };
 
     // Get the list of all cvars and their types
-    let mut fields = Vec::new();
+    let mut skips = Vec::new();
+    let mut names = Vec::new();
     let mut tys = Vec::new();
-    for field in &named_fields.named {
-        if skip_field(field) {
+    for field in named_fields.named {
+        skips.push(contains_skip(&field.attrs));
+        names.push(field.ident.expect("ident was None"));
+        tys.push(field.ty);
+    }
+
+    let expanded = generate(struct_name, &skips, &names, &tys);
+    expanded.into()
+}
+
+fn generate(
+    struct_name: Ident,
+    skips: &[bool],
+    names_all: &[Ident],
+    tys_all: &[Type],
+) -> proc_macro2::TokenStream {
+    let mut names = Vec::new();
+    let mut tys = Vec::new();
+    for i in 0..skips.len() {
+        if skips[i] {
             continue;
         }
 
-        let ident = field.ident.as_ref().expect("ident was None");
-        fields.push(ident);
-        tys.push(&field.ty);
+        names.push(&names_all[i]);
+        tys.push(&tys_all[i]);
     }
+
+    let set_get_impl = impl_set_get(&struct_name);
 
     // Get the set of types used as cvars.
     // We need to impl SetGetType for them and it needs to be done
@@ -164,8 +204,8 @@ pub fn derive(input: TokenStream) -> TokenStream {
         let mut getter_arms = Vec::new();
         let mut setter_arms = Vec::new();
 
-        for i in 0..fields.len() {
-            let field = fields[i];
+        for i in 0..names.len() {
+            let field = names[i];
             let ty = tys[i];
             // Each `impl SetGetType for X` block only generates match arms for cvars of type X
             // so that the getters and setters typecheck.
@@ -214,7 +254,7 @@ pub fn derive(input: TokenStream) -> TokenStream {
         trait_impls.push(trait_impl);
     }
 
-    let expanded = quote! {
+    quote! {
         #[automatically_derived]
         impl #struct_name {
             /// Finds the cvar whose name matches `cvar_name` and returns its value.
@@ -233,7 +273,7 @@ pub fn derive(input: TokenStream) -> TokenStream {
             pub fn get_string(&self, cvar_name: &str) -> ::core::result::Result<String, String> {
                 match cvar_name {
                     // This doesn't need to be dispatched via SetGetType, it uses Display instead.
-                    #( stringify!(#fields) => ::core::result::Result::Ok(self.#fields.to_string()), )*
+                    #( stringify!(#names) => ::core::result::Result::Ok(self.#names.to_string()), )*
                     _ => ::core::result::Result::Err(format!(
                         "Cvar named {} not found",
                         cvar_name,
@@ -265,8 +305,8 @@ pub fn derive(input: TokenStream) -> TokenStream {
             pub fn set_str(&mut self, cvar_name: &str, str_value: &str) -> ::core::result::Result<(), String> {
                 match cvar_name {
                     // This doesn't need to be dispatched via SetGetType, it uses FromStr instead.
-                    #( stringify!(#fields) => match str_value.parse() {
-                        ::core::result::Result::Ok(val) => ::core::result::Result::Ok(self.#fields = val),
+                    #( stringify!(#names) => match str_value.parse() {
+                        ::core::result::Result::Ok(val) => ::core::result::Result::Ok(self.#names = val),
                         ::core::result::Result::Err(err) => ::core::result::Result::Err(format!("failed to parse {} as type {}: {}",
                             str_value,
                             stringify!(#tys),
@@ -293,35 +333,36 @@ pub fn derive(input: TokenStream) -> TokenStream {
         }
 
         #( #trait_impls )*
-    };
-    TokenStream::from(expanded)
+    }
 }
 
 /// Check whether the field has the `#[cvars(skip)]` attribute
-fn skip_field(field: &Field) -> bool {
-    for attr in &field.attrs {
-        if let Meta::List(MetaList { path, tokens, .. }) = &attr.meta {
-            if !path.is_ident("cvars") {
-                continue;
-            }
+fn contains_skip(attrs: &[Attribute]) -> bool {
+    attrs.iter().any(|attr| is_skip(attr))
+}
 
-            // Is it #[cvars(skip)]?
-            let mut tokens = tokens.clone().into_iter();
-            let nested = tokens.next().expect("expected #[cvars(skip)]");
-            assert!(tokens.next().is_none(), "expected #[cvars(skip)]");
-            if let TokenTree::Ident(ident) = nested {
-                if ident == "skip" {
-                    return true;
-                } else {
-                    panic!("expected #[cvars(skip)]");
-                }
+fn is_skip(attr: &Attribute) -> bool {
+    if let Meta::List(MetaList { path, tokens, .. }) = &attr.meta {
+        if !path.is_ident("cvars") {
+            return false;
+        }
+
+        // Is it #[cvars(skip)]?
+        let mut tokens = tokens.clone().into_iter();
+        let nested = tokens.next().expect("expected #[cvars(skip)]");
+        assert!(tokens.next().is_none(), "expected #[cvars(skip)]");
+        if let TokenTree::Ident(ident) = nested {
+            if ident == "skip" {
+                return true;
             } else {
                 panic!("expected #[cvars(skip)]");
             }
+        } else {
+            panic!("expected #[cvars(skip)]");
         }
+    } else {
+        false
     }
-
-    false
 }
 
 /// Dummy version of SetGet for debugging how much cvars add to _incremental_ compile times of your project.

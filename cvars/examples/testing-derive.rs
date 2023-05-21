@@ -1,5 +1,5 @@
 // This is not a real example but a test file for debugging
-// the macros using `cargo expand --package cvars --example testing`.
+// the macros using `cargo expand --package cvars --example testing-derive`.
 // I used an example, not a bin (main.rs),
 // so that it can use dev-dependencies
 // to avoid having to put strum in normal dependencies.
@@ -8,7 +8,7 @@ use strum_macros::{Display, EnumString};
 
 use cvars::SetGet;
 
-#[derive(Debug, Clone, Default, SetGet)]
+#[derive(Default, SetGet)]
 pub struct Cvars {
     pub g_bool: bool,
     pub g_int: i32,
