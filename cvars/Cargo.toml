@@ -17,16 +17,9 @@ categories = [
     "rust-patterns",
 ]
 
-# TODO Currently the tests need to be in the `cvars` crate and not `cvats-macros`
-# because the `cvars! {}` macro depends on `SetGet` and imports it using `::cvars::SetGet`.
-[[test]]
-name = "tests"
-path = "tests/progress.rs"
-
 [dependencies]
 cvars-macros = { version = "0.2.0", path = "../cvars-macros" }
 
 [dev-dependencies]
 strum = "0.24.1"
 strum_macros = "0.24.3"
-trybuild = { version = "1.0", features = ["diff"] }

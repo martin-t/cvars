@@ -20,6 +20,10 @@ categories = [
 [lib]
 proc-macro = true
 
+[[test]]
+name = "tests"
+path = "tests/progress.rs"
+
 [dependencies]
 proc-macro2 = "1.0.50"
 quote = "1.0.9"
@@ -27,3 +31,6 @@ syn = { version = "2.0.16", features = ["extra-traits"] }
 
 [dev-dependencies]
 cvars = { path = "../cvars" }
+strum = "0.24.1"
+strum_macros = "0.24.3"
+trybuild = { version = "1.0", features = ["diff"] }
