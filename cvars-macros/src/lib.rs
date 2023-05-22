@@ -309,14 +309,28 @@ fn generate(
             ///
             /// Returns `Err` if the cvar doesn't exist.
             pub fn get_string(&self, cvar_name: &str) -> ::core::result::Result<String, String> {
+                // This doesn't need to be dispatched via SetGetType, it uses Display instead.
+
                 match cvar_name {
-                    // This doesn't need to be dispatched via SetGetType, it uses Display instead.
                     #( stringify!(#names) => ::core::result::Result::Ok(self.#names.to_string()), )*
                     _ => ::core::result::Result::Err(format!(
                         "Cvar named {} not found",
                         cvar_name,
                     )),
                 }
+
+                // if false {
+                //     unreachable!()
+                // }
+                // #( else if cvar_name == stringify!(#names) {
+                //     ::core::result::Result::Ok(self.#names.to_string())
+                // } )*
+                // else {
+                //     ::core::result::Result::Err(format!(
+                //         "Cvar named {} not found",
+                //         cvar_name,
+                //     ))
+                // }
             }
 
             /// Finds the cvar whose name matches `cvar_name` and sets it to `value`.
@@ -341,8 +355,9 @@ fn generate(
             ///
             /// Returns `Err` if the cvar doesn't exist or if `str_value` fails to parse to its type.
             pub fn set_str(&mut self, cvar_name: &str, str_value: &str) -> ::core::result::Result<(), String> {
+                // This doesn't need to be dispatched via SetGetType, it uses FromStr instead.
+
                 match cvar_name {
-                    // This doesn't need to be dispatched via SetGetType, it uses FromStr instead.
                     #( stringify!(#names) => match str_value.parse() {
                         ::core::result::Result::Ok(val) => ::core::result::Result::Ok(self.#names = val),
                         ::core::result::Result::Err(err) => ::core::result::Result::Err(format!("failed to parse {} as type {}: {}",
@@ -356,6 +371,27 @@ fn generate(
                         cvar_name
                     )),
                 }
+
+                // if false {
+                //     unreachable!()
+                // }
+                // #(
+                //     else if cvar_name == stringify!(#names) {
+                //         match str_value.parse() {
+                //         ::core::result::Result::Ok(val) => ::core::result::Result::Ok(self.#names = val),
+                //         ::core::result::Result::Err(err) => ::core::result::Result::Err(format!("failed to parse {} as type {}: {}",
+                //             str_value,
+                //             stringify!(#tys),
+                //             err,
+                //         ))
+                //     }
+                // } )*
+                // else {
+                //     ::core::result::Result::Err(format!(
+                //         "Cvar named {} not found",
+                //         cvar_name
+                //     ))
+                // }
             }
         }
 
