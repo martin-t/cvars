@@ -190,7 +190,7 @@ The repo is organized as a cargo workspace for the main functionality, with cons
 
 - **Benchmarking:** Run `./bench.sh` in `cvars-bench-compile-time` to benchmark incremental compile time when using the proc macros.
 
-- **Debugging**: Edit `cvars/examples/testing.rs` and run `cargo expand --package cvars --example testing` to see what the proc macros generate. You can use `println!` and `dbg!` in the macros as well.
+- **Debugging**: Edit `cvars-macros/examples/testing-fnlike.rs` and run `cargo expand --package cvars-macros --example testing-fnlike` to see what the proc macros generate. There is s similar file for derive macros. You can use `println!` and `dbg!` in the macros as well.
 
 ## Contributing
 
