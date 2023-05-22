@@ -192,6 +192,8 @@ The repo is organized as a cargo workspace for the main functionality, with cons
 
 - **Debugging**: Edit `cvars-macros/examples/testing-fnlike.rs` and run `cargo expand --package cvars-macros --example testing-fnlike` to see what the proc macros generate. There is s similar file for derive macros. You can use `println!` and `dbg!` in the macros as well.
 
+- **Useful commands**: [cargo-llvm-lines](https://github.com/dtolnay/cargo-llvm-lines) and [cargo-bloat](https://github.com/RazrFalcon/cargo-bloat). Use either of them in `cvars-bench-compile-time` (e.g. e.g. `cargo llvm-lines --features fnlike,cvars-1000`) to find out which functions generate a lot of LLVM IR and which compile to a lot of code. This is a good indicator of what is causing long compile times. LLVM IR is a bit more important because it better indicates how much work the backend has to do.
+
 ## Contributing
 
 You can always find me on the [Rusty Games Discord server](https://discord.gg/aA7hCFvYh9) if you have any questions or suggestions.
