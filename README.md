@@ -186,11 +186,13 @@ Cvars also serves a slightly different purpose than inline_tweak and const-tweak
 
 The repo is organized as a cargo workspace for the main functionality, with consoles and benchmarks as separate crates - see `Cargo.toml` for the technical reasons.
 
-- **Testing:** Use `cargo test` in the root directory to test everything in the workspace. To test the consoles, you have to `cd` into their directories and run `cargo test` there.
+- **Testing:** Use `cargo test` in the root directory to test everything in the workspace. To test the consoles, `cd` into their directories and run `cargo test` there.
+
+- **Debugging**:
+  - Use `cargo expand --package cvars-macros --example testing-fnlike` to see what the proc macros generate. There is a similar file for derive macros. You can use `println!` and `dbg!` in the macros as well.
+  - The expanded code won't compile but the end of the output will contain errors that can help you track down what's wrong with the generated code: `cargo expand --package cvars-macros --example testing-fnlike > cvars-macros/examples/testing-expanded.rs && cargo build --package cvars-macros --example testing-expanded && rm cvars-macros/examples/testing-expanded.rs`
 
 - **Benchmarking:** Run `./bench.sh` in `cvars-bench-compile-time` to benchmark incremental compile time when using the proc macros.
-
-- **Debugging**: Edit `cvars-macros/examples/testing-fnlike.rs` and run `cargo expand --package cvars-macros --example testing-fnlike` to see what the proc macros generate. There is s similar file for derive macros. You can use `println!` and `dbg!` in the macros as well.
 
 - **Useful commands**: [cargo-llvm-lines](https://github.com/dtolnay/cargo-llvm-lines) and [cargo-bloat](https://github.com/RazrFalcon/cargo-bloat). Use either of them in `cvars-bench-compile-time` (e.g. e.g. `cargo llvm-lines --features fnlike,cvars-1000`) to find out which functions generate a lot of LLVM IR and which compile to a lot of code. This is a good indicator of what is causing long compile times. LLVM IR is a bit more important because it better indicates how much work the backend has to do.
 
