@@ -8,15 +8,17 @@
 
 #[cfg(feature = "nomacro")]
 mod bench {
-    // Hack so we can reuse the same code as for the derive benchmarks.
-    use std::clone::Clone as SetGet;
+    // When the structs derive only default, 10k cvars recompiles in 2s (after changing the struct).
+    // When they also derive Clone, they take 8s.
+    // My theory is that without Clone all unused fields get eliminated (they're assiged but never read)
+    // while Clone forces them all to go through codegen which is expensive.
 
     #[cfg(feature = "cvars-100")]
-    include!("derive-100.in");
+    include!("nomacro-100.in");
     #[cfg(feature = "cvars-1000")]
-    include!("derive-1000.in");
+    include!("nomacro-1000.in");
     #[cfg(feature = "cvars-10000")]
-    include!("derive-10000.in");
+    include!("nomacro-10000.in");
 
     impl Cvars {
         pub fn get_string(&self, _cvar_name: &str) -> Result<String, String> {
