@@ -20,9 +20,10 @@ mod bench {
 
     impl Cvars {
         pub fn get_string(&self, _cvar_name: &str) -> Result<String, String> {
-            Ok("nomacro".to_string())
+            Ok(self.test1.to_string())
         }
-        pub fn set_str(&mut self, _cvar_name: &str, _str_value: &str) -> Result<(), String> {
+        pub fn set_str(&mut self, _cvar_name: &str, str_value: &str) -> Result<(), String> {
+            self.test1 = str_value.parse().unwrap();
             Ok(())
         }
     }
