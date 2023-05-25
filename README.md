@@ -27,7 +27,7 @@ These crates are inspired by the idTech (Doom, Quake) and Source family of game 
 
 **Zero boilerplate** - there are no traits to implement manually and no setup code to call per cvar.
 
-**Minimal performance cost** - just struct field access vs hardcoded constant. Keep everything configurable even after you're done finding the best values - you can keep things tweakable in your released game for players to experiment themselves.
+**Minimal performance cost** - just struct field access instead of a hardcoded constant. Cvars are cheap enough to keep everything configurable even after you're done finding the best values - you can keep things tweakable in your released game for players to experiment themselves.
 
 ## Usage
 

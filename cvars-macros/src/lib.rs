@@ -1,5 +1,6 @@
 #![doc = include_str!("../README.md")]
 #![warn(missing_docs)]
+#![allow(clippy::let_and_return)]
 
 use std::collections::HashSet;
 
@@ -422,7 +423,7 @@ fn generate(
 
 /// Check whether the field has the `#[cvars(skip)]` attribute
 fn contains_skip(attrs: &[Attribute]) -> bool {
-    attrs.iter().any(|attr| is_skip(attr))
+    attrs.iter().any(is_skip)
 }
 
 fn is_skip(attr: &Attribute) -> bool {
@@ -437,7 +438,7 @@ fn is_skip(attr: &Attribute) -> bool {
         assert!(tokens.next().is_none(), "expected #[cvars(skip)]");
         if let TokenTree::Ident(ident) = nested {
             if ident == "skip" {
-                return true;
+                true
             } else {
                 panic!("expected #[cvars(skip)]");
             }
