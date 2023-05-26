@@ -318,28 +318,18 @@ fn generate(
             pub fn get_string(&self, cvar_name: &str) -> ::core::result::Result<String, String> {
                 // This doesn't need to be dispatched via SetGetType, it uses Display instead.
 
+                // Separate function - see set_str for why.
+                #[inline(never)]
+                fn get_string<T: ::core::fmt::Display>(cvar: &T) -> ::core::result::Result<String, String> {
+                    ::core::result::Result::Ok(cvar.to_string())
+                }
                 match cvar_name {
-                    #( stringify!(#names) => ::core::result::Result::Ok(self.#names.to_string()), )*
+                    #( stringify!(#names) => get_string(&self.#names), )*
                     _ => ::core::result::Result::Err(format!(
                         "Cvar named {} not found",
                         cvar_name,
                     )),
                 }
-
-                // todo!()
-
-                // if false {
-                //     unreachable!()
-                // }
-                // #( else if cvar_name == stringify!(#names) {
-                //     ::core::result::Result::Ok(self.#names.to_string())
-                // } )*
-                // else {
-                //     ::core::result::Result::Err(format!(
-                //         "Cvar named {} not found",
-                //         cvar_name,
-                //     ))
-                // }
             }
 
             /// Finds the cvar whose name matches `cvar_name` and sets it to `value`.
@@ -366,43 +356,32 @@ fn generate(
             pub fn set_str(&mut self, cvar_name: &str, str_value: &str) -> ::core::result::Result<(), String> {
                 // This doesn't need to be dispatched via SetGetType, it uses FromStr instead.
 
-                match cvar_name {
-                    #( stringify!(#names) => match str_value.parse() {
-                        ::core::result::Result::Ok(val) => ::core::result::Result::Ok(self.#names = val),
+                // Put most of the logic in a separate function
+                // so that the repeated code is only a single function call.
+                // This roughly halves incremental compilation time
+                // when the Cvars struct is modified for 1k cvars.
+                #[inline(never)]
+                fn set_str<T>(cvar: &mut T, str_value: &str) -> ::core::result::Result<(), String>
+                where
+                    T: ::core::str::FromStr,
+                    T::Err: ::core::fmt::Display,
+                {
+                    match str_value.parse() {
+                        ::core::result::Result::Ok(val) => ::core::result::Result::Ok(*cvar = val),
                         ::core::result::Result::Err(err) => ::core::result::Result::Err(format!("failed to parse {} as type {}: {}",
                             str_value,
-                            stringify!(#tys),
+                            ::std::any::type_name::<T>(),
                             err,
                         ))
-                    }, )*
+                    }
+                }
+                match cvar_name {
+                    #( stringify!(#names) => set_str(&mut self.#names, str_value), )*
                     _ => ::core::result::Result::Err(format!(
                         "Cvar named {} not found",
                         cvar_name
                     )),
                 }
-
-                // todo!()
-
-                // if false {
-                //     unreachable!()
-                // }
-                // #(
-                //     else if cvar_name == stringify!(#names) {
-                //         match str_value.parse() {
-                //         ::core::result::Result::Ok(val) => ::core::result::Result::Ok(self.#names = val),
-                //         ::core::result::Result::Err(err) => ::core::result::Result::Err(format!("failed to parse {} as type {}: {}",
-                //             str_value,
-                //             stringify!(#tys),
-                //             err,
-                //         ))
-                //     }
-                // } )*
-                // else {
-                //     ::core::result::Result::Err(format!(
-                //         "Cvar named {} not found",
-                //         cvar_name
-                //     ))
-                // }
             }
         }
 
