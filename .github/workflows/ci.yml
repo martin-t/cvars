@@ -66,7 +66,7 @@ jobs:
       - run: cargo clippy --version
         # Use --all-targets to also check tests.
         # Note that --all-features doesn't check all code when something is *disabled* by a feature.
-        # LATER Seems like this doesn't check tests because we¨re using trybuild. Any way to fix that?
+        # LATER Seems like this doesn't check tests because we're using trybuild. Any way to fix that?
       - run: cargo clippy --all-targets --all-features -- --deny warnings
         # No fixmes allowed - they're to be fixed before committing
         # or at least before merging to master so they can be used
