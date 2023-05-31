@@ -1,5 +1,3 @@
-// TODO compare all manual / code generation
-
 // Notes:
 // - Replacing derive(Debug) with a manual impl
 //   reduces the compile time by on nomacro/dummy 10k cvars by a bit over 10%
