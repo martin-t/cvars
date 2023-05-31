@@ -44,7 +44,7 @@ This is a shared changelog for all projects in this repo:
 ## Cvars v0.2.0, cvars-macros 0.1.1 - 2023-02-03
 
 - `SetGet` trait for dynamic dispatch
-- Accept attributes in `cvars! {}`
+- Accept attributes and comments in `cvars! {}`
 
 ## Cvars-macros 0.1.0 - 2023-01-16
 
