@@ -9,7 +9,9 @@ pub struct Cvars {
     pub g_bool: bool,
     pub g_int: i32,
     pub g_usize: usize,
+    // Comment - should not affect macros
     pub g_float: f32,
+    /// Doc comment - passed to macros as an attribute
     pub g_double: f64,
     pub g_enum: Enum,
     #[warn(clippy::pedantic)] // Testing that the field can have other attributes
