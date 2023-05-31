@@ -80,7 +80,7 @@ impl MacroquadConsole {
         self.console.prompt = self.console.prompt.replace(';', "");
 
         // Detect key pressed based on previous and current state.
-        // MQ's UI doesn't seem to hae a built-in way to detecting keyboard events.
+        // MQ's UI doesn't seem to have a built-in way to detecting keyboard events.
         let pressed_up = !self.input_prev.up && self.input.up;
         let pressed_down = !self.input_prev.down && self.input.down;
         let pressed_page_up = !self.input_prev.page_up && self.input.page_up;
