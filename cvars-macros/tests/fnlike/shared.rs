@@ -6,7 +6,9 @@ cvars! {
     g_bool: bool = true,
     g_int: i32 = 42,
     g_usize: usize = 987654,
+    // Comment - should not affect macros
     g_float: f32 = 5.0,
+    /// Doc comment - passed to macros as an attribute
     g_double: f64 = 10.0,
     g_enum: Enum = Enum::Two,
     #[warn(clippy::pedantic)] // Testing that the field can have other attributes
