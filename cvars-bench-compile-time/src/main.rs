@@ -18,23 +18,32 @@ mod bench {
     #[cfg(feature = "cvars-10000")]
     include!("nomacro-10000.in");
 
+    // Originally i thought these functions should use Cvars in some way
+    // so that code wouldn't get optimized out
+    // but it appears there's no difference.
+    #[cfg_attr(not(any(feature = "typed", feature = "string")), allow(unused))]
     impl Cvars {
-        pub fn get_string(&self, _cvar_name: &str) -> Result<String, String> {
-            Ok(self.test1.to_string())
+        pub fn get(&self, _cvar_name: &str) -> Result<i32, String> {
+            unimplemented!();
         }
-        pub fn set_str(&mut self, _cvar_name: &str, str_value: &str) -> Result<(), String> {
-            self.test1 = str_value.parse().unwrap();
-            Ok(())
+        pub fn get_string(&self, _cvar_name: &str) -> Result<String, String> {
+            unimplemented!();
+        }
+        pub fn set(&mut self, _cvar_name: &str, _value: i32) -> Result<(), String> {
+            unimplemented!();
+        }
+        pub fn set_str(&mut self, _cvar_name: &str, _str_value: &str) -> Result<(), String> {
+            unimplemented!();
         }
     }
 }
 
 #[cfg(any(feature = "derive-dummy", feature = "derive"))]
 mod bench {
-    #[cfg(feature = "derive-dummy")]
-    use cvars::SetGetDummy as SetGet;
     #[cfg(feature = "derive")]
     use cvars::SetGet;
+    #[cfg(feature = "derive-dummy")]
+    use cvars::SetGetDummy as SetGet;
 
     #[cfg(feature = "cvars-100")]
     include!("derive-100.in");
@@ -58,6 +67,7 @@ mod bench {
 
 use bench::*;
 
+#[cfg_attr(not(any(feature = "typed", feature = "string")), allow(unused))]
 fn main() {
     // Do something with cvars that depends on external input so this can't all be optimized away.
     let mut args = std::env::args();
@@ -66,8 +76,23 @@ fn main() {
     let number = path.len();
     let set = args.next().unwrap();
     let get = args.next().unwrap();
+
     let mut cvars = Cvars::default();
-    cvars.set_str(&set, &number.to_string()).unwrap();
-    let val = cvars.get_string(&get).unwrap();
-    println!("set {set} -> {number}, get {get} -> {val}");
+
+    // Use both the string and typed API, otherwise they get compiled out
+    // even before generating LLVM IR (which is currently the slowest part).
+
+    #[cfg(feature = "typed")]
+    {
+        cvars.set(&set, number as i32).unwrap();
+        let val: i32 = cvars.get(&get).unwrap();
+        println!("typed set {set} -> {number}, get {get} -> {val}");
+    }
+
+    #[cfg(feature = "string")]
+    {
+        cvars.set_str(&set, &number.to_string()).unwrap();
+        let val = cvars.get_string(&get).unwrap();
+        println!("string set {set} -> {number}, get {get} -> {val}");
+    }
 }

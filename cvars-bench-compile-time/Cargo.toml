@@ -41,6 +41,9 @@ fnlike = []
 cvars-100 = []
 cvars-1000 = []
 cvars-10000 = []
+# Enable one or both of these to determine which API is used
+string = []
+typed = []
 
 [dependencies]
 cvars = { path = "../cvars" }
