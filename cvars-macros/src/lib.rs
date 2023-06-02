@@ -2,7 +2,7 @@
 #![warn(missing_docs)]
 #![allow(clippy::let_and_return)]
 
-use std::collections::HashSet;
+use std::{collections::HashSet, env};
 
 use proc_macro::TokenStream;
 use proc_macro2::{Span, TokenTree};
@@ -96,7 +96,7 @@ impl Parse for CvarDef {
 /// ```
 #[proc_macro]
 pub fn cvars(input: TokenStream) -> TokenStream {
-    // let begin = std::time::Instant::now();
+    let begin = std::time::Instant::now();
 
     let parser = Punctuated::<CvarDef, Token![,]>::parse_terminated;
     let punctuated = parser.parse(input).expect("failed to parse");
@@ -142,8 +142,10 @@ pub fn cvars(input: TokenStream) -> TokenStream {
     };
     let expanded = expanded.into();
 
-    // let end = std::time::Instant::now();
-    // eprintln!("cvars! took {:?}", end - begin);
+    let end = std::time::Instant::now();
+    if env::var("CVARS_STATS").is_ok() {
+        eprintln!("cvars! took {:?}", end - begin);
+    }
 
     expanded
 }
@@ -182,7 +184,7 @@ pub fn cvars(input: TokenStream) -> TokenStream {
 /// ```
 #[proc_macro_derive(SetGet, attributes(cvars))]
 pub fn derive(input: TokenStream) -> TokenStream {
-    // let begin = std::time::Instant::now();
+    let begin = std::time::Instant::now();
 
     let input: DeriveInput = parse_macro_input!(input);
     let struct_name = input.ident;
@@ -210,8 +212,10 @@ pub fn derive(input: TokenStream) -> TokenStream {
     let expanded = generate(struct_name, &skips, &names, &tys);
     let expanded = expanded.into();
 
-    // let end = std::time::Instant::now();
-    // eprintln!("derive(SetGet) took {:?}", end - begin);
+    let end = std::time::Instant::now();
+    if env::var("CVARS_STATS").is_ok() {
+        eprintln!("derive(SetGet) took {:?}", end - begin);
+    }
 
     expanded
 }
@@ -435,6 +439,8 @@ fn is_skip(attr: &Attribute) -> bool {
 #[doc(hidden)]
 #[proc_macro_derive(SetGetDummy, attributes(cvars))]
 pub fn derive_dummy(input: TokenStream) -> TokenStream {
+    let begin = std::time::Instant::now();
+
     let input: DeriveInput = parse_macro_input!(input);
     let struct_name = input.ident;
     let set_get_impl = impl_set_get(&struct_name);
@@ -458,7 +464,14 @@ pub fn derive_dummy(input: TokenStream) -> TokenStream {
 
         #set_get_impl
     };
-    TokenStream::from(expanded)
+    let expanded = TokenStream::from(expanded);
+
+    let end = std::time::Instant::now();
+    if env::var("CVARS_STATS").is_ok() {
+        eprintln!("derive(SetGetDummy) took {:?}", end - begin);
+    }
+
+    expanded
 }
 
 fn impl_set_get(struct_name: &Ident) -> proc_macro2::TokenStream {
