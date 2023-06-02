@@ -190,7 +190,7 @@ The repo is organized as a cargo workspace for the main functionality, with cons
 
 - **Debugging**:
   - Use `cargo expand --package cvars-macros --example testing-fnlike` to see what the proc macros generate. There is a similar file for derive macros. You can use `println!` and `dbg!` in the macros as well.
-  - The expanded code won't compile but the end of the output will contain errors that can help you track down what's wrong with the generated code: `cargo expand --package cvars-macros --example testing-fnlike > cvars-macros/examples/testing-expanded.rs && cargo build --package cvars-macros --example testing-expanded ; rm cvars-macros/examples/testing-expanded.rs`
+  - The expanded code won't compile but the end of the output will usually contain errors that can help you track down what's wrong with the generated code: `cargo expand --package cvars-macros --example testing-fnlike > cvars-macros/examples/testing-expanded.rs && cargo build --package cvars-macros --example testing-expanded ; rm cvars-macros/examples/testing-expanded.rs`. One exception is when the macro produces syntactically invalid code, in which case its output will be missing entirely.
 
 - **Benchmarking:** Run `./bench.sh` in `cvars-bench-compile-time` to benchmark incremental compile time when using the proc macros.
 
