@@ -20,6 +20,9 @@ cargo build --features nomacro,cvars-100
 # and so we can easily copy-paste the commands to run them manually.
 
 # TODO 10k cvars take several minutes, uncomment benchmarks when this is fixed.
+#   Revisit this after offset_of is stabilized: https://github.com/rust-lang/rust/issues/106655
+#   Using a crate for it is impossible since it generates too much code and is therefore slow.
+#   The stdlib version seems to compile differently and gives acceptable compile times (~10s for 10k cvars).
 
 # Measure incremental rebuild time after editing the Cvars struct.
 hyperfine --warmup 2 "sed --in-place 's/test0/test0a/' src/nomacro-100.in && cargo build --features string,typed,nomacro,cvars-100"

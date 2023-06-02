@@ -123,21 +123,17 @@ pub fn cvars(input: TokenStream) -> TokenStream {
                 #( #attrss )*
                 pub #names: #tys,
             )*
-            // cvars_map: ::std::collections::HashMap<&'static str, String>,
+            // __cvars_map: ::phf::Map<&'static str, usize>,
         }
 
         #[automatically_derived]
         impl ::core::default::Default for Cvars {
             fn default() -> Self {
-                // let mut map = ::std::collections::HashMap::new();
-                // #(
-                //     map.insert(stringify!(#names), #values.to_string());
-                // )*
                 Self {
-                    #(
-                        #names: #values,
-                    )*
-                    // cvars_map: map,
+                    #( #names: #values, )*
+                    // __cvars_map: ::phf::phf_map! {
+                    //     #( #names => 0, )*
+                    // },
                 }
             }
         }
