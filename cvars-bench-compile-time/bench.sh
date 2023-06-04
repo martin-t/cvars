@@ -19,7 +19,7 @@ cargo build --features nomacro,cvars-100
 # but let's keep everything separate so we can comment some benches out
 # and so we can easily copy-paste the commands to run them manually.
 
-# TODO 10k cvars take several minutes, uncomment benchmarks when this is fixed.
+# LATER 10k cvars take several minutes, uncomment benchmarks when this is fixed.
 #   Revisit this after offset_of is stabilized: https://github.com/rust-lang/rust/issues/106655
 #   Using a crate for it is impossible since it generates too much code and is therefore slow.
 #   The stdlib version seems to compile differently and gives acceptable compile times (~10s for 10k cvars).
