@@ -1,4 +1,5 @@
 [workspace]
+resolver = "2"
 # The cvars-console-* crates are not part of the workspace because:
 #   - They would share Cargo.lock which can cause conflicts.
 #   - Opening the workspace would cause RA to automatically load them, slowing it down and creating a large target dir.
