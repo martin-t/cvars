@@ -57,20 +57,23 @@ impl Parse for CvarDef {
 ///
 /// There is currently no way to specify additional attributes on the struct.
 ///
-/// The generated code contains:
+/// All types used as cvars have to impl `FromStr` and `Display`.
+///
+/// # Generated code
+///
+/// The macro generates:
 /// - the struct definition
 /// - `impl Default for Cvars` which sets the initial values
-/// - `impl Cvars`
+/// - `impl Cvars` with methods for interacting with cvars
 ///
 /// The generated methods:
-/// - `get` - take cvar name as string and return its value as the correct type
 /// - `get_string` - take cvar name as string and return its value as a `String`
-/// - `set` - take cvar name as string and its new value as the correct type
 /// - `set_str` - take cvar name as string and its new value as a `&str`
+/// - `get` - take cvar name as string and return its value as the correct type
+/// - `set` - take cvar name as string and its new value as the correct type
 ///
-/// Since all 4 functions can fail, all return `Result`s.
-///
-/// All types used as cvars have to impl `FromStr` and `Display`.
+/// See your IDE or [the SetGet trait](https://docs.rs/cvars/latest/cvars/trait.SetGet.html)
+/// for their exact signatures.
 ///
 /// # Example
 ///
@@ -143,15 +146,9 @@ pub fn cvars(input: TokenStream) -> TokenStream {
 ///
 /// Initial/default values have to be specified separately.
 ///
-/// The generated methods:
-/// - `get` - take cvar name as string and return its value as the correct type
-/// - `get_string` - take cvar name as string and return its value as a `String`
-/// - `set` - take cvar name as string and its new value as the correct type
-/// - `set_str` - take cvar name as string and its new value as a `&str`
-///
-/// Since all 4 functions can fail, all return `Result`s.
-///
 /// All types used as cvars have to impl `FromStr` and `Display`.
+///
+/// See [`cvars!`](cvars!#generated-code) for more details about the generated code.
 ///
 /// # Example
 ///
