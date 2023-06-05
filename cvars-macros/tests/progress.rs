@@ -4,7 +4,7 @@ fn tests() {
 
     // For simplifity it would be nice to keep most tests exactly the same.
     // Verify with this command:
-    // diff -r --exclude test_redefined.rs --exclude shared.rs cvars/tests/{derive,fnlike}
+    // diff -r --exclude test_redefined.rs --exclude shared.rs cvars-macros/tests/{derive,fnlike}
 
     t.pass("tests/derive/test_parse.rs");
     t.pass("tests/derive/test_extra_impl.rs");
