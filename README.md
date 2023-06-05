@@ -16,7 +16,7 @@
 
 _Cvars_ (console variables or configuration variables) are a **simple** way to store settings you want to change at runtime without restarting your program.
 
-_Consoles_ are the most **ergonomic** way to set cvars but you can write your own UI or read them from stdin if you want.
+_Consoles_ are the most **ergonomic** way to set cvars but you can write your own UI or read them from stdin if you want. They are available for Fyrox and Macroquad.
 
 These crates are inspired by the idTech (Doom, Quake) and Source family of game engines but they can be useful outside games. Cvars allow you to iterate faster by letting you test certain gameplay changes without recompiling. They also make your game more moddable if you expose (a subset of) them to players.
 
