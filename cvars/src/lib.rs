@@ -22,27 +22,17 @@
 //! # Example
 //!
 //! ```rust
-//! use cvars::SetGet;
+//! use cvars::cvars;
 //!
-//! // This struct contains all your config options.
-//! #[derive(SetGet)]
-//! pub struct Cvars {
-//!     g_rocket_launcher_ammo_max: i32,
-//!     g_rocket_launcher_damage: f32,
-//! }
-//!
-//! // Here you set default values.
-//! impl Cvars {
-//!     pub fn new() -> Self {
-//!         Self {
-//!             g_rocket_launcher_ammo_max: 20,
-//!             g_rocket_launcher_damage: 100.0,
-//!         }
-//!     }
+//! // This generates a Cvars struct containing all your config options
+//! // and a corresponding Default impl.
+//! cvars! {
+//!     g_rocket_launcher_ammo_max: i32 = 20,
+//!     g_rocket_launcher_damage: f32 = 100.0,
 //! }
 //!
 //! // Store this in your game state.
-//! let mut cvars = Cvars::new();
+//! let mut cvars = Cvars::default();
 //!
 //! // These normally come from the user
 //! // (from stdin / your game's console / etc.)
@@ -87,6 +77,10 @@
 //!
 //! # What it generates
 //!
+//! - A struct containing all your cvars
+//! - A Default impl with the specified default values
+//! - Methods to set and get cvars by name
+//!
 //! The generated methods have these signatures (same as the `SetGet` trait):
 //!
 //! ```rust
@@ -110,16 +104,15 @@
 //!
 //! Cvar values can have any type which implements the `FromStr` and `Display` traits.
 //! If you want to use enums, it's best to derive these traits automatically
-//! via `[strum](https://crates.io/crates/strum)`.
+//! via [strum](https://crates.io/crates/strum).
 //!
 //! ```rust
 //! use strum_macros::{Display, EnumString};
 //!
-//! use cvars::SetGet;
+//! use cvars::cvars;
 //!
-//! #[derive(Debug, Clone, SetGet)]
-//! pub struct Cvars {
-//!     pub cl_splitscreen: Splitscreen,
+//! cvars! {
+//!     cl_splitscreen: Splitscreen = Splitscreen::Vertical,
 //! }
 //!
 //! #[derive(Debug, Clone, Copy, PartialEq, Eq, Display, EnumString)]

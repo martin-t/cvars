@@ -53,13 +53,24 @@ impl Parse for CvarDef {
     }
 }
 
-/// **Experimental**. Generate the whole `Cvars` struct.
+/// Generate the `Cvars` struct and its impls. Each cvar and its default value is defined on one line.
 ///
-/// This allows both the field types and their initial values to be defined on one line.
-/// The downside is that users currently can't specify attributes on the struct.
+/// There is currently no way to specify additional attributes on the struct.
 ///
-/// The generated code contains the struct definition and an `impl Default for Cvars` block
-/// which sets the initial values.
+/// The generated code contains:
+/// - the struct definition
+/// - `impl Default for Cvars` which sets the initial values
+/// - `impl Cvars`
+///
+/// The generated methods:
+/// - `get` - take cvar name as string and return its value as the correct type
+/// - `get_string` - take cvar name as string and return its value as a `String`
+/// - `set` - take cvar name as string and its new value as the correct type
+/// - `set_str` - take cvar name as string and its new value as a `&str`
+///
+/// Since all 4 functions can fail, all return `Result`s.
+///
+/// All types used as cvars have to impl `FromStr` and `Display`.
 ///
 /// # Example
 ///
@@ -128,8 +139,9 @@ pub fn cvars(input: TokenStream) -> TokenStream {
 }
 
 /// Generate setters and getters that take cvar names as string.
+/// This does the same thing as `cvars!` but you can use it on an existing struct.
 ///
-/// This requires all types used as cvars to impl `FromStr` and `Display`.
+/// Initial/default values have to be specified separately.
 ///
 /// The generated methods:
 /// - `get` - take cvar name as string and return its value as the correct type
@@ -138,6 +150,8 @@ pub fn cvars(input: TokenStream) -> TokenStream {
 /// - `set_str` - take cvar name as string and its new value as a `&str`
 ///
 /// Since all 4 functions can fail, all return `Result`s.
+///
+/// All types used as cvars have to impl `FromStr` and `Display`.
 ///
 /// # Example
 ///

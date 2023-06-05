@@ -10,10 +10,12 @@ This is a shared changelog for all projects in this repo:
 
 ## Cvars-macros unrelased
 
+- Internal improvements: unified macro logic so `cvars!` no longer depends on `#[derive(SetGet)]`.
 - **Breaking change:** `cvars!` no longer adds `#[derive(Debug, Clone)]` to the generated struct. This might improve compile times with a large (~10k) number of cvars.
 - Reduce the amount of code generated per-cvar:
   - Recompile speedup after editing cvars: 10.5s -> 3.5s for 1k cvars (3x faster)
   - Recompile speedup after editing other code: 700ms -> 450ms for 1k cvars (1.5x faster)
+- The `cvars!` proc macro is no longer experimental and is the recommended way to use cvars because it is more convenient than `#[derive(SetGet)]`.
 
 ## Cvars v0.3.2 - 2023-02-08
 

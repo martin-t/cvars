@@ -40,28 +40,17 @@ cargo add cvars
 - Put your config in a struct and derive `SetGet`:
 
 ```rust
-use cvars::SetGet;
+use cvars::cvars;
 
-// This struct contains all your config options.
-#[derive(SetGet)]
-pub struct Cvars {
-    g_rocket_launcher_ammo_max: i32,
-    g_rocket_launcher_damage: f32,
-    // more cvars ...
-}
-
-// Here you set default values.
-impl Cvars {
-    pub fn new() -> Self {
-        Self {
-            g_rocket_launcher_ammo_max: 20,
-            g_rocket_launcher_damage: 100.0,
-        }
-    }
+// This generates a Cvars struct containing all your config options
+// and a corresponding Default impl.
+cvars! {
+    g_rocket_launcher_ammo_max: i32 = 20,
+    g_rocket_launcher_damage: f32 = 100.0,
 }
 
 // Store this in your game state.
-let mut cvars = Cvars::new();
+let mut cvars = Cvars::default();
 ```
 
 - Allow users to change the config:
