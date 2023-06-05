@@ -8,8 +8,8 @@ fn tests() {
 
     t.pass("tests/derive/test_parse.rs");
     t.pass("tests/derive/test_extra_impl.rs");
-    t.pass("tests/derive/test_getters.rs");
-    t.pass("tests/derive/test_setters.rs");
+    t.pass("tests/derive/test_typed_getters.rs");
+    t.pass("tests/derive/test_typed_setters.rs");
     t.pass("tests/derive/test_string_getters.rs");
     t.pass("tests/derive/test_string_setters.rs");
     t.pass("tests/derive/test_cvar_count.rs");
@@ -19,8 +19,8 @@ fn tests() {
 
     t.pass("tests/fnlike/test_parse.rs");
     t.pass("tests/fnlike/test_extra_impl.rs");
-    t.pass("tests/fnlike/test_getters.rs");
-    t.pass("tests/fnlike/test_setters.rs");
+    t.pass("tests/fnlike/test_typed_getters.rs");
+    t.pass("tests/fnlike/test_typed_setters.rs");
     t.pass("tests/fnlike/test_string_getters.rs");
     t.pass("tests/fnlike/test_string_setters.rs");
     t.pass("tests/fnlike/test_cvar_count.rs");
