@@ -10,6 +10,7 @@ This is a shared changelog for all projects in this repo:
 
 ## Cvars-macros unrelased
 
+- Update to syn 2
 - Internal improvements: unified macro logic so `cvars!` no longer depends on `#[derive(SetGet)]`.
 - **Breaking change:** `cvars!` no longer adds `#[derive(Debug, Clone)]` to the generated struct. This might improve compile times with a large (~10k) number of cvars.
 - Reduce the amount of code generated per-cvar:
