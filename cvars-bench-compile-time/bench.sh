@@ -23,6 +23,9 @@ cargo build --features nomacro,cvars-100
 #   Revisit this after offset_of is stabilized: https://github.com/rust-lang/rust/issues/106655
 #   Using a crate for it is impossible since it generates too much code and is therefore slow.
 #   The stdlib version seems to compile differently and gives acceptable compile times (~10s for 10k cvars).
+#   Note that it's still not free because just hardcoding the offsets as 0 takes 2s.
+#   Idea: use repr(C) and determine the offsets for primitive types inside our macros,
+#   then only use offset_of for user-defined types. Might need to reorder cvars so primitive types are first.
 
 # Measure incremental rebuild time after editing the Cvars struct.
 hyperfine --warmup 2 "sed --in-place 's/test0/test0a/' src/nomacro-100.in && cargo build --features string,typed,nomacro,cvars-100"
