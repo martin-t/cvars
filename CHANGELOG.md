@@ -17,6 +17,7 @@ This is a shared changelog for all projects in this repo:
   - Recompile speedup after editing other code: 700ms -> 450ms for 1k cvars (1.5x faster)
 - The `cvars!` proc macro is no longer experimental and is the recommended way to use cvars because it is more convenient than `#[derive(SetGet)]`.
 - Add `cvar_count()` and `CVAR_COUNT` to get the number of cvars.
+- Accept `0`, `1`, `f` and `t` for bool cvars.
 
 ## Cvars v0.3.2 - 2023-02-08
 

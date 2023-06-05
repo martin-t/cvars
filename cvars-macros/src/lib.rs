@@ -351,11 +351,18 @@ fn generate(
                 // This roughly halves incremental compilation time
                 // when the Cvars struct is modified for 1k cvars.
                 #[inline(never)]
-                fn set_str<T>(cvar: &mut T, str_value: &str) -> ::core::result::Result<(), String>
+                fn set_str<T>(cvar: &mut T, mut str_value: &str) -> ::core::result::Result<(), String>
                 where
                     T: ::core::str::FromStr,
                     T::Err: ::core::fmt::Display,
                 {
+                    if ::std::any::type_name::<T>() == "bool" {
+                        if str_value == "t" || str_value == "1" {
+                            str_value = "true";
+                        } else if str_value == "f" || str_value == "0" {
+                            str_value = "false";
+                        }
+                    }
                     match str_value.parse() {
                         ::core::result::Result::Ok(val) => ::core::result::Result::Ok(*cvar = val),
                         ::core::result::Result::Err(err) => ::core::result::Result::Err(format!("failed to parse {} as type {}: {}",
