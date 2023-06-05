@@ -225,6 +225,8 @@ fn generate(
         tys.push(&tys_all[i]);
     }
 
+    let cvar_count = names.len();
+
     let set_get_impl = impl_set_get(&struct_name);
 
     // Get the set of types used as cvars.
@@ -371,6 +373,14 @@ fn generate(
                     )),
                 }
             }
+
+            /// Returns the number of cvars.
+            pub fn cvar_count(&self) -> usize {
+                #cvar_count
+            }
+
+            /// The number of cvars.
+            pub const CVAR_COUNT: usize = #cvar_count;
         }
 
         #set_get_impl
@@ -448,6 +458,9 @@ pub fn derive_dummy(input: TokenStream) -> TokenStream {
             pub fn set_str(&mut self, cvar_name: &str, str_value: &str) -> ::core::result::Result<(), String> {
                 unimplemented!("SetGetDummy is only for compile time testing.");
             }
+            pub fn cvar_count(&self) -> usize {
+                unimplemented!("SetGetDummy is only for compile time testing.");
+            }
         }
 
         #set_get_impl
@@ -472,6 +485,10 @@ fn impl_set_get(struct_name: &Ident) -> proc_macro2::TokenStream {
 
             fn set_str(&mut self, cvar_name: &str, cvar_value: &str) -> ::core::result::Result<(), String> {
                 self.set_str(cvar_name, cvar_value)
+            }
+
+            fn cvar_count(&self) -> usize {
+                self.cvar_count()
             }
         }
     }

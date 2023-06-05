@@ -12,6 +12,7 @@ fn tests() {
     t.pass("tests/derive/test_setters.rs");
     t.pass("tests/derive/test_string_getters.rs");
     t.pass("tests/derive/test_string_setters.rs");
+    t.pass("tests/derive/test_cvar_count.rs");
     t.pass("tests/derive/test_dyn.rs");
     t.pass("tests/derive/test_redefined.rs");
     t.pass("tests/derive/test_skip.rs");
@@ -22,6 +23,7 @@ fn tests() {
     t.pass("tests/fnlike/test_setters.rs");
     t.pass("tests/fnlike/test_string_getters.rs");
     t.pass("tests/fnlike/test_string_setters.rs");
+    t.pass("tests/fnlike/test_cvar_count.rs");
     t.pass("tests/fnlike/test_dyn.rs");
     t.pass("tests/fnlike/test_redefined.rs");
     t.pass("tests/fnlike/test_skip.rs");

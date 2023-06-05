@@ -80,8 +80,9 @@
 //! - A struct containing all your cvars
 //! - A Default impl with the specified default values
 //! - Methods to set and get cvars by name
+//! - Some utility methods
 //!
-//! The generated methods have these signatures (same as the `SetGet` trait):
+//! The most important methods have these signatures (same as on the `SetGet` trait):
 //!
 //! ```rust
 //! # struct Cvars {}
@@ -158,4 +159,7 @@ pub trait SetGet {
     ///
     /// Returns `Err` if the cvar doesn't exist or if `str_value` fails to parse to its type.
     fn set_str(&mut self, cvar_name: &str, str_value: &str) -> Result<(), String>;
+
+    /// Returns the number of cvars.
+    fn cvar_count(&self) -> usize;
 }
