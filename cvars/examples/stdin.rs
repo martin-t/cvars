@@ -5,30 +5,26 @@
 
 use std::io::BufRead;
 
-use cvars::SetGet;
+use cvars::cvars;
 
-#[derive(Debug, Clone, Copy, SetGet)]
-pub struct Cvars {
-    pub g_respawn_delay: f64,
-    pub g_respawn_health: i32,
+cvars! {
+    g_respawn_delay: f64 = 3.0,
+    g_respawn_health: i32 = 100,
 }
 
 fn main() {
-    // Give cvars some default values
-    let mut cvars = Cvars {
-        g_respawn_delay: 3.0,
-        g_respawn_health: 100,
-    };
+    let mut cvars = Cvars::default();
 
     println!("Type cvar name and value to update settings (e.g. g_respawn_delay 5):");
+
     for line in std::io::stdin().lock().lines() {
-        // Read line from stdin, split it into the cvar's name and new value
+        // Read line from stdin, split it into the cvar's name and new value.
         let line = line.unwrap();
         let mut parts = line.split_whitespace();
         let cvar_name = parts.next().unwrap();
         let cvar_value = parts.next().unwrap();
 
-        // Update the cvar and print the new value - this is a stringly typed API
+        // Update the cvar and print the new value - this is a stringly typed API.
         cvars.set_str(cvar_name, cvar_value).unwrap();
         println!(
             "Cvar updated: {} = {}",
@@ -36,7 +32,7 @@ fn main() {
             cvars.get_string(cvar_name).unwrap()
         );
 
-        // In gamecode, you'll use cvars as any other struct - with strong and static typing
+        // In gamecode, you'll use cvars as any other struct - with strong and static typing.
         println!(
             "Players will respawn after {} s with {} health",
             cvars.g_respawn_delay, cvars.g_respawn_health
