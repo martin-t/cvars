@@ -13,7 +13,7 @@ This is a shared changelog for all projects in this repo:
 - Update to syn 2
 - Internal improvements: unified macro logic so `cvars!` no longer depends on `#[derive(SetGet)]`.
 - **Breaking change:** `cvars!` no longer adds `#[derive(Debug, Clone)]` to the generated struct. This might improve compile times with a large (~10k) number of cvars.
-- Reduce the amount of code generated per-cvar:
+- Reduce the amount of code generated per-cvar (6x fewer lines of LLVM IR):
   - Recompile speedup after editing cvars: 10.5s -> 3.5s for 1k cvars (3x faster)
   - Recompile speedup after editing other code: 700ms -> 450ms for 1k cvars (1.5x faster)
 - The `cvars!` proc macro is no longer experimental and is the recommended way to use cvars because it is more convenient than `#[derive(SetGet)]`.
