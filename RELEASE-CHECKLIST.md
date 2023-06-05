@@ -2,7 +2,7 @@
 
 - `git pull`
 - Look for fixmes/todos
-- Look for outdated deps
+- Look for [outdated deps](https://deps.rs/repo/github/martin-t/cvars)
 - `cargo publish --dry-run -p crate-name`
   - Check the generated package has the correct versions of `cvars-*` deps, otherwise `cargo update`
 - Bump version
