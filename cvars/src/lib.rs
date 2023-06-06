@@ -61,7 +61,7 @@
 //!
 //! A typical game will have hundreds or thousands of tunable parameters.
 //! With cvars and a console you can keep them all configurable for advanced players,
-//! modders and your-gamedev-self without having a build and elaborate settings menu.
+//! modders and your-gamedev-self without having a build an elaborate settings menu.
 //! You can keep everything configurable using a TUI
 //! while also exposing common settings to normal players in your game's GUI.
 //!
