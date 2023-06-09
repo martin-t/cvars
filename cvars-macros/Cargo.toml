@@ -16,6 +16,7 @@ categories = [
     "game-development",
     "rust-patterns",
 ]
+autotests = false
 
 [lib]
 proc-macro = true
