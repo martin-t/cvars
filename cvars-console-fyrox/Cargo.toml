@@ -20,4 +20,4 @@ categories = [
 [dependencies]
 cvars = { version = "0.3.0", path = "../cvars" }
 cvars-console = { version = "0.1.0", path = "../cvars-console" }
-fyrox-ui = "0.20.0"
+fyrox-ui = "0.21.0"
