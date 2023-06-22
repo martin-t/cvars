@@ -1,34 +1,35 @@
+use std::fs;
+
 #[test]
 fn tests() {
     let t = trybuild::TestCases::new();
 
-    // For simplifity it would be nice to keep most tests exactly the same.
-    // Verify with this command:
-    // diff -r --exclude test_redefined.rs --exclude shared.rs cvars-macros/tests/{derive,fnlike}
-
-    t.pass("tests/derive/test_parse.rs");
-    t.pass("tests/derive/test_extra_impl.rs");
-    t.pass("tests/derive/test_typed_getters.rs");
-    t.pass("tests/derive/test_typed_setters.rs");
-    t.pass("tests/derive/test_string_getters.rs");
-    t.pass("tests/derive/test_string_setters.rs");
-    t.pass("tests/derive/test_bool.rs");
-    t.pass("tests/derive/test_cvar_count.rs");
-    t.pass("tests/derive/test_dyn.rs");
-    t.pass("tests/derive/test_redefined.rs");
-    t.pass("tests/derive/test_skip.rs");
-
-    t.pass("tests/fnlike/test_parse.rs");
-    t.pass("tests/fnlike/test_extra_impl.rs");
-    t.pass("tests/fnlike/test_typed_getters.rs");
-    t.pass("tests/fnlike/test_typed_setters.rs");
-    t.pass("tests/fnlike/test_string_getters.rs");
-    t.pass("tests/fnlike/test_string_setters.rs");
-    t.pass("tests/fnlike/test_bool.rs");
-    t.pass("tests/fnlike/test_cvar_count.rs");
-    t.pass("tests/fnlike/test_dyn.rs");
-    t.pass("tests/fnlike/test_redefined.rs");
-    t.pass("tests/fnlike/test_skip.rs");
-
     t.pass("tests/dummy.rs");
+
+    // Run all test_* files for both derive and fnlike macros.
+    // The files need to be copied to different directories because of how trybuild works.
+    fs::create_dir_all("tests/derive").unwrap();
+    fs::copy("tests/shared_derive.rs", "tests/derive/shared.rs").unwrap();
+    for entry in fs::read_dir("tests/shared").unwrap() {
+        let path_src = entry.unwrap().path();
+        let path_dest = path_src.to_str().unwrap().replace("shared", "derive");
+        fs::copy(&path_src, &path_dest).unwrap();
+        t.pass(&path_dest);
+    }
+    fs::create_dir_all("tests/fnlike").unwrap();
+    fs::copy("tests/shared_fnlike.rs", "tests/fnlike/shared.rs").unwrap();
+    for entry in fs::read_dir("tests/shared").unwrap() {
+        let path_src = entry.unwrap().path();
+        let path_dest = path_src.to_str().unwrap().replace("shared", "fnlike");
+        fs::copy(&path_src, &path_dest).unwrap();
+        t.pass(&path_dest);
+    }
+
+    drop(t);
+
+    // The tests run on drop so we only clean up after that.
+    // The cleanup is only to declutter the workspace,
+    // the test should work even if the files are left there from a previous run.
+    fs::remove_dir_all("tests/derive").unwrap();
+    fs::remove_dir_all("tests/fnlike").unwrap();
 }
