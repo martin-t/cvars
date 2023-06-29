@@ -30,6 +30,7 @@ fn tests() {
     // The tests run on drop so we only clean up after that.
     // The cleanup is only to declutter the workspace,
     // the test should work even if the files are left there from a previous run.
+    // Doesn't run if tests fail (TestCases::drop panics).
     fs::remove_dir_all("tests/derive").unwrap();
     fs::remove_dir_all("tests/fnlike").unwrap();
 }
