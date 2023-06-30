@@ -8,13 +8,30 @@ use proc_macro::TokenStream;
 use proc_macro2::{Span, TokenTree};
 use quote::quote;
 use syn::{
-    parse::{Parse, ParseStream, Parser},
+    parse::{Parse, ParseStream},
     parse_macro_input,
     punctuated::Punctuated,
-    Attribute, Data, DeriveInput, Expr, Fields, Ident, Meta, MetaList, Token, Type,
+    AttrStyle, Attribute, Data, DeriveInput, Expr, Fields, Ident, Meta, MetaList, Token, Type,
 };
 
-/// A struct representing one cvar definition from the `cvars!` macro.
+/// Parsed input to the `cvars!` macro.
+struct CvarsDef {
+    attrs: Vec<Attribute>,
+    cvars: Vec<CvarDef>,
+}
+
+impl Parse for CvarsDef {
+    fn parse(input: ParseStream) -> syn::Result<Self> {
+        let attrs = input.call(Attribute::parse_inner)?;
+
+        let punctuated = Punctuated::<CvarDef, Token![,]>::parse_terminated(input)?;
+        let cvars = punctuated.into_iter().collect();
+
+        Ok(CvarsDef { attrs, cvars })
+    }
+}
+
+/// Definition of one cvar from the `cvars!` macro.
 struct CvarDef {
     attrs: Vec<Attribute>,
     /// Whether `#[cvars(skip)]` was present.
@@ -55,8 +72,6 @@ impl Parse for CvarDef {
 
 /// Generate the `Cvars` struct and its impls. Each cvar and its default value is defined on one line.
 ///
-/// There is currently no way to specify additional attributes on the struct.
-///
 /// All types used as cvars have to impl `FromStr` and `Display`.
 ///
 /// # Generated code
@@ -85,19 +100,41 @@ impl Parse for CvarDef {
 ///     g_rocket_launcher_damage: f32 = 75.0,
 /// }
 /// ```
+///
+/// # Attributes and doc-comments
+///
+/// To add attributes or doc-comments to the generated struct,
+/// use _inner_ attributes and _inner_ comments.
+///
+/// ```rust
+/// use cvars::cvars;
+///
+/// cvars! {
+///     //! Documentation for the generated struct
+///
+///     #![derive(Debug, Clone)]
+///
+///     /// Documentation for the cvar
+///     cl_projectile_render_distance: f64 = 2048.0,
+/// }
+/// ```
 #[proc_macro]
 pub fn cvars(input: TokenStream) -> TokenStream {
     let begin = std::time::Instant::now();
 
-    let parser = Punctuated::<CvarDef, Token![,]>::parse_terminated;
-    let punctuated = parser.parse(input).expect("failed to parse");
+    let cvars_def: CvarsDef = parse_macro_input!(input);
+
+    let mut cvars_attrs = cvars_def.attrs;
+    for attr in &mut cvars_attrs {
+        attr.style = AttrStyle::Outer;
+    }
 
     let mut attrss = Vec::new();
     let mut skips = Vec::new();
     let mut names = Vec::new();
     let mut tys = Vec::new();
     let mut values = Vec::new();
-    for cvar_def in punctuated {
+    for cvar_def in cvars_def.cvars {
         attrss.push(cvar_def.attrs);
         skips.push(cvar_def.skip);
         names.push(cvar_def.name);
@@ -109,6 +146,9 @@ pub fn cvars(input: TokenStream) -> TokenStream {
     let generated = generate(struct_name, &skips, &names, &tys);
 
     let expanded = quote! {
+        #(
+            #cvars_attrs
+        )*
         pub struct Cvars {
             #(
                 #( #attrss )*

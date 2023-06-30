@@ -3,6 +3,8 @@ use strum_macros::{Display, EnumString};
 use cvars::cvars;
 
 cvars! {
+    //! Inner doc comment - passed to macros as an attribute
+    #![derive(Debug, Clone)]
     g_bool: bool = true,
     g_int: i32 = 42,
     g_usize: usize = 987654,
