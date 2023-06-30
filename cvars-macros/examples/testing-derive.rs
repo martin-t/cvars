@@ -4,30 +4,20 @@
 // so that it can use dev-dependencies
 // to avoid having to put strum in normal dependencies.
 
+#![allow(unused_imports)]
 use strum_macros::{Display, EnumString};
 
 use cvars::SetGet;
 
-#[derive(Default, SetGet)]
+#[derive(SetGet)]
 pub struct Cvars {
-    pub g_bool: bool,
-    pub g_int: i32,
-    pub g_usize: usize,
-    pub g_float: f32,
-    pub g_double: f64,
-    pub g_enum: Enum,
-    #[warn(clippy::pedantic)] // Testing that the field can have other attributes
-    #[cvars(skip)]
-    #[allow(clippy::pedantic)]
-    pub g_skipped: i32,
+    pub g_whatever: f64,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Display, EnumString)]
-#[strum(ascii_case_insensitive)]
-pub enum Enum {
-    #[default]
-    One,
-    Two,
+impl Default for Cvars {
+    fn default() -> Self {
+        Self { g_whatever: 42.0 }
+    }
 }
 
 fn main() {}
