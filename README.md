@@ -171,7 +171,7 @@ Compared to these, cvars either has no overhead at runtime or requires less setu
 
 Cvars also serves a slightly different purpose than inline_tweak and const-tweaker. It's meant to stay in code forever, even after releasing your game, to enable modding by your game's community.
 
-Finally, you might not need a specialized crate like cvars or inline_tweak at all. A lot of common wisdom in gamedev is wrong or outdated. What you need might be just a file containing RON or JSON which is loaded each frame and deserialized into a config struct. It'll be cached by the OS most of the time and nobody cares about a dropped frame during development after editing the file.
+Finally, you might not need a specialized crate like cvars or inline_tweak at all. A lot of common wisdom in gamedev is wrong or outdated. What you need might be just a file containing RON or JSON which is loaded each frame and deserialized into a config struct. It'll be cached by the OS most of the time and nobody minds a dropped frame during development after editing the file.
 
 ## Development
 
