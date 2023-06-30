@@ -171,6 +171,8 @@ Compared to these, cvars either has no overhead at runtime or requires less setu
 
 Cvars also serves a slightly different purpose than inline_tweak and const-tweaker. It's meant to stay in code forever, even after releasing your game, to enable modding by your game's community.
 
+Finally, you might not need a specialized crate like cvars or inline_tweak at all. A lot of common wisdom in gamedev is wrong or outdated. What you need might be just a file containing RON or JSON which is loaded each frame and deserialized into a config struct. It'll be cached by the OS most of the time and nobody cares about a dropped frame during development after editing the file.
+
 ## Development
 
 The repo is organized as a cargo workspace for the main functionality, with consoles and benchmarks as separate crates - see `Cargo.toml` for the technical reasons.
@@ -185,7 +187,7 @@ The repo is organized as a cargo workspace for the main functionality, with cons
 
 - **Useful commands**:
   - [cargo-llvm-lines](https://github.com/dtolnay/cargo-llvm-lines) and [cargo-bloat](https://github.com/RazrFalcon/cargo-bloat). Use either of them in `cvars-bench-compile-time` (e.g. e.g. `cargo llvm-lines --features string,typed,fnlike,cvars-1000`) to find out which functions generate a lot of LLVM IR and which compile to a lot of code. This is a good indicator of what is causing long compile times. Lines of LLVM IR is a bit more important because it better indicates how much work the backend has to do even if it compiles down to a small amount of machine code.
-  - Set the environment variable `CVARS_STATS` to make the macros print how long they took - e.g. `CVARS_STATS= cargo bloat --features string,typed,fnlike,cvars-1000`. If it's small compared to the total compile time, most of the time is spent in codegen, dealing with the large amount of code generated.
+  - Set the environment variable `CVARS_STATS` to make the macros print how long they took - e.g. `CVARS_STATS= cargo bloat --features string,typed,fnlike,cvars-1000`. If it's small compared to the total compile time, most of the time is spent in codegen, dealing with the large amount of code generated. Note that the compiler's output, including proc macro output, is cached if the compiled code hasn't changed so you might need to set the variable and also edit the code to see the stats.
 
 ## Contributing
 
