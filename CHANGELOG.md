@@ -8,18 +8,27 @@ This is a shared changelog for all projects in this repo:
   - [`cvars-console-fyrox`](https://crates.io/crates/cvars-console-fyrox)
   - [`cvars-console-macroquad`](https://crates.io/crates/cvars-console-macroquad)
 
-## Cvars-macros unrelased
+## Cvars-console-fyrox v0.2.0 - 2023-07-01
+
+- **Breaking change:** Update to cvars v0.4.0
+- **Breaking change:** Update to fyrox-ui v0.21.0
+
+## Cvars-console and cvars-console-macroquad v0.2.0 - 2023-07-01
+
+- **Breaking change:** Update to cvars v0.4.0
+
+## Cvars and cvars-macros v0.4.0 - 2023-07-01
 
 - Update to syn 2
 - Internal improvements: unified macro logic so `cvars!` no longer depends on `#[derive(SetGet)]`.
 - **Breaking change:** `cvars!` no longer adds `#[derive(Debug, Clone)]` to the generated struct. This might improve compile times with a large (~10k) number of cvars.
-- `cvars!` now accepts inner attributes and comments - see its docs for usage examples.
 - Reduce the amount of code generated per-cvar (6x fewer lines of LLVM IR):
   - Recompile speedup after editing cvars: 10.5s -> 3.5s for 1k cvars (3x faster).
   - Recompile speedup after editing other code: 700ms -> 450ms for 1k cvars (1.5x faster).
 - The `cvars!` proc macro is no longer experimental and is the recommended way to use cvars because it is more convenient than `#[derive(SetGet)]`.
 - Add `cvar_count()` and `CVAR_COUNT` to get the number of cvars.
 - Accept `0`, `1`, `f` and `t` for bool cvars.
+- `cvars!` now accepts inner attributes and comments - see its docs for usage examples.
 
 ## Cvars v0.3.2 - 2023-02-08
 

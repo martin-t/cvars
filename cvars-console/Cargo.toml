@@ -1,6 +1,6 @@
 [package]
 name = "cvars-console"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 authors = ["Martin Taibr <taibr.martin@gmail.com>"]
 description = "In-game console using the cvars crate for configuration - internal crate, use cvars-console-fyrox or cvars-console-macroquad in your game"
@@ -18,4 +18,4 @@ categories = [
 ]
 
 [dependencies]
-cvars = { version = "0.3.0", path = "../cvars" }
+cvars = { version = "0.4.0", path = "../cvars" }
