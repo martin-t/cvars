@@ -2,11 +2,11 @@
 
 - `git pull`
 - Look for fixmes/todos
-- Look for [outdated deps](https://deps.rs/repo/github/martin-t/cvars)
+- Look for outdated deps (`cargo outdated` or [deps.rs](https://deps.rs/repo/github/martin-t/cvars))
+- Bump version(s)
 - `cargo update` (even for libs [^lockfile])
 - `cargo publish --dry-run -p crate-name`
   - Check the generated package has the correct versions of `cvars-*` deps.
-- Bump version
 - Update CHANGELOG.md
 - Commit, `git push`, make sure CI passes
   - This is after bumping versions to make sure all the packages in the repo are still compatible
@@ -17,7 +17,7 @@
 - GitHub release
   - Copy relevant part of CHANGELOG.md to description
 
-Inspiration: [ripgrep](https://github.com/BurntSushi/ripgrep/blob/master/RELEASE-CHECKLIST.md). Note that ripgrep is a binary, we don't need some steps such as updating Cargo.lock.
+Inspiration: [ripgrep](https://github.com/BurntSushi/ripgrep/blob/master/RELEASE-CHECKLIST.md). Note that ripgrep is a binary, we don't need some steps such as comitting Cargo.lock.
 
 [^lockfile]: Docs.rs appears to respect Cargo.lock even for libs, this might cause outdated docs when using `pub use`.
   Not sure what exactly happened but it seems cvars v0.3.1 depended on an outdated version of cvars-macros
