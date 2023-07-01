@@ -4,13 +4,14 @@
 - Look for fixmes/todos
 - Look for outdated deps (`cargo outdated` or [deps.rs](https://deps.rs/repo/github/martin-t/cvars))
 - Bump version(s)
-- `cargo update` (even for libs [^lockfile])
-- `cargo publish --dry-run -p crate-name`
-  - Check the generated package has the correct versions of `cvars-*` deps.
+- For workspace and separately for consoles: `cargo update` (even for libs [^lockfile])
 - Update CHANGELOG.md
 - Commit, `git push`, make sure CI passes
   - This is after bumping versions to make sure all the packages in the repo are still compatible
-- `cargo publish -p crate-name`
+- For each package to release:
+  - `cargo publish --dry-run -p crate-name`
+    - Check the generated package has the correct versions of `cvars-*` deps.
+  - `cargo publish -p crate-name`
 - `git tag -a crate-name-vX.Y.Z`
   - If specifying multiple versions, put more important first in case the line gets truncated on GitHub
 - `git push` the tag
