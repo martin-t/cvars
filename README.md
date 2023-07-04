@@ -6,12 +6,16 @@
 </div>
 <br />
 
-[![Crates.io](https://img.shields.io/crates/v/cvars)](https://crates.io/crates/cvars)
+<!-- When updating this, don't forget each console has its own readme too. -->
+
+[![GitHub](https://img.shields.io/badge/github-martin--t/cvars-8da0cb?logo=github)](https://github.com/martin-t/cvars)
+[![Docs.rs](https://img.shields.io/badge/docs.rs-cvars-66c2a5?logo=docs.rs)](https://docs.rs/cvars)
+[![Crates.io](https://img.shields.io/crates/v/cvars?logo=rust)](https://crates.io/crates/cvars)
 [![License (AGPL3)](https://img.shields.io/github/license/martin-t/cvars)](https://github.com/martin-t/cvars/blob/master/LICENSE)
 [![CI](https://github.com/martin-t/cvars/workflows/CI/badge.svg)](https://github.com/martin-t/cvars/actions)
 [![Audit](https://github.com/martin-t/cvars/workflows/audit/badge.svg)](https://rustsec.org/)
 [![Dependency status](https://deps.rs/repo/github/martin-t/cvars/status.svg)](https://deps.rs/repo/github/martin-t/cvars)
-[![Discord](https://img.shields.io/discord/770013530593689620?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/aA7hCFvYh9)
+[![Discord](https://img.shields.io/badge/-Discord-7389d8?logo=discord&label=&logoColor=ffffff&labelColor=6A7EC2)](https://discord.gg/aA7hCFvYh9)
 <!-- ![Total lines](https://tokei.rs/b1/github/martin-t/cvars) Disabled because it counts cvars-bench-compile-time, plus it's currently broken and always shows 0 anyway. -->
 
 _Cvars_ (console variables or configuration variables) are a **simple** way to store settings you want to change at runtime without restarting your program.
@@ -101,12 +105,14 @@ For real-world examples, look at games using cvars:
 
 ## [Fyrox console](https://github.com/martin-t/cvars/tree/master/cvars-console-fyrox)
 
-[![Crates.io](https://img.shields.io/crates/v/cvars-console-fyrox)](https://crates.io/crates/cvars-console-fyrox)
+[![GitHub](https://img.shields.io/badge/github-martin--t/cvars-8da0cb?logo=github)](https://github.com/martin-t/cvars)
+[![Docs.rs](https://img.shields.io/badge/docs.rs-cvars--console--fyrox-66c2a5?logo=docs.rs)](https://docs.rs/cvars-console-fyrox)
+[![Crates.io](https://img.shields.io/crates/v/cvars-console-fyrox?logo=rust)](https://crates.io/crates/cvars-console-fyrox)
 [![License (AGPL3)](https://img.shields.io/github/license/martin-t/cvars)](https://github.com/martin-t/cvars/blob/master/LICENSE)
 [![CI](https://github.com/martin-t/cvars/workflows/CI-fyrox/badge.svg)](https://github.com/martin-t/cvars/actions)
 [![Audit](https://github.com/martin-t/cvars/workflows/audit-fyrox/badge.svg)](https://rustsec.org/)
 [![Dependency status](https://deps.rs/repo/github/martin-t/cvars/status.svg?path=cvars-console-fyrox)](https://deps.rs/repo/github/martin-t/cvars?path=cvars-console-fyrox)
-[![Discord](https://img.shields.io/discord/770013530593689620?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/aA7hCFvYh9)
+[![Discord](https://img.shields.io/badge/-Discord-7389d8?logo=discord&label=&logoColor=ffffff&labelColor=6A7EC2)](https://discord.gg/aA7hCFvYh9)
 
 The Fyrox console is a separate crate in this repo. To use it in your game, add it to your `Cargo.toml` and call its methods on the relevant engine events.
 
@@ -116,12 +122,14 @@ See the [crates.io page](https://crates.io/crates/cvars-console-fyrox) or its [d
 
 ## [Macroquad console](https://github.com/martin-t/cvars/tree/master/cvars-console-macroquad)
 
-[![Crates.io](https://img.shields.io/crates/v/cvars-console-macroquad)](https://crates.io/crates/cvars-console-macroquad)
+[![GitHub](https://img.shields.io/badge/github-martin--t/cvars-8da0cb?logo=github)](https://github.com/martin-t/cvars)
+[![Docs.rs](https://img.shields.io/badge/docs.rs-cvars--console--macroquad-66c2a5?logo=docs.rs)](https://docs.rs/cvars-console-macroquad)
+[![Crates.io](https://img.shields.io/crates/v/cvars-console-macroquad?logo=rust)](https://crates.io/crates/cvars-console-macroquad)
 [![License (AGPL3)](https://img.shields.io/github/license/martin-t/cvars)](https://github.com/martin-t/cvars/blob/master/LICENSE)
 [![CI](https://github.com/martin-t/cvars/workflows/CI-macroquad/badge.svg)](https://github.com/martin-t/cvars/actions)
 [![Audit](https://github.com/martin-t/cvars/workflows/audit-macroquad/badge.svg)](https://rustsec.org/)
 [![Dependency status](https://deps.rs/repo/github/martin-t/cvars/status.svg?path=cvars-console-macroquad)](https://deps.rs/repo/github/martin-t/cvars?path=cvars-console-macroquad)
-[![Discord](https://img.shields.io/discord/770013530593689620?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/aA7hCFvYh9)
+[![Discord](https://img.shields.io/badge/-Discord-7389d8?logo=discord&label=&logoColor=ffffff&labelColor=6A7EC2)](https://discord.gg/aA7hCFvYh9)
 
 The Macroquad console is a separate crate in this repo. To use it in your game, add it to your `Cargo.toml` and call its `update` method every frame.
 
