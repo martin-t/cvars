@@ -16,6 +16,7 @@ fn take_dyn(cvars: &mut dyn SetGet) {
     cvars.set_str("g_float", "6.0").unwrap();
     cvars.set_str("g_double", "11.0").unwrap();
     cvars.set_str("g_enum", "one").unwrap();
+    cvars.set_str("g_string", "String").unwrap();
 
     assert_eq!(
         cvars.set_str("bla", "666"),
@@ -32,6 +33,7 @@ fn take_dyn(cvars: &mut dyn SetGet) {
     assert_eq!(cvars.get_string("g_float"), Ok("6".to_owned()));
     assert_eq!(cvars.get_string("g_double"), Ok("11".to_owned()));
     assert_eq!(cvars.get_string("g_enum"), Ok("One".to_owned()));
+    assert_eq!(cvars.get_string("g_string"), Ok("String".to_owned()));
 
     assert_eq!(
         cvars.get_string("bla"),

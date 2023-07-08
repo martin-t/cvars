@@ -12,6 +12,7 @@ pub struct Cvars {
     /// Doc comment - passed to macros as an attribute
     pub g_double: f64,
     pub g_enum: Enum,
+    pub g_string: String,
     #[warn(clippy::pedantic)] // Testing that the field can have other attributes
     #[cvars(skip)]
     #[allow(clippy::pedantic)]
@@ -27,6 +28,7 @@ impl Default for Cvars {
             g_float: 5.0,
             g_double: 10.0,
             g_enum: Enum::Two,
+            g_string: "String".to_string(),
             g_skipped: 666,
         }
     }

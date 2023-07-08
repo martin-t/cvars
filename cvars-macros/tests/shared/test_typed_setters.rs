@@ -11,6 +11,7 @@ fn main() {
     cvars.set("g_float", 6.0_f32).unwrap();
     cvars.set("g_double", 11.0).unwrap();
     cvars.set("g_enum", Enum::One).unwrap();
+    cvars.set("g_string", "String".to_string()).unwrap();
 
     assert_eq!(cvars.g_bool, false);
     assert_eq!(cvars.g_int, 43);
@@ -18,6 +19,7 @@ fn main() {
     assert_eq!(cvars.g_float, 6.0);
     assert_eq!(cvars.g_double, 11.0);
     assert_eq!(cvars.g_enum, Enum::One);
+    assert_eq!(cvars.g_string, "String");
 
     assert_eq!(
         cvars.set("bla", 666),

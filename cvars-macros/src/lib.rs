@@ -286,7 +286,7 @@ fn generate(
             // so that the getters and setters typecheck.
             if ty == *unique_ty {
                 let getter_arm = quote! {
-                    stringify!(#field) => ::core::result::Result::Ok(cvars.#field),
+                    stringify!(#field) => ::core::result::Result::Ok(cvars.#field.clone()),
                 };
                 getter_arms.push(getter_arm);
 

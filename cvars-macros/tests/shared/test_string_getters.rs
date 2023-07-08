@@ -11,6 +11,7 @@ fn main() {
     assert_eq!(cvars.get_string("g_float"), Ok("5".to_owned()));
     assert_eq!(cvars.get_string("g_double"), Ok("10".to_owned()));
     assert_eq!(cvars.get_string("g_enum"), Ok("Two".to_owned()));
+    assert_eq!(cvars.get_string("g_string"), Ok("String".to_owned()));
 
     assert_eq!(
         cvars.get_string("bla"),

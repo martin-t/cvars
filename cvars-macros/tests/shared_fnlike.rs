@@ -13,6 +13,7 @@ cvars! {
     /// Doc comment - passed to macros as an attribute
     g_double: f64 = 10.0,
     g_enum: Enum = Enum::Two,
+    g_string: String = "String".to_string(),
     #[warn(clippy::pedantic)] // Testing that the field can have other attributes
     #[cvars(skip)]
     #[allow(clippy::pedantic)]

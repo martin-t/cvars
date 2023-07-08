@@ -15,6 +15,7 @@ fn main() {
         g_float: cvars.get("g_float").unwrap(),
         g_double: cvars.get("g_double").unwrap(),
         g_enum: cvars.get("g_enum").unwrap(),
+        g_string: cvars.get("g_string").unwrap(),
         g_skipped: 0,
     };
     assert_eq!(other.g_bool, cvars.g_bool);
@@ -23,6 +24,7 @@ fn main() {
     assert_eq!(other.g_float, cvars.g_float);
     assert_eq!(other.g_double, cvars.g_double);
     assert_eq!(other.g_enum, cvars.g_enum);
+    assert_eq!(other.g_string, cvars.g_string);
 
     assert_eq!(
         cvars.get::<i32>("bla"),
