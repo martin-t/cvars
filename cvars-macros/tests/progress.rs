@@ -6,7 +6,7 @@ use trybuild::TestCases;
 fn tests() {
     let t = trybuild::TestCases::new();
 
-    t.pass("tests/dummy.rs");
+    t.pass("tests/test_dummy.rs");
 
     // Run all test_* files for both derive and fnlike macros.
     // The files need to be copied to different directories because of how trybuild works.
