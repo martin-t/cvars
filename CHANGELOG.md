@@ -8,6 +8,10 @@ This is a shared changelog for all projects in this repo:
   - [`cvars-console-fyrox`](https://crates.io/crates/cvars-console-fyrox)
   - [`cvars-console-macroquad`](https://crates.io/crates/cvars-console-macroquad)
 
+## Cvars-macros unreleased
+
+- Add `#![cvars(sorted)]` to check if cvars are sorted
+
 ## Cvars-macros v0.4.1 - 2023-07-08
 
 - Add support for non-`Copy` types such as `String`.
