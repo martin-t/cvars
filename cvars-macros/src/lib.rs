@@ -48,23 +48,6 @@ impl Parse for CvarsDef {
     }
 }
 
-/// Is it `cvars(sorted)`?
-fn is_sorted(attr: &Attribute) -> bool {
-    if let Meta::List(MetaList { path, tokens, .. }) = &attr.meta {
-        if !path.is_ident("cvars") {
-            return false;
-        }
-
-        if tokens.to_string() == "sorted" {
-            return true;
-        } else {
-            panic!("Unknown cvars attribute: {}", tokens.to_string());
-        }
-    }
-
-    false
-}
-
 /// Definition of one cvar from the `cvars!` macro.
 struct CvarDef {
     attrs: Vec<Attribute>,
@@ -100,6 +83,40 @@ impl Parse for CvarDef {
             value,
         })
     }
+}
+
+/// Is it `cvars(sorted)`?
+fn is_sorted(attr: &Attribute) -> bool {
+    if let Meta::List(MetaList { path, tokens, .. }) = &attr.meta {
+        if !path.is_ident("cvars") {
+            return false;
+        }
+
+        if tokens.to_string() == "sorted" {
+            return true;
+        } else {
+            panic!("Unknown cvars attribute: {}", tokens.to_string());
+        }
+    }
+
+    false
+}
+
+/// Is it `cvars(skip)`?
+fn is_skip(attr: &Attribute) -> bool {
+    if let Meta::List(MetaList { path, tokens, .. }) = &attr.meta {
+        if !path.is_ident("cvars") {
+            return false;
+        }
+
+        if tokens.to_string() == "skip" {
+            return true;
+        } else {
+            panic!("Unknown cvars attribute: {}", tokens.to_string());
+        }
+    }
+
+    false
 }
 
 /// Generate the `Cvars` struct and its impls. Each cvar and its default value is defined on one line.
@@ -490,23 +507,6 @@ fn generate(
 
         #( #trait_impls )*
     }
-}
-
-/// Is it `cvars(skip)`?
-fn is_skip(attr: &Attribute) -> bool {
-    if let Meta::List(MetaList { path, tokens, .. }) = &attr.meta {
-        if !path.is_ident("cvars") {
-            return false;
-        }
-
-        if tokens.to_string() == "skip" {
-            return true;
-        } else {
-            panic!("Unknown cvars attribute: {}", tokens.to_string());
-        }
-    }
-
-    false
 }
 
 /// Dummy version of SetGet for debugging how much cvars add to _incremental_ compile times of your project.
