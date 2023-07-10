@@ -494,22 +494,14 @@ fn is_skip(attr: &Attribute) -> bool {
             return false;
         }
 
-        // Is it #[cvars(skip)]?
-        let mut tokens = tokens.clone().into_iter();
-        let nested = tokens.next().expect("expected #[cvars(skip)]");
-        assert!(tokens.next().is_none(), "expected #[cvars(skip)]");
-        if let TokenTree::Ident(ident) = nested {
-            if ident == "skip" {
-                true
-            } else {
-                panic!("expected #[cvars(skip)]");
-            }
+        if tokens.to_string() == "skip" {
+            return true;
         } else {
-            panic!("expected #[cvars(skip)]");
+            panic!("Unknown cvars attribute: {}", tokens.to_string());
         }
-    } else {
-        false
     }
+
+    false
 }
 
 /// Dummy version of SetGet for debugging how much cvars add to _incremental_ compile times of your project.
