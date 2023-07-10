@@ -129,17 +129,12 @@
 //!
 //! # Attributes
 //!
-//! ## Skipping fields
+//! - **Skipping fields** - If a field is not meant to be configurable, mark it with `#[cvars(skip)]`.
 //!
-//! If a field is not meant to be configurable, mark it with `#[cvars(skip)]`.
-//!
-//! ## Checking cvars are sorted
-//!
-//! Optionally the macro can panic if it detects that the cvars are not sorted.
-//! Use the `#[cvars(sorted)]` attribute on the struct.
-//!
-//! Note if you're using `cvars! {}` instead of `derive(SetGet), you have to use
-//! it an an inner attribute - `#![cvars(sorted)]`.
+//! - **Checking cvars are sorted** - To make the macro panic if it detects that the cvars are not sorted,
+//!   use the `#[cvars(sorted)]` attribute on the struct.
+//!   Note if you're using the `cvars` macro instead of deriving `SetGet`,
+//!   you have to use it as an an inner attribute.
 //!
 //! # Related crates
 //!

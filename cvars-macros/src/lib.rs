@@ -103,6 +103,7 @@ impl Parse for CvarDef {
 }
 
 /// Generate the `Cvars` struct and its impls. Each cvar and its default value is defined on one line.
+/// This is the recommended way of using this crate.
 ///
 /// All types used as cvars have to impl `FromStr` and `Display`.
 ///
