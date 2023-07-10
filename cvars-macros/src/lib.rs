@@ -5,7 +5,7 @@
 use std::{collections::HashSet, env};
 
 use proc_macro::TokenStream;
-use proc_macro2::{Span, TokenTree};
+use proc_macro2::Span;
 use quote::quote;
 use syn::{
     parse::{Parse, ParseStream},
@@ -48,6 +48,7 @@ impl Parse for CvarsDef {
     }
 }
 
+/// Is it `cvars(sorted)`?
 fn is_sorted(attr: &Attribute) -> bool {
     if let Meta::List(MetaList { path, tokens, .. }) = &attr.meta {
         if !path.is_ident("cvars") {
@@ -242,8 +243,8 @@ pub fn derive(input: TokenStream) -> TokenStream {
     let begin = std::time::Instant::now();
 
     let input: DeriveInput = parse_macro_input!(input);
-    let struct_name = input.ident;
 
+    let struct_name = input.ident;
     let named_fields = match input.data {
         Data::Struct(struct_data) => match struct_data.fields {
             Fields::Named(named_fields) => named_fields,
@@ -253,18 +254,21 @@ pub fn derive(input: TokenStream) -> TokenStream {
         Data::Enum(_) => panic!("enums are not supported, use a struct"),
         Data::Union(_) => panic!("unions are not supported, use a struct"),
     };
+    let sorted = input.attrs.iter().any(is_sorted);
 
     // Get the list of all cvars and their types
     let mut skips = Vec::new();
     let mut names = Vec::new();
     let mut tys = Vec::new();
     for field in named_fields.named {
-        skips.push(contains_skip(&field.attrs));
-        names.push(field.ident.expect("ident was None"));
+        let contains_skip = field.attrs.iter().any(is_skip);
+        skips.push(contains_skip);
+        let name = field.ident.expect("unreachable: ident was None");
+        names.push(name);
         tys.push(field.ty);
     }
-    //FIXME
-    let expanded = generate(struct_name, false, &skips, &names, &tys);
+
+    let expanded = generate(struct_name, sorted, &skips, &names, &tys);
     let expanded = expanded.into();
 
     let end = std::time::Instant::now();
@@ -483,11 +487,7 @@ fn generate(
     }
 }
 
-/// Check whether the field has the `#[cvars(skip)]` attribute
-fn contains_skip(attrs: &[Attribute]) -> bool {
-    attrs.iter().any(is_skip)
-}
-
+/// Is it `cvars(skip)`?
 fn is_skip(attr: &Attribute) -> bool {
     if let Meta::List(MetaList { path, tokens, .. }) = &attr.meta {
         if !path.is_ident("cvars") {

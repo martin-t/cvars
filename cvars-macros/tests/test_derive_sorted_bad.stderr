@@ -1,0 +1,7 @@
+error: proc-macro derive panicked
+ --> tests/test_derive_sorted_bad.rs:3:10
+  |
+3 | #[derive(SetGet)]
+  |          ^^^^^^
+  |
+  = help: message: cvars not sorted: `ab` >= `aaa`
