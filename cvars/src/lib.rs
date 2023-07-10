@@ -127,9 +127,19 @@
 //! Tip: use `#[strum(ascii_case_insensitive)]` so players don't need to pay attention to capilatization
 //! when changing cvars - both `"Vertical"` and `"vertical"` will parse into `Splitscreen::Vertical`.
 //!
-//! # Skipping fields
+//! # Attributes
+//!
+//! ## Skipping fields
 //!
 //! If a field is not meant to be configurable, mark it with `#[cvars(skip)]`.
+//!
+//! ## Checking cvars are sorted
+//!
+//! Optionally the macro can panic if it detects that the cvars are not sorted.
+//! Use the `#[cvars(sorted)]` attribute on the struct.
+//!
+//! Note if you're using `cvars! {}` instead of `derive(SetGet), you have to use
+//! it an an inner attribute - `#![cvars(sorted)]`.
 //!
 //! # Related crates
 //!

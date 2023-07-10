@@ -145,11 +145,15 @@ impl Parse for CvarDef {
 ///     //! Documentation for the generated struct
 ///
 ///     #![derive(Debug, Clone)]
+///     #![cvars(sorted)]
 ///
 ///     /// Documentation for the cvar
 ///     cl_projectile_render_distance: f64 = 2048.0,
 /// }
 /// ```
+///
+/// Use `#![cvars(sorted)]` to check the cvars are in lexicographic order.
+/// If not, the macro will panic as there's currently no way to emit a warning from proc macros.
 #[proc_macro]
 pub fn cvars(input: TokenStream) -> TokenStream {
     let begin = std::time::Instant::now();
