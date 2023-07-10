@@ -154,7 +154,6 @@ pub fn cvars(input: TokenStream) -> TokenStream {
                 #( #attrss )*
                 pub #names: #tys,
             )*
-            // __cvars_map: ::phf::Map<&'static str, usize>,
         }
 
         #[automatically_derived]
@@ -162,9 +161,6 @@ pub fn cvars(input: TokenStream) -> TokenStream {
             fn default() -> Self {
                 Self {
                     #( #names: #values, )*
-                    // __cvars_map: ::phf::phf_map! {
-                    //     #( #names => 0, )*
-                    // },
                 }
             }
         }
