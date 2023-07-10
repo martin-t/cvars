@@ -18,7 +18,7 @@ use syn::{
 struct CvarsDef {
     attrs: Vec<Attribute>,
     /// Whether `#[cvars(skip)]` was present.
-    /// /// It has to be removed from the list of attributes before passing them on
+    /// It has to be removed from the list of attributes before passing them on
     /// so we save it here separately.
     sorted: bool,
     cvars: Vec<CvarDef>,
