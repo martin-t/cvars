@@ -17,26 +17,57 @@ use syn::{
 /// Parsed input to the `cvars!` macro.
 struct CvarsDef {
     attrs: Vec<Attribute>,
+    /// Whether `#[cvars(skip)]` was present.
+    /// /// It has to be removed from the list of attributes before passing them on
+    /// so we save it here separately.
+    sorted: bool,
     cvars: Vec<CvarDef>,
 }
 
 impl Parse for CvarsDef {
     fn parse(input: ParseStream) -> syn::Result<Self> {
-        let attrs = input.call(Attribute::parse_inner)?;
+        let attrs_raw = input.call(Attribute::parse_inner)?;
+        let mut attrs = Vec::new();
+        let mut sorted = false;
+        for attr in attrs_raw {
+            if is_sorted(&attr) {
+                sorted = true;
+            } else {
+                attrs.push(attr);
+            }
+        }
 
         let punctuated = Punctuated::<CvarDef, Token![,]>::parse_terminated(input)?;
         let cvars = punctuated.into_iter().collect();
 
-        Ok(CvarsDef { attrs, cvars })
+        Ok(CvarsDef {
+            attrs,
+            sorted,
+            cvars,
+        })
     }
+}
+
+fn is_sorted(attr: &Attribute) -> bool {
+    if let Meta::List(MetaList { path, tokens, .. }) = &attr.meta {
+        if !path.is_ident("cvars") {
+            return false;
+        }
+
+        if tokens.to_string() == "sorted" {
+            return true;
+        } else {
+            panic!("Unknown cvars attribute: {}", tokens.to_string());
+        }
+    }
+
+    false
 }
 
 /// Definition of one cvar from the `cvars!` macro.
 struct CvarDef {
     attrs: Vec<Attribute>,
     /// Whether `#[cvars(skip)]` was present.
-    /// It has to be removed from the list of attributes before passing them on
-    /// so we save it here separately.
     skip: bool,
     name: Ident,
     ty: Type,
@@ -143,7 +174,7 @@ pub fn cvars(input: TokenStream) -> TokenStream {
     }
 
     let struct_name = Ident::new("Cvars", Span::call_site());
-    let generated = generate(struct_name, &skips, &names, &tys);
+    let generated = generate(struct_name, cvars_def.sorted, &skips, &names, &tys);
 
     let expanded = quote! {
         #(
@@ -232,8 +263,8 @@ pub fn derive(input: TokenStream) -> TokenStream {
         names.push(field.ident.expect("ident was None"));
         tys.push(field.ty);
     }
-
-    let expanded = generate(struct_name, &skips, &names, &tys);
+    //FIXME
+    let expanded = generate(struct_name, false, &skips, &names, &tys);
     let expanded = expanded.into();
 
     let end = std::time::Instant::now();
@@ -246,6 +277,7 @@ pub fn derive(input: TokenStream) -> TokenStream {
 
 fn generate(
     struct_name: Ident,
+    sorted: bool,
     skips: &[bool],
     names_all: &[Ident],
     tys_all: &[Type],
@@ -259,6 +291,16 @@ fn generate(
 
         names.push(&names_all[i]);
         tys.push(&tys_all[i]);
+    }
+
+    if sorted {
+        for pair in names.windows(2) {
+            if pair[0] >= pair[1] {
+                // LATER A warning would make much more sense but it requires nightly for now:
+                // https://github.com/rust-lang/rust/issues/54140
+                panic!("cvars not sorted: `{}` >= `{}`", pair[0], pair[1]);
+            }
+        }
     }
 
     let cvar_count = names.len();

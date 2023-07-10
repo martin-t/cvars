@@ -7,6 +7,8 @@ fn tests() {
     let t = trybuild::TestCases::new();
 
     t.pass("tests/test_dummy.rs");
+    t.pass("tests/test_sorted_good.rs");
+    t.compile_fail("tests/test_sorted_bad.rs");
 
     // Run all test_* files for both derive and fnlike macros.
     // The files need to be copied to different directories because of how trybuild works.
