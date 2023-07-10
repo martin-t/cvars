@@ -8,6 +8,9 @@ use std::io::BufRead;
 use cvars::cvars;
 
 cvars! {
+    #![derive(Debug)]
+    #![cvars(sorted)]
+
     g_respawn_delay: f64 = 3.0,
     g_respawn_health: i32 = 100,
 }
