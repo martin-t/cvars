@@ -95,7 +95,7 @@ fn is_sorted(attr: &Attribute) -> bool {
         if tokens.to_string() == "sorted" {
             return true;
         } else {
-            panic!("Unknown cvars attribute: {}", tokens.to_string());
+            panic!("Unknown cvars attribute: {}", tokens);
         }
     }
 
@@ -112,7 +112,7 @@ fn is_skip(attr: &Attribute) -> bool {
         if tokens.to_string() == "skip" {
             return true;
         } else {
-            panic!("Unknown cvars attribute: {}", tokens.to_string());
+            panic!("Unknown cvars attribute: {}", tokens);
         }
     }
 
