@@ -31,6 +31,12 @@ cargo build --features nomacro,cvars-100
 
 # Measure incremental rebuild time after editing the Cvars struct.
 echo Editting cvars:
+hyperfine --warmup 2 "sed --in-place 's/test0/test0a/' src/fnlike-100.in && cargo build --features string,fnlike,cvars-100"
+hyperfine --warmup 2 "sed --in-place 's/test0/test0a/' src/fnlike-1000.in && cargo build --features string,fnlike,cvars-1000"
+#hyperfine --warmup 2 "sed --in-place 's/test0/test0a/' src/fnlike-10000.in && cargo build --features string,fnlike,cvars-10000"
+hyperfine --warmup 2 "sed --in-place 's/test0/test0a/' src/fnlike-100.in && cargo build --features typed,fnlike,cvars-100"
+hyperfine --warmup 2 "sed --in-place 's/test0/test0a/' src/fnlike-1000.in && cargo build --features typed,fnlike,cvars-1000"
+#hyperfine --warmup 2 "sed --in-place 's/test0/test0a/' src/fnlike-10000.in && cargo build --features typed,fnlike,cvars-10000"
 hyperfine --warmup 2 "sed --in-place 's/test0/test0a/' src/fnlike-100.in && cargo build --features string,typed,fnlike,cvars-100"
 hyperfine --warmup 2 "sed --in-place 's/test0/test0a/' src/fnlike-1000.in && cargo build --features string,typed,fnlike,cvars-1000"
 #hyperfine --warmup 2 "sed --in-place 's/test0/test0a/' src/fnlike-10000.in && cargo build --features string,typed,fnlike,cvars-10000"
@@ -40,6 +46,12 @@ hyperfine --warmup 2 "sed --in-place 's/test0/test0a/' src/nomacro-10000.in && c
 
 # Measure incremental rebuild time after editing main.rs.
 echo Editting main.rs:
+hyperfine --warmup 2 "echo '// test' >> src/main.rs && cargo build --features string,fnlike,cvars-100"
+hyperfine --warmup 2 "echo '// test' >> src/main.rs && cargo build --features string,fnlike,cvars-1000"
+#hyperfine --warmup 2 "echo '// test' >> src/main.rs && cargo build --features string,fnlike,cvars-10000"
+hyperfine --warmup 2 "echo '// test' >> src/main.rs && cargo build --features typed,fnlike,cvars-100"
+hyperfine --warmup 2 "echo '// test' >> src/main.rs && cargo build --features typed,fnlike,cvars-1000"
+#hyperfine --warmup 2 "echo '// test' >> src/main.rs && cargo build --features typed,fnlike,cvars-10000"
 hyperfine --warmup 2 "echo '// test' >> src/main.rs && cargo build --features string,typed,fnlike,cvars-100"
 hyperfine --warmup 2 "echo '// test' >> src/main.rs && cargo build --features string,typed,fnlike,cvars-1000"
 #hyperfine --warmup 2 "echo '// test' >> src/main.rs && cargo build --features string,typed,fnlike,cvars-10000"
@@ -47,8 +59,8 @@ hyperfine --warmup 2 "echo '// test' >> src/main.rs && cargo build --features st
 hyperfine --warmup 2 "echo '// test' >> src/main.rs && cargo build --features string,typed,nomacro,cvars-1000"
 hyperfine --warmup 2 "echo '// test' >> src/main.rs && cargo build --features string,typed,nomacro,cvars-10000"
 
-# Run other combinations with just 100 cvars on CI to make sure the benches aren't broken-
-echo Mics for CI
+# Run other combinations with just 100 cvars on CI to make sure the benches aren't broken.
+echo Misc for CI
 hyperfine --warmup 2 "sed --in-place 's/test0/test0a/' src/derive-100.in && cargo build --features string,typed,derive,cvars-100"
 #hyperfine --warmup 2 "sed --in-place 's/test0/test0a/' src/derive-1000.in && cargo build --features string,typed,derive,cvars-1000"
 #hyperfine --warmup 2 "sed --in-place 's/test0/test0a/' src/derive-10000.in && cargo build --features string,typed,derive,cvars-10000"
