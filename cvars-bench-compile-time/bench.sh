@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-# Benchmark the compile time of a crate using cvars.
+# Benchmark the incremental recompile time of a crate which uses cvars.
 
 # We're intentionally compiling in debug mode
-# because we're interested in how using cvars affects incremental recompiles in gamedev.
+# because we're interested in how using cvars affects incremental recompiles in gamedev
 # and the best option for gamedev is to optimize deps but not the gamecode in the root crate
 # to test ideas quickly while still getting reasonable performance.
 
@@ -27,7 +27,7 @@ cargo build --features nomacro,cvars-100
 #   Idea: use repr(C) and determine the offsets for primitive types inside our macros,
 #   then only use offset_of for user-defined types. Might need to reorder cvars so primitive types are first.
 
-# Bench fnlike because it's the recommended API and nomacro as a baseline.
+# Bench fnlike (not derive) because it's the recommended API and nomacro as a baseline.
 
 # Measure incremental rebuild time after editing the Cvars struct.
 echo Editting cvars:

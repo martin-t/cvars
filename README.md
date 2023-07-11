@@ -11,7 +11,7 @@
 [![GitHub](https://img.shields.io/badge/github-martin--t/cvars-8da0cb?logo=github)](https://github.com/martin-t/cvars)
 [![Docs.rs](https://img.shields.io/badge/docs.rs-cvars-66c2a5?logo=docs.rs)](https://docs.rs/cvars)
 [![Crates.io](https://img.shields.io/crates/v/cvars?logo=rust)](https://crates.io/crates/cvars)
-[![License (AGPL3)](https://img.shields.io/github/license/martin-t/cvars)](https://github.com/martin-t/cvars/blob/master/LICENSE)
+[![License (AGPLv3)](https://img.shields.io/github/license/martin-t/cvars)](https://github.com/martin-t/cvars/blob/master/LICENSE)
 [![CI](https://github.com/martin-t/cvars/workflows/CI/badge.svg)](https://github.com/martin-t/cvars/actions)
 [![Audit](https://github.com/martin-t/cvars/workflows/audit/badge.svg)](https://rustsec.org/)
 [![Dependency status](https://deps.rs/repo/github/martin-t/cvars/status.svg)](https://deps.rs/repo/github/martin-t/cvars)
