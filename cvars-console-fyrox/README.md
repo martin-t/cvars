@@ -41,15 +41,19 @@ See how [RustCycles](https://github.com/rustcycles/rustcycles) uses [cvars](http
 
 ## Compatibility
 
-The version of fyrox-ui used by your game must match the version used by cvars-console-fyrox, otherwise you'll get confusing errors such as:
+The version of fyrox-ui used by your game has to match the version used by cvars-console-fyrox, otherwise you'll get confusing errors such as:
 
 ```text
 expected struct `fyrox_ui::UserInterface`, found struct `UserInterface`
 ```
 
-You can use `cargo tree` to debug the issue.
+You can use `cargo tree` to debug the issue but in general **every time you update the engine after a breaking change, you have to update the console**.
 
-This means that there has to be a new version of cvars-console-fyrox for each new version of fyrox-ui even though there are no changes to the console. If you're using the latest Fyrox and cvars-console-fyrox hasn't caught up yet, you might have to temporarily make a fork of the console with the fyrox-ui version number updated and add a [patch section](https://doc.rust-lang.org/cargo/reference/overriding-dependencies.html#the-patch-section) to your `Cargo.toml`.
+This means that there has to be a new major[^major] release of cvars-console-fyrox for each new major release of fyrox-ui even though there are no changes to the console. I will try to release a new version soon after Fyrox but since i am the only maintainer, it might not always be possible. If you need to use the latest Fyrox and cvars-console-fyrox hasn't caught up yet, feel free to submit a PR. Usually the only change needed is updating the version numbers.
+
+You can also temporarily make a fork of the console with the fyrox-ui version number updated and add a [patch section](https://doc.rust-lang.org/cargo/reference/overriding-dependencies.html#the-patch-section) to your `Cargo.toml`.
+
+[^major]: Since fyrox-ui's version number is `0.y.z`, changing `y` is considered a major release as per [Cargo's flavor of semantic versioning](https://doc.rust-lang.org/cargo/reference/semver.html#change-categories).
 
 ## License
 

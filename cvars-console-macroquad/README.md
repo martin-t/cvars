@@ -34,6 +34,18 @@ cargo add cvars-console-macroquad
 
 See how [RecWars](https://github.com/martin-t/rec-wars) uses [cvars](https://github.com/martin-t/rec-wars/blob/master/src/cvars.rs) and the console.
 
+## Compatibility
+
+The version of macroquad used by your game has to match the version used by cvars-console-macroquad, otherwise you'll get a segfault. Unlike with cvars-console-fyrox, there is no error at compile time.
+
+You can use `cargo tree` to debug the issue but in general **every time you update the engine after a breaking change, you have to update the console**.
+
+This means that there has to be a new major[^major] release of cvars-console-macroquad for each new major release of macroquad even though there are no changes to the console. I will try to release a new version soon after macroquad but since i am the only maintainer, it might not always be possible. If you need to use the latest macroquad and cvars-console-macroquad hasn't caught up yet, feel free to submit a PR.
+
+You can also temporarily make a fork of the console with the macroquad version number updated and add a [patch section](https://doc.rust-lang.org/cargo/reference/overriding-dependencies.html#the-patch-section) to your `Cargo.toml`.
+
+[^major]: Since macroquad's version number is `0.y.z`, changing `y` is considered a major release as per [Cargo's flavor of semantic versioning](https://doc.rust-lang.org/cargo/reference/semver.html#change-categories).
+
 ## License
 
 AGPL-v3 or newer

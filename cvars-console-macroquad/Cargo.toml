@@ -1,6 +1,6 @@
 [package]
 name = "cvars-console-macroquad"
-version = "0.2.0"
+version = "0.3.0"
 edition = "2021"
 authors = ["Martin Taibr <taibr.martin@gmail.com>"]
 description = "In-game console for the macroquad game engine, using the cvars crate for configuration"
@@ -20,4 +20,4 @@ categories = [
 [dependencies]
 cvars = { version = "0.4.0", path = "../cvars" }
 cvars-console = { version = "0.2.0", path = "../cvars-console" }
-macroquad = "0.3.24"
+macroquad = "0.4.0"
