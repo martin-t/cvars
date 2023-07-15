@@ -8,6 +8,10 @@ This is a shared changelog for all projects in this repo:
   - [`cvars-console-fyrox`](https://crates.io/crates/cvars-console-fyrox)
   - [`cvars-console-macroquad`](https://crates.io/crates/cvars-console-macroquad)
 
+## Cvars-console-macroquad v0.3.0 - 2023-07-15
+
+- **Breaking change:** Update macroquad to 0.4.0
+
 ## Cvars and cvars-macros v0.4.2 - 2023-07-10
 
 - Add `#![cvars(sorted)]` to check if cvars are sorted
