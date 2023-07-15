@@ -9,8 +9,7 @@
 - Commit, `git push`, make sure CI passes
   - This is after bumping versions to make sure all the packages in the repo are still compatible
 - For each package to release:
-  - `cargo publish --dry-run -p crate-name`
-    - Check the generated package has the correct versions of `cvars-*` deps.
+  - Optional: Double check the generated package has the correct versions of `cvars-*` deps - `cargo publish --dry-run -p crate-name` or `cargo tree`.
   - `cargo publish -p crate-name`
 - `git tag -a crate-name-vX.Y.Z`
   - If specifying multiple versions, put more important first in case the line gets truncated on GitHub
