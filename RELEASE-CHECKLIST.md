@@ -5,6 +5,7 @@
 - Look for outdated deps (`cargo outdated` or [deps.rs](https://deps.rs/repo/github/martin-t/cvars))
 - Bump version(s)
 - For workspace and separately for consoles and benches: `cargo update` (even for libs [^lockfile])
+  - This is after bumping versions since the crates depend on each other
 - Update CHANGELOG.md
 - Commit, `git push`, make sure CI passes
   - This is after bumping versions to make sure all the packages in the repo are still compatible
