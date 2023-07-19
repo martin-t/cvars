@@ -1,9 +1,8 @@
+/git-hooks/pre-commit
+
 # Configs for faster builds - see readme / example configs
 /.cargo/config.toml
 /rust-toolchain.toml
-
-# Separate target for rust-analyzer to speed up builds
-/target-ra
 
 # This is a library - we don't wanna lock deps to specific versions
 /Cargo.lock
