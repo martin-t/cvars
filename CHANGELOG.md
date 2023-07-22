@@ -8,6 +8,10 @@ This is a shared changelog for all projects in this repo:
   - [`cvars-console-fyrox`](https://crates.io/crates/cvars-console-fyrox)
   - [`cvars-console-macroquad`](https://crates.io/crates/cvars-console-macroquad)
 
+## Cvars-console-fyrox v0.3.0 - 2023-07-22
+
+- **Breaking change:** Update fyrox-ui to 0.22.0
+
 ## Cvars-console-macroquad v0.3.0 - 2023-07-15
 
 - **Breaking change:** Update macroquad to 0.4.0
