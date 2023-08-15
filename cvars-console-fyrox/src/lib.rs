@@ -146,11 +146,11 @@ impl FyroxConsole {
                     MessageDirection::ToWidget,
                 ));
             }
-            Some(WidgetMessage::KeyDown(KeyCode::Up)) => {
+            Some(WidgetMessage::KeyDown(KeyCode::ArrowUp)) => {
                 self.console.history_back();
                 self.update_ui_prompt(ui);
             }
-            Some(WidgetMessage::KeyDown(KeyCode::Down)) => {
+            Some(WidgetMessage::KeyDown(KeyCode::ArrowDown)) => {
                 self.console.history_forward();
                 self.update_ui_prompt(ui);
             }
@@ -162,7 +162,7 @@ impl FyroxConsole {
                 self.console.history_scroll_down(10);
                 self.update_ui_history(ui);
             }
-            Some(WidgetMessage::KeyDown(KeyCode::Return | KeyCode::NumpadEnter)) => {
+            Some(WidgetMessage::KeyDown(KeyCode::Enter | KeyCode::NumpadEnter)) => {
                 self.console.enter(cvars);
                 self.update_ui_prompt(ui);
                 self.update_ui_history(ui);
