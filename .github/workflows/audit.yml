@@ -19,7 +19,12 @@ jobs:
   audit:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+      # Actions-rs/install is unmaintained but works for now.
+      # Alternatives for when it breaks:
+      #  - dtolnay/install - not a full replacement - only supports crates he uses (not audit currently)
+      #  - baptiste0928/cargo-install - looks lke it just compiles the crate and then caches it for subsequent runs
+      #  - just `cargo install` and caching it
       - uses: actions-rs/install@v0.1
         with:
           crate: cargo-audit

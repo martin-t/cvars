@@ -32,12 +32,11 @@ jobs:
         rust: [nightly, stable]
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions-rs/toolchain@v1
+      - uses: actions/checkout@v3
+      - uses: dtolnay/rust-toolchain@master
         with:
-          profile: minimal
           toolchain: ${{ matrix.rust }}
-          override: true
+      - uses: Swatinem/rust-cache@v2
       - name: Install linux deps
         run: |
           sudo apt-get update # Run update first or install might start failing eventually.
@@ -53,7 +52,7 @@ jobs:
       run:
         working-directory: cvars-console-fyrox
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - run: cargo fmt --version
       - run: cargo fmt -- --check
 
@@ -63,7 +62,8 @@ jobs:
       run:
         working-directory: cvars-console-fyrox
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+      - uses: Swatinem/rust-cache@v2
       - name: Install linux deps
         run: |
           sudo apt-get update # Run update first or install might start failing eventually.
@@ -89,12 +89,10 @@ jobs:
       run:
         working-directory: cvars-console-fyrox
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions-rs/toolchain@v1
+      - uses: actions/checkout@v3
+      - uses: dtolnay/rust-toolchain@master
         with:
-          profile: minimal
           toolchain: nightly # docs.rs uses nightly
-          override: true
       - run: rustc --version && cargo --version
       - run: cargo doc --all-features
         env:
