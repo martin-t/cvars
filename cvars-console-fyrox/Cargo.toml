@@ -24,4 +24,4 @@ fyrox-ui = "0.22.0"
 
 # Note: sometimes it's necessary to run cargo update after patching a dependency.
 [patch.crates-io]
-fyrox-ui = { git = "https://github.com/FyroxEngine/Fyrox", rev = "336a283fc7852f9f3254a6a009f61b3287dfa284" }
+fyrox-ui = { git = "https://github.com/FyroxEngine/Fyrox", rev = "7307756adf3cbfa65ca158998fc2440df10b80b2" }
