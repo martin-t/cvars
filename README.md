@@ -183,7 +183,7 @@ Finally, you might not need a specialized crate like cvars or inline_tweak at al
 
 ## Development
 
-The repo is organized as a cargo workspace for the main functionality, with consoles and benchmarks as separate crates - see `Cargo.toml` for the technical reasons.
+The repo is organized as a cargo workspace for the main functionality, with consoles and benchmarks as separate crates _not part of the workspace_ - see `Cargo.toml` for the technical reasons.
 
 - **Testing:** Use `cargo test` in the root directory to test everything in the workspace. To test the consoles, `cd` into their directories and run `cargo test` there.
 
