@@ -20,8 +20,8 @@ categories = [
 [dependencies]
 cvars = { version = "0.4.0", path = "../cvars" }
 cvars-console = { version = "0.2.0", path = "../cvars-console" }
-fyrox-ui = "0.22.0"
+fyrox-ui = "0.23.0"
 
 # Note: sometimes it's necessary to run cargo update after patching a dependency.
 [patch.crates-io]
-fyrox-ui = { git = "https://github.com/FyroxEngine/Fyrox", rev = "7307756adf3cbfa65ca158998fc2440df10b80b2" }
+#fyrox-ui = { git = "https://github.com/FyroxEngine/Fyrox", rev = "7307756adf3cbfa65ca158998fc2440df10b80b2" }
