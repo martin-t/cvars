@@ -15,6 +15,7 @@
 [![CI](https://github.com/martin-t/cvars/workflows/CI/badge.svg)](https://github.com/martin-t/cvars/actions)
 [![Audit](https://github.com/martin-t/cvars/workflows/audit/badge.svg)](https://rustsec.org/)
 [![Dependency status](https://deps.rs/repo/github/martin-t/cvars/status.svg)](https://deps.rs/repo/github/martin-t/cvars)
+[![Crates.io](https://img.shields.io/crates/d/cvars.svg)](https://crates.io/crates/cvars)
 [![Discord](https://img.shields.io/badge/-Discord-7389d8?logo=discord&label=&logoColor=ffffff&labelColor=6A7EC2)](https://discord.gg/aA7hCFvYh9)
 <!-- ![Total lines](https://tokei.rs/b1/github/martin-t/cvars) Disabled because it counts cvars-bench-compile-time, plus it's currently broken and always shows 0 anyway. -->
 
