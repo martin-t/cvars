@@ -36,7 +36,9 @@ jobs:
       - uses: dtolnay/rust-toolchain@master
         with:
           toolchain: ${{ matrix.rust }}
+      # Caching must be after toolchain selection
       - uses: Swatinem/rust-cache@v2
+
       - name: Install linux deps
         run: |
           sudo apt-get update # Run update first or install might start failing eventually.
@@ -53,6 +55,9 @@ jobs:
         working-directory: cvars-console-macroquad
     steps:
       - uses: actions/checkout@v3
+      # Use rust-toolchain because GHA tends to still have an old version for a few days after a new Rust release.
+      - uses: dtolnay/rust-toolchain@stable
+
       - run: cargo fmt --version
       - run: cargo fmt -- --check
 
@@ -63,7 +68,11 @@ jobs:
         working-directory: cvars-console-macroquad
     steps:
       - uses: actions/checkout@v3
+      # Use rust-toolchain because GHA tends to still have an old version for a few days after a new Rust release.
+      - uses: dtolnay/rust-toolchain@stable
+      # Caching must be after toolchain selection
       - uses: Swatinem/rust-cache@v2
+
       - name: Install linux deps
         run: |
           sudo apt-get update # Run update first or install might start failing eventually.
@@ -90,9 +99,11 @@ jobs:
         working-directory: cvars-console-macroquad
     steps:
       - uses: actions/checkout@v3
-      - uses: dtolnay/rust-toolchain@master
-        with:
-          toolchain: nightly # docs.rs uses nightly
+      # Docs.rs uses nightly https://docs.rs/about/builds
+      - uses: dtolnay/rust-toolchain@nightly
+      # Caching must be after toolchain selection
+      - uses: Swatinem/rust-cache@v2
+
       - run: rustc --version && cargo --version
       - run: cargo doc --all-features
         env:

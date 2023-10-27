@@ -11,6 +11,9 @@ on:
   schedule:
     # Runs at 15:00 UTC on Fri
     - cron: "0 15 * * 5"
+  workflow_dispatch:
+    # This allows running it on any branch manually:
+    # https://docs.github.com/en/actions/managing-workflow-runs/manually-running-a-workflow
 
 env:
   CARGO_TERM_COLOR: always
