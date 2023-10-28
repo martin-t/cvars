@@ -1,6 +1,6 @@
 [package]
 name = "cvars-console-fyrox"
-version = "0.3.0"
+version = "0.4.0"
 edition = "2021"
 authors = ["Martin Taibr <taibr.martin@gmail.com>"]
 description = "In-game console for the Fyrox game engine, using the cvars crate for configuration"
