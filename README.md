@@ -97,12 +97,16 @@ while also exposing common settings to normal players in your game's GUI.
 See [cvars/examples/stdin.rs](https://github.com/martin-t/cvars/blob/master/cvars/examples/stdin.rs)
 for a small runnable example.
 
-For real-world examples, look at games using cvars:
+## Real-world examples
+
+Look at games using cvars:
 
 - [RecWars](https://github.com/martin-t/rec-wars/blob/master/src/cvars.rs) - uses the Macroquad console,
   every aspect of the gameplay is configurable,
-  you can test it [in your browsser](https://martin-t.gitlab.io/gitlab-pages/rec-wars/macroquad.html)
+  you can test it [in your browsser](https://martin-t.gitlab.io/gitlab-pages/rec-wars/macroquad.html).
 - [RustCycles](https://github.com/rustcycles/rustcycles/blob/master/src/cvars.rs) - uses the Fyrox console
+
+Press `;` to open the console. Shift+ESC also works in the native clients but not in the browser.
 
 ## [Fyrox console](https://github.com/martin-t/cvars/tree/master/cvars-console-fyrox)
 
