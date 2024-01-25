@@ -1,4 +1,4 @@
-# Release checklist
+## Release checklist
 
 - `git pull`
 - Look for fixmes/todos
@@ -23,3 +23,9 @@ Inspiration: [ripgrep](https://github.com/BurntSushi/ripgrep/blob/master/RELEASE
 [^lockfile]: Docs.rs appears to respect Cargo.lock even for libs, this might cause outdated docs when using `pub use`.
   Not sure what exactly happened but it seems cvars v0.3.1 depended on an outdated version of cvars-macros
   which caused removed a todo comment to appear on [docs.rs](https://docs.rs/cvars/0.3.1/cvars/macro.cvars.html).
+
+## Updating Fyrox
+
+- Update `fyrox-ui` in `cvars-console-fyrox/Cargo.toml`, make sure it builds
+- Bump version in `cvars-console-fyrox/Cargo.toml`
+- Run release checklist
