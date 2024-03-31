@@ -1,3 +1,4 @@
+#[allow(dead_code)]
 #[derive(Default, SetGet)]
 pub struct Cvars {
     pub test0: i32,
