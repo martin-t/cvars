@@ -61,7 +61,7 @@ impl Console {
             if self.prompt_saved.is_none() {
                 self.prompt_saved = Some(self.prompt.clone());
             }
-            self.prompt.clone_from(self.history[new_index].text);
+            self.prompt.clone_from(&self.history[new_index].text);
         }
     }
 
@@ -81,7 +81,7 @@ impl Console {
                 // instead of using it directly.
                 let new_index = begin + local_index;
                 self.prompt_history_index = Some(new_index);
-                self.prompt.clone_from(self.history[new_index].text);
+                self.prompt.clone_from(&self.history[new_index].text);
             } else {
                 // We're at the end of history, restore the saved prompt.
                 self.prompt_history_index = None;
