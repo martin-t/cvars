@@ -135,7 +135,7 @@ impl FyroxConsole {
         // Note that it might still be better to read the text from the UI as the souce of truth
         // because right now the console doesn't know about any text we set from code on init.
         if let Some(TextMessage::Text(text)) = msg.data() {
-            self.console.prompt = text.to_owned();
+            self.console.prompt.clone_from(text);
         }
 
         match msg.data() {
